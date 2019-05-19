@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TUserViewDlg" widgetVar="TUserViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTUserTitle}">
+            <h:form id="TUserViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tUserController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTUserLabel_idUser}"/>
+                        <h:outputText value="#{tUserController.selected.idUser}" title="#{bundle.ViewTUserTitle_idUser}"/>
+                        <h:outputText value="#{bundle.ViewTUserLabel_login}"/>
+                        <h:outputText value="#{tUserController.selected.login}" title="#{bundle.ViewTUserTitle_login}"/>
+                        <h:outputText value="#{bundle.ViewTUserLabel_passwd}"/>
+                        <h:outputText value="#{tUserController.selected.passwd}" title="#{bundle.ViewTUserTitle_passwd}"/>
+                        <h:outputText value="#{bundle.ViewTUserLabel_birthdate}"/>
+                        <h:outputText value="#{tUserController.selected.birthdate}" title="#{bundle.ViewTUserTitle_birthdate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTUserLabel_credits}"/>
+                        <h:outputText value="#{tUserController.selected.credits}" title="#{bundle.ViewTUserTitle_credits}"/>
+                        <h:outputText value="#{bundle.ViewTUserLabel_dateReg}"/>
+                        <h:outputText value="#{tUserController.selected.dateReg}" title="#{bundle.ViewTUserTitle_dateReg}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTUserLabel_nameUser}"/>
+                        <h:outputText value="#{tUserController.selected.nameUser}" title="#{bundle.ViewTUserTitle_nameUser}"/>
+                        <h:outputText value="#{bundle.ViewTUserLabel_idRole}"/>
+                        <h:outputText value="#{tUserController.selected.idRole}" title="#{bundle.ViewTUserTitle_idRole}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TUserViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

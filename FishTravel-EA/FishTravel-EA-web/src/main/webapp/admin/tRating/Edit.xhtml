@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TRatingEditDlg" widgetVar="TRatingEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTRatingTitle}">
+            <h:form id="TRatingEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tRatingController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTRatingLabel_idRating}" for="idRating" />
+                        <p:inputText id="idRating" value="#{tRatingController.selected.idRating}" title="#{bundle.EditTRatingTitle_idRating}" required="true" requiredMessage="#{bundle.EditTRatingRequiredMessage_idRating}"/>
+                        <p:outputLabel value="#{bundle.EditTRatingLabel_rateDestination}" for="rateDestination" />
+                        <p:inputText id="rateDestination" value="#{tRatingController.selected.rateDestination}" title="#{bundle.EditTRatingTitle_rateDestination}" />
+                        <p:outputLabel value="#{bundle.EditTRatingLabel_rateCompany}" for="rateCompany" />
+                        <p:inputText id="rateCompany" value="#{tRatingController.selected.rateCompany}" title="#{bundle.EditTRatingTitle_rateCompany}" />
+                        <p:outputLabel value="#{bundle.EditTRatingLabel_dateRate}" for="dateRate" />
+                        <p:calendar id="dateRate" pattern="MM/dd/yyyy HH:mm:ss" value="#{tRatingController.selected.dateRate}" title="#{bundle.EditTRatingTitle_dateRate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditTRatingLabel_idFlight}" for="idFlight" />
+                        <p:selectOneMenu id="idFlight" value="#{tRatingController.selected.idFlight}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tFlightController.itemsAvailableSelectOne}"
+                                           var="idFlightItem"
+                                           itemValue="#{idFlightItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditTRatingLabel_idUser}" for="idUser" />
+                        <p:selectOneMenu id="idUser" value="#{tRatingController.selected.idUser}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tUserController.itemsAvailableSelectOne}"
+                                           var="idUserItem"
+                                           itemValue="#{idUserItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tRatingController.update}" value="#{bundle.Save}" update="display,:TRatingListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TRatingEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TRatingEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

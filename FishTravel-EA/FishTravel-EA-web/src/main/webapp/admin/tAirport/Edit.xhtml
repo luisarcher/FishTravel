@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TAirportEditDlg" widgetVar="TAirportEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTAirportTitle}">
+            <h:form id="TAirportEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tAirportController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTAirportLabel_idAirport}" for="idAirport" />
+                        <p:inputText id="idAirport" value="#{tAirportController.selected.idAirport}" title="#{bundle.EditTAirportTitle_idAirport}" required="true" requiredMessage="#{bundle.EditTAirportRequiredMessage_idAirport}"/>
+                        <p:outputLabel value="#{bundle.EditTAirportLabel_code}" for="code" />
+                        <p:inputText id="code" value="#{tAirportController.selected.code}" title="#{bundle.EditTAirportTitle_code}" required="true" requiredMessage="#{bundle.EditTAirportRequiredMessage_code}"/>
+                        <p:outputLabel value="#{bundle.EditTAirportLabel_nameAirport}" for="nameAirport" />
+                        <p:inputText id="nameAirport" value="#{tAirportController.selected.nameAirport}" title="#{bundle.EditTAirportTitle_nameAirport}" required="true" requiredMessage="#{bundle.EditTAirportRequiredMessage_nameAirport}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tAirportController.update}" value="#{bundle.Save}" update="display,:TAirportListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TAirportEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TAirportEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TUserEditDlg" widgetVar="TUserEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTUserTitle}">
+            <h:form id="TUserEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tUserController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTUserLabel_idUser}" for="idUser" />
+                        <p:inputText id="idUser" value="#{tUserController.selected.idUser}" title="#{bundle.EditTUserTitle_idUser}" required="true" requiredMessage="#{bundle.EditTUserRequiredMessage_idUser}"/>
+                        <p:outputLabel value="#{bundle.EditTUserLabel_login}" for="login" />
+                        <p:inputText id="login" value="#{tUserController.selected.login}" title="#{bundle.EditTUserTitle_login}" required="true" requiredMessage="#{bundle.EditTUserRequiredMessage_login}"/>
+                        <p:outputLabel value="#{bundle.EditTUserLabel_passwd}" for="passwd" />
+                        <p:inputText id="passwd" value="#{tUserController.selected.passwd}" title="#{bundle.EditTUserTitle_passwd}" required="true" requiredMessage="#{bundle.EditTUserRequiredMessage_passwd}"/>
+                        <p:outputLabel value="#{bundle.EditTUserLabel_birthdate}" for="birthdate" />
+                        <p:calendar id="birthdate" pattern="MM/dd/yyyy" value="#{tUserController.selected.birthdate}" title="#{bundle.EditTUserTitle_birthdate}" required="true" requiredMessage="#{bundle.EditTUserRequiredMessage_birthdate}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditTUserLabel_credits}" for="credits" />
+                        <p:inputText id="credits" value="#{tUserController.selected.credits}" title="#{bundle.EditTUserTitle_credits}" required="true" requiredMessage="#{bundle.EditTUserRequiredMessage_credits}"/>
+                        <p:outputLabel value="#{bundle.EditTUserLabel_dateReg}" for="dateReg" />
+                        <p:calendar id="dateReg" pattern="MM/dd/yyyy HH:mm:ss" value="#{tUserController.selected.dateReg}" title="#{bundle.EditTUserTitle_dateReg}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditTUserLabel_nameUser}" for="nameUser" />
+                        <p:inputText id="nameUser" value="#{tUserController.selected.nameUser}" title="#{bundle.EditTUserTitle_nameUser}" />
+                        <p:outputLabel value="#{bundle.EditTUserLabel_idRole}" for="idRole" />
+                        <p:selectOneMenu id="idRole" value="#{tUserController.selected.idRole}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tRoleuserController.itemsAvailableSelectOne}"
+                                           var="idRoleItem"
+                                           itemValue="#{idRoleItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tUserController.update}" value="#{bundle.Save}" update="display,:TUserListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TUserEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TUserEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TFlightCreateDlg" widgetVar="TFlightCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTFlightTitle}">
+            <h:form id="TFlightCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tFlightController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTFlightLabel_idFlight}" for="idFlight" />
+                        <p:inputText id="idFlight" value="#{tFlightController.selected.idFlight}" title="#{bundle.CreateTFlightTitle_idFlight}" required="true" requiredMessage="#{bundle.CreateTFlightRequiredMessage_idFlight}"/>
+                        <p:outputLabel value="#{bundle.CreateTFlightLabel_idStatus}" for="idStatus" />
+                        <p:inputText id="idStatus" value="#{tFlightController.selected.idStatus}" title="#{bundle.CreateTFlightTitle_idStatus}" />
+                        <p:outputLabel value="#{bundle.CreateTFlightLabel_nameFlight}" for="nameFlight" />
+                        <p:inputText id="nameFlight" value="#{tFlightController.selected.nameFlight}" title="#{bundle.CreateTFlightTitle_nameFlight}" />
+                        <p:outputLabel value="#{bundle.CreateTFlightLabel_price}" for="price" />
+                        <p:inputText id="price" value="#{tFlightController.selected.price}" title="#{bundle.CreateTFlightTitle_price}" required="true" requiredMessage="#{bundle.CreateTFlightRequiredMessage_price}"/>
+                        <p:outputLabel value="#{bundle.CreateTFlightLabel_timeDeparture}" for="timeDeparture" />
+                        <p:calendar id="timeDeparture" pattern="MM/dd/yyyy HH:mm:ss" value="#{tFlightController.selected.timeDeparture}" title="#{bundle.EditTFlightTitle_timeDeparture}" required="true" requiredMessage="#{bundle.EditTFlightRequiredMessage_timeDeparture}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateTFlightLabel_timeArrival}" for="timeArrival" />
+                        <p:calendar id="timeArrival" pattern="MM/dd/yyyy HH:mm:ss" value="#{tFlightController.selected.timeArrival}" title="#{bundle.EditTFlightTitle_timeArrival}" required="true" requiredMessage="#{bundle.EditTFlightRequiredMessage_timeArrival}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateTFlightLabel_maxSeats}" for="maxSeats" />
+                        <p:inputText id="maxSeats" value="#{tFlightController.selected.maxSeats}" title="#{bundle.CreateTFlightTitle_maxSeats}" required="true" requiredMessage="#{bundle.CreateTFlightRequiredMessage_maxSeats}"/>
+                        <p:outputLabel value="#{bundle.CreateTFlightLabel_availSeats}" for="availSeats" />
+                        <p:inputText id="availSeats" value="#{tFlightController.selected.availSeats}" title="#{bundle.CreateTFlightTitle_availSeats}" required="true" requiredMessage="#{bundle.CreateTFlightRequiredMessage_availSeats}"/>
+                        <p:outputLabel value="#{bundle.CreateTFlightLabel_fromAirport}" for="fromAirport" />
+                        <p:selectOneMenu id="fromAirport" value="#{tFlightController.selected.fromAirport}" >
+                            <f:selectItems value="#{tAirportController.itemsAvailableSelectOne}"
+                                           var="fromAirportItem"
+                                           itemValue="#{fromAirportItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTFlightLabel_toAirport}" for="toAirport" />
+                        <p:selectOneMenu id="toAirport" value="#{tFlightController.selected.toAirport}" >
+                            <f:selectItems value="#{tAirportController.itemsAvailableSelectOne}"
+                                           var="toAirportItem"
+                                           itemValue="#{toAirportItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTFlightLabel_idCompany}" for="idCompany" />
+                        <p:selectOneMenu id="idCompany" value="#{tFlightController.selected.idCompany}" >
+                            <f:selectItems value="#{tCompanyController.itemsAvailableSelectOne}"
+                                           var="idCompanyItem"
+                                           itemValue="#{idCompanyItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tFlightController.create}" value="#{bundle.Save}" update="display,:TFlightListForm:datalist,:growl" oncomplete="handleSubmit(args,'TFlightCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TFlightCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TRatingViewDlg" widgetVar="TRatingViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTRatingTitle}">
+            <h:form id="TRatingViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tRatingController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTRatingLabel_idRating}"/>
+                        <h:outputText value="#{tRatingController.selected.idRating}" title="#{bundle.ViewTRatingTitle_idRating}"/>
+                        <h:outputText value="#{bundle.ViewTRatingLabel_rateDestination}"/>
+                        <h:outputText value="#{tRatingController.selected.rateDestination}" title="#{bundle.ViewTRatingTitle_rateDestination}"/>
+                        <h:outputText value="#{bundle.ViewTRatingLabel_rateCompany}"/>
+                        <h:outputText value="#{tRatingController.selected.rateCompany}" title="#{bundle.ViewTRatingTitle_rateCompany}"/>
+                        <h:outputText value="#{bundle.ViewTRatingLabel_dateRate}"/>
+                        <h:outputText value="#{tRatingController.selected.dateRate}" title="#{bundle.ViewTRatingTitle_dateRate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTRatingLabel_idFlight}"/>
+                        <h:outputText value="#{tRatingController.selected.idFlight}" title="#{bundle.ViewTRatingTitle_idFlight}"/>
+                        <h:outputText value="#{bundle.ViewTRatingLabel_idUser}"/>
+                        <h:outputText value="#{tRatingController.selected.idUser}" title="#{bundle.ViewTRatingTitle_idUser}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TRatingViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

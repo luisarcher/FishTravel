@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TRoleuserCreateDlg" widgetVar="TRoleuserCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTRoleuserTitle}">
+            <h:form id="TRoleuserCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tRoleuserController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTRoleuserLabel_idRole}" for="idRole" />
+                        <p:inputText id="idRole" value="#{tRoleuserController.selected.idRole}" title="#{bundle.CreateTRoleuserTitle_idRole}" required="true" requiredMessage="#{bundle.CreateTRoleuserRequiredMessage_idRole}"/>
+                        <p:outputLabel value="#{bundle.CreateTRoleuserLabel_description}" for="description" />
+                        <p:inputText id="description" value="#{tRoleuserController.selected.description}" title="#{bundle.CreateTRoleuserTitle_description}" required="true" requiredMessage="#{bundle.CreateTRoleuserRequiredMessage_description}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tRoleuserController.create}" value="#{bundle.Save}" update="display,:TRoleuserListForm:datalist,:growl" oncomplete="handleSubmit(args,'TRoleuserCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TRoleuserCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

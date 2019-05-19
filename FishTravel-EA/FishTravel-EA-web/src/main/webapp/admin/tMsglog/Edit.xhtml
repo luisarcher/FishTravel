@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TMsglogEditDlg" widgetVar="TMsglogEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTMsglogTitle}">
+            <h:form id="TMsglogEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tMsglogController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTMsglogLabel_idMsg}" for="idMsg" />
+                        <p:inputText id="idMsg" value="#{tMsglogController.selected.idMsg}" title="#{bundle.EditTMsglogTitle_idMsg}" required="true" requiredMessage="#{bundle.EditTMsglogRequiredMessage_idMsg}"/>
+                        <p:outputLabel value="#{bundle.EditTMsglogLabel_msg}" for="msg" />
+                        <p:inputText id="msg" value="#{tMsglogController.selected.msg}" title="#{bundle.EditTMsglogTitle_msg}" required="true" requiredMessage="#{bundle.EditTMsglogRequiredMessage_msg}"/>
+                        <p:outputLabel value="#{bundle.EditTMsglogLabel_dateMsg}" for="dateMsg" />
+                        <p:calendar id="dateMsg" pattern="MM/dd/yyyy HH:mm:ss" value="#{tMsglogController.selected.dateMsg}" title="#{bundle.EditTMsglogTitle_dateMsg}"  showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tMsglogController.update}" value="#{bundle.Save}" update="display,:TMsglogListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TMsglogEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TMsglogEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TLuggageEditDlg" widgetVar="TLuggageEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTLuggageTitle}">
+            <h:form id="TLuggageEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tLuggageController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTLuggageLabel_idLuggage}" for="idLuggage" />
+                        <p:inputText id="idLuggage" value="#{tLuggageController.selected.idLuggage}" title="#{bundle.EditTLuggageTitle_idLuggage}" required="true" requiredMessage="#{bundle.EditTLuggageRequiredMessage_idLuggage}"/>
+                        <p:outputLabel value="#{bundle.EditTLuggageLabel_kg}" for="kg" />
+                        <p:inputText id="kg" value="#{tLuggageController.selected.kg}" title="#{bundle.EditTLuggageTitle_kg}" required="true" requiredMessage="#{bundle.EditTLuggageRequiredMessage_kg}"/>
+                        <p:outputLabel value="#{bundle.EditTLuggageLabel_dateReg}" for="dateReg" />
+                        <p:calendar id="dateReg" pattern="MM/dd/yyyy HH:mm:ss" value="#{tLuggageController.selected.dateReg}" title="#{bundle.EditTLuggageTitle_dateReg}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditTLuggageLabel_idFlight}" for="idFlight" />
+                        <p:selectOneMenu id="idFlight" value="#{tLuggageController.selected.idFlight}" required="true" requiredMessage="#{bundle.EditTLuggageRequiredMessage_idFlight}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tFlightController.itemsAvailableSelectOne}"
+                                           var="idFlightItem"
+                                           itemValue="#{idFlightItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditTLuggageLabel_idUser}" for="idUser" />
+                        <p:selectOneMenu id="idUser" value="#{tLuggageController.selected.idUser}" required="true" requiredMessage="#{bundle.EditTLuggageRequiredMessage_idUser}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tUserController.itemsAvailableSelectOne}"
+                                           var="idUserItem"
+                                           itemValue="#{idUserItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tLuggageController.update}" value="#{bundle.Save}" update="display,:TLuggageListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TLuggageEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TLuggageEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

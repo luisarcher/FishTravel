@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TFlightViewDlg" widgetVar="TFlightViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTFlightTitle}">
+            <h:form id="TFlightViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tFlightController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTFlightLabel_idFlight}"/>
+                        <h:outputText value="#{tFlightController.selected.idFlight}" title="#{bundle.ViewTFlightTitle_idFlight}"/>
+                        <h:outputText value="#{bundle.ViewTFlightLabel_idStatus}"/>
+                        <h:outputText value="#{tFlightController.selected.idStatus}" title="#{bundle.ViewTFlightTitle_idStatus}"/>
+                        <h:outputText value="#{bundle.ViewTFlightLabel_nameFlight}"/>
+                        <h:outputText value="#{tFlightController.selected.nameFlight}" title="#{bundle.ViewTFlightTitle_nameFlight}"/>
+                        <h:outputText value="#{bundle.ViewTFlightLabel_price}"/>
+                        <h:outputText value="#{tFlightController.selected.price}" title="#{bundle.ViewTFlightTitle_price}"/>
+                        <h:outputText value="#{bundle.ViewTFlightLabel_timeDeparture}"/>
+                        <h:outputText value="#{tFlightController.selected.timeDeparture}" title="#{bundle.ViewTFlightTitle_timeDeparture}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTFlightLabel_timeArrival}"/>
+                        <h:outputText value="#{tFlightController.selected.timeArrival}" title="#{bundle.ViewTFlightTitle_timeArrival}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTFlightLabel_maxSeats}"/>
+                        <h:outputText value="#{tFlightController.selected.maxSeats}" title="#{bundle.ViewTFlightTitle_maxSeats}"/>
+                        <h:outputText value="#{bundle.ViewTFlightLabel_availSeats}"/>
+                        <h:outputText value="#{tFlightController.selected.availSeats}" title="#{bundle.ViewTFlightTitle_availSeats}"/>
+                        <h:outputText value="#{bundle.ViewTFlightLabel_fromAirport}"/>
+                        <h:outputText value="#{tFlightController.selected.fromAirport}" title="#{bundle.ViewTFlightTitle_fromAirport}"/>
+                        <h:outputText value="#{bundle.ViewTFlightLabel_toAirport}"/>
+                        <h:outputText value="#{tFlightController.selected.toAirport}" title="#{bundle.ViewTFlightTitle_toAirport}"/>
+                        <h:outputText value="#{bundle.ViewTFlightLabel_idCompany}"/>
+                        <h:outputText value="#{tFlightController.selected.idCompany}" title="#{bundle.ViewTFlightTitle_idCompany}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TFlightViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

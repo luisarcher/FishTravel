@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TFavoriteViewDlg" widgetVar="TFavoriteViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTFavoriteTitle}">
+            <h:form id="TFavoriteViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tFavoriteController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTFavoriteLabel_idFavorite}"/>
+                        <h:outputText value="#{tFavoriteController.selected.idFavorite}" title="#{bundle.ViewTFavoriteTitle_idFavorite}"/>
+                        <h:outputText value="#{bundle.ViewTFavoriteLabel_dateFavorite}"/>
+                        <h:outputText value="#{tFavoriteController.selected.dateFavorite}" title="#{bundle.ViewTFavoriteTitle_dateFavorite}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTFavoriteLabel_idFlight}"/>
+                        <h:outputText value="#{tFavoriteController.selected.idFlight}" title="#{bundle.ViewTFavoriteTitle_idFlight}"/>
+                        <h:outputText value="#{bundle.ViewTFavoriteLabel_idUser}"/>
+                        <h:outputText value="#{tFavoriteController.selected.idUser}" title="#{bundle.ViewTFavoriteTitle_idUser}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TFavoriteViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
