@@ -1,9 +1,9 @@
-package com.isec.fishtravel.controllers;
+package com.isec.fishtravel.controllers.adm;
 
-import com.isec.fishtravel.jpa.TRating;
+import com.isec.fishtravel.jpa.TAirport;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
-import com.isec.fishtravel.facade.TRatingFacade;
+import com.isec.fishtravel.facade.adm.TAirportFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,26 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tRatingController")
+@Named("tAirportController")
 @SessionScoped
-public class TRatingController implements Serializable {
+public class TAirportController implements Serializable {
 
     @EJB
-    private TRatingFacade ejbFacade;
-    private List<TRating> items = null;
-    private TRating selected;
+    private TAirportFacade ejbFacade;
+    
+    private List<TAirport> items = null;    // To be modified if time permits
+    //private List<DTOFlight> items_dto = null;
+    
+    private TAirport selected;
 
-    public TRatingController() {
+    public TAirportController() {
     }
 
-    public TRating getSelected() {
+    public TAirport getSelected() {
         return selected;
     }
 
-    public void setSelected(TRating selected) {
+    public void setSelected(TAirport selected) {
         this.selected = selected;
     }
 
@@ -45,41 +48,48 @@ public class TRatingController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private TRatingFacade getFacade() {
+    private TAirportFacade getFacade() {
         return ejbFacade;
     }
 
-    public TRating prepareCreate() {
-        selected = new TRating();
+    public TAirport prepareCreate() {
+        selected = new TAirport();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TRatingCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TAirportCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TRatingUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TAirportUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TRatingDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TAirportDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<TRating> getItems() {
+    public List<TAirport> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
         return items;
     }
+    
+    /*public List<DTOFlight> getItems_dto(){
+        if (items_dto == null) {
+            //items_dto = getFacade().findAll();
+        }
+        return items_dto;
+    }*/
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
@@ -109,29 +119,29 @@ public class TRatingController implements Serializable {
         }
     }
 
-    public TRating getTRating(java.lang.Integer id) {
+    public TAirport getTAirport(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<TRating> getItemsAvailableSelectMany() {
+    public List<TAirport> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<TRating> getItemsAvailableSelectOne() {
+    public List<TAirport> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = TRating.class)
-    public static class TRatingControllerConverter implements Converter {
+    @FacesConverter(forClass = TAirport.class)
+    public static class TAirportControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TRatingController controller = (TRatingController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tRatingController");
-            return controller.getTRating(getKey(value));
+            TAirportController controller = (TAirportController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tAirportController");
+            return controller.getTAirport(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -151,11 +161,11 @@ public class TRatingController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TRating) {
-                TRating o = (TRating) object;
-                return getStringKey(o.getIdRating());
+            if (object instanceof TAirport) {
+                TAirport o = (TAirport) object;
+                return getStringKey(o.getIdAirport());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TRating.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TAirport.class.getName()});
                 return null;
             }
         }

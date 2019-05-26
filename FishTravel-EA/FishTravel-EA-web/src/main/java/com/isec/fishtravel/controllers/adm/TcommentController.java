@@ -1,9 +1,9 @@
-package com.isec.fishtravel.controllers;
+package com.isec.fishtravel.controllers.adm;
 
-import com.isec.fishtravel.jpa.TCompany;
+import com.isec.fishtravel.jpa.Tcomment;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
-import com.isec.fishtravel.facade.TCompanyFacade;
+import com.isec.fishtravel.facade.adm.TcommentFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tCompanyController")
+@Named("tcommentController")
 @SessionScoped
-public class TCompanyController implements Serializable {
+public class TcommentController implements Serializable {
 
     @EJB
-    private TCompanyFacade ejbFacade;
-    private List<TCompany> items = null;
-    private TCompany selected;
+    private TcommentFacade ejbFacade;
+    private List<Tcomment> items = null;
+    private Tcomment selected;
 
-    public TCompanyController() {
+    public TcommentController() {
     }
 
-    public TCompany getSelected() {
+    public Tcomment getSelected() {
         return selected;
     }
 
-    public void setSelected(TCompany selected) {
+    public void setSelected(Tcomment selected) {
         this.selected = selected;
     }
 
@@ -45,36 +45,36 @@ public class TCompanyController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private TCompanyFacade getFacade() {
+    private TcommentFacade getFacade() {
         return ejbFacade;
     }
 
-    public TCompany prepareCreate() {
-        selected = new TCompany();
+    public Tcomment prepareCreate() {
+        selected = new Tcomment();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TCompanyCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TcommentCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TCompanyUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TcommentUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TCompanyDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TcommentDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<TCompany> getItems() {
+    public List<Tcomment> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,29 +109,29 @@ public class TCompanyController implements Serializable {
         }
     }
 
-    public TCompany getTCompany(java.lang.Integer id) {
+    public Tcomment getTcomment(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<TCompany> getItemsAvailableSelectMany() {
+    public List<Tcomment> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<TCompany> getItemsAvailableSelectOne() {
+    public List<Tcomment> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = TCompany.class)
-    public static class TCompanyControllerConverter implements Converter {
+    @FacesConverter(forClass = Tcomment.class)
+    public static class TcommentControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TCompanyController controller = (TCompanyController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tCompanyController");
-            return controller.getTCompany(getKey(value));
+            TcommentController controller = (TcommentController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tcommentController");
+            return controller.getTcomment(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -151,11 +151,11 @@ public class TCompanyController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TCompany) {
-                TCompany o = (TCompany) object;
-                return getStringKey(o.getIdCompany());
+            if (object instanceof Tcomment) {
+                Tcomment o = (Tcomment) object;
+                return getStringKey(o.getIdComment());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TCompany.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Tcomment.class.getName()});
                 return null;
             }
         }

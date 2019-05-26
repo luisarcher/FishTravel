@@ -1,10 +1,9 @@
-package com.isec.fishtravel.controllers;
+package com.isec.fishtravel.controllers.adm;
 
-import com.isec.fishtravel.jpa.TFlight;
+import com.isec.fishtravel.jpa.TMsglog;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
-//import dto.DTOFlight;
-import com.isec.fishtravel.facade.TFlightFacade;
+import com.isec.fishtravel.facade.adm.TMsglogFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,37 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tFlightController")
+@Named("tMsglogController")
 @SessionScoped
-public class TFlightController implements Serializable {
+public class TMsglogController implements Serializable {
 
     @EJB
-    private TFlightFacade ejbFacade;
-    
-    private List<TFlight> items = null; // to be updated
-    /*private List<DTOFlight> items_dto = null;
+    private TMsglogFacade ejbFacade;
+    private List<TMsglog> items = null;
+    private TMsglog selected;
 
-    public List<DTOFlight> getItems_dto() {
-        if (items_dto == null) {
-            items_dto = getFacade().getAllFlights();
-        }
-        return items_dto;
-    }*/
-
-    /*public void setItems_dto(List<DTOFlight> items_dto) {
-        this.items_dto = items_dto;
-    }*/
-    
-    private TFlight selected;
-
-    public TFlightController() {
+    public TMsglogController() {
     }
 
-    public TFlight getSelected() {
+    public TMsglog getSelected() {
         return selected;
     }
 
-    public void setSelected(TFlight selected) {
+    public void setSelected(TMsglog selected) {
         this.selected = selected;
     }
 
@@ -60,36 +45,36 @@ public class TFlightController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private TFlightFacade getFacade() {
+    private TMsglogFacade getFacade() {
         return ejbFacade;
     }
 
-    public TFlight prepareCreate() {
-        selected = new TFlight();
+    public TMsglog prepareCreate() {
+        selected = new TMsglog();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TFlightCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TMsglogCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TFlightUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TMsglogUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TFlightDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TMsglogDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<TFlight> getItems() {
+    public List<TMsglog> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -124,29 +109,29 @@ public class TFlightController implements Serializable {
         }
     }
 
-    public TFlight getTFlight(java.lang.Integer id) {
+    public TMsglog getTMsglog(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<TFlight> getItemsAvailableSelectMany() {
+    public List<TMsglog> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<TFlight> getItemsAvailableSelectOne() {
+    public List<TMsglog> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = TFlight.class)
-    public static class TFlightControllerConverter implements Converter {
+    @FacesConverter(forClass = TMsglog.class)
+    public static class TMsglogControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TFlightController controller = (TFlightController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tFlightController");
-            return controller.getTFlight(getKey(value));
+            TMsglogController controller = (TMsglogController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tMsglogController");
+            return controller.getTMsglog(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -166,11 +151,11 @@ public class TFlightController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TFlight) {
-                TFlight o = (TFlight) object;
-                return getStringKey(o.getIdFlight());
+            if (object instanceof TMsglog) {
+                TMsglog o = (TMsglog) object;
+                return getStringKey(o.getIdMsg());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TFlight.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TMsglog.class.getName()});
                 return null;
             }
         }

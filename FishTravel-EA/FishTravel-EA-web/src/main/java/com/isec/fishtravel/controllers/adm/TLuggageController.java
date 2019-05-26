@@ -1,9 +1,9 @@
-package com.isec.fishtravel.controllers;
+package com.isec.fishtravel.controllers.adm;
 
-import com.isec.fishtravel.jpa.TPurchase;
+import com.isec.fishtravel.facade.adm.TLuggageFacade;
+import com.isec.fishtravel.jpa.TLuggage;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
-import com.isec.fishtravel.facade.TPurchaseFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tPurchaseController")
+@Named("tLuggageController")
 @SessionScoped
-public class TPurchaseController implements Serializable {
+public class TLuggageController implements Serializable {
 
     @EJB
-    private TPurchaseFacade ejbFacade;
-    private List<TPurchase> items = null;
-    private TPurchase selected;
+    private TLuggageFacade ejbFacade;
+    private List<TLuggage> items = null;
+    private TLuggage selected;
 
-    public TPurchaseController() {
+    public TLuggageController() {
     }
 
-    public TPurchase getSelected() {
+    public TLuggage getSelected() {
         return selected;
     }
 
-    public void setSelected(TPurchase selected) {
+    public void setSelected(TLuggage selected) {
         this.selected = selected;
     }
 
@@ -45,36 +45,36 @@ public class TPurchaseController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private TPurchaseFacade getFacade() {
+    private TLuggageFacade getFacade() {
         return ejbFacade;
     }
 
-    public TPurchase prepareCreate() {
-        selected = new TPurchase();
+    public TLuggage prepareCreate() {
+        selected = new TLuggage();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TPurchaseCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TLuggageCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TPurchaseUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TLuggageUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TPurchaseDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TLuggageDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<TPurchase> getItems() {
+    public List<TLuggage> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,29 +109,29 @@ public class TPurchaseController implements Serializable {
         }
     }
 
-    public TPurchase getTPurchase(java.lang.Integer id) {
+    public TLuggage getTLuggage(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<TPurchase> getItemsAvailableSelectMany() {
+    public List<TLuggage> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<TPurchase> getItemsAvailableSelectOne() {
+    public List<TLuggage> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = TPurchase.class)
-    public static class TPurchaseControllerConverter implements Converter {
+    @FacesConverter(forClass = TLuggage.class)
+    public static class TLuggageControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TPurchaseController controller = (TPurchaseController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tPurchaseController");
-            return controller.getTPurchase(getKey(value));
+            TLuggageController controller = (TLuggageController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tLuggageController");
+            return controller.getTLuggage(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -151,11 +151,11 @@ public class TPurchaseController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TPurchase) {
-                TPurchase o = (TPurchase) object;
-                return getStringKey(o.getIdPurchase());
+            if (object instanceof TLuggage) {
+                TLuggage o = (TLuggage) object;
+                return getStringKey(o.getIdLuggage());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TPurchase.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TLuggage.class.getName()});
                 return null;
             }
         }

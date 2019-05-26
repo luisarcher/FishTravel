@@ -1,9 +1,9 @@
-package com.isec.fishtravel.controllers;
+package com.isec.fishtravel.controllers.adm;
 
-import com.isec.fishtravel.jpa.Tcomment;
+import com.isec.fishtravel.jpa.TUser;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
-import com.isec.fishtravel.facade.TcommentFacade;
+import com.isec.fishtravel.facade.adm.TUserFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,24 +18,63 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.servlet.http.HttpSession;
 
-@Named("tcommentController")
+@Named("tUserController")
 @SessionScoped
-public class TcommentController implements Serializable {
+public class TUserController implements Serializable {
 
     @EJB
-    private TcommentFacade ejbFacade;
-    private List<Tcomment> items = null;
-    private Tcomment selected;
+    private TUserFacade ejbFacade;
+    
+    @EJB
+    private com.isec.fishtravel.facade.adm.TMsglogFacade dblog;
+    // dblog.addMsg("msg");
+    
+    private List<TUser> items = null;
+    
+    private TUser selected;
+    
+    // Login data
+    private TUser loggedInUser;
+    private String userLogin;
+    private String userPasswd;
 
-    public TcommentController() {
+    public TUserController() {
+        prepareCreate();
+    }
+    
+    public void login(){
+        
+        loggedInUser = ejbFacade.getUserByCredentials(userLogin, userPasswd);
+        if(loggedInUser != null){
+            
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("loginSuccess"));
+        }
+        else {
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("loginFailed")); 
+        }
+    }
+    
+    public void logout(){
+        FacesContext.getCurrentInstance().getExternalContext()
+        .invalidateSession();
+        loggedInUser = null;
+        
+    }
+    
+    public String getCurrentUser(){
+        if(loggedInUser != null){
+            return loggedInUser.toString();
+        }
+        return "No login";
     }
 
-    public Tcomment getSelected() {
+    public TUser getSelected() {
         return selected;
     }
 
-    public void setSelected(Tcomment selected) {
+    public void setSelected(TUser selected) {
         this.selected = selected;
     }
 
@@ -45,36 +84,36 @@ public class TcommentController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private TcommentFacade getFacade() {
+    private TUserFacade getFacade() {
         return ejbFacade;
-    }
+    }    
 
-    public Tcomment prepareCreate() {
-        selected = new Tcomment();
+    public TUser prepareCreate() {
+        selected = new TUser();
         initializeEmbeddableKey();
         return selected;
     }
-
+    
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TcommentCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TUserCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
-
+    
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TcommentUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TUserUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TcommentDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TUserDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Tcomment> getItems() {
+    public List<TUser> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -85,6 +124,9 @@ public class TcommentController implements Serializable {
         if (selected != null) {
             setEmbeddableKeys();
             try {
+                if (persistAction == PersistAction.CREATE) {
+                    getFacade().create(selected);
+                } else
                 if (persistAction != PersistAction.DELETE) {
                     getFacade().edit(selected);
                 } else {
@@ -109,29 +151,53 @@ public class TcommentController implements Serializable {
         }
     }
 
-    public Tcomment getTcomment(java.lang.Integer id) {
+    public TUser getTUser(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<Tcomment> getItemsAvailableSelectMany() {
+    public List<TUser> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Tcomment> getItemsAvailableSelectOne() {
+    public List<TUser> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Tcomment.class)
-    public static class TcommentControllerConverter implements Converter {
+    public TUser getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(TUser loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
+    }
+
+    public String getUserPasswd() {
+        return userPasswd;
+    }
+
+    public void setUserPasswd(String userPasswd) {
+        this.userPasswd = userPasswd;
+    }
+
+    @FacesConverter(forClass = TUser.class)
+    public static class TUserControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TcommentController controller = (TcommentController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tcommentController");
-            return controller.getTcomment(getKey(value));
+            TUserController controller = (TUserController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tUserController");
+            return controller.getTUser(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -151,11 +217,11 @@ public class TcommentController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Tcomment) {
-                Tcomment o = (Tcomment) object;
-                return getStringKey(o.getIdComment());
+            if (object instanceof TUser) {
+                TUser o = (TUser) object;
+                return getStringKey(o.getIdUser());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Tcomment.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TUser.class.getName()});
                 return null;
             }
         }

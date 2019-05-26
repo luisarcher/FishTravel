@@ -1,10 +1,9 @@
-package com.isec.fishtravel.controllers;
+package com.isec.fishtravel.controllers.adm;
 
-import com.isec.fishtravel.jpa.TAirport;
+import com.isec.fishtravel.jpa.TCompany;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
-//import dto.DTOFlight;
-import com.isec.fishtravel.facade.TAirportFacade;
+import com.isec.fishtravel.facade.adm.TCompanyFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,26 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tAirportController")
+@Named("tCompanyController")
 @SessionScoped
-public class TAirportController implements Serializable {
+public class TCompanyController implements Serializable {
 
     @EJB
-    private TAirportFacade ejbFacade;
-    
-    private List<TAirport> items = null;    // To be modified if time permits
-    //private List<DTOFlight> items_dto = null;
-    
-    private TAirport selected;
+    private TCompanyFacade ejbFacade;
+    private List<TCompany> items = null;
+    private TCompany selected;
 
-    public TAirportController() {
+    public TCompanyController() {
     }
 
-    public TAirport getSelected() {
+    public TCompany getSelected() {
         return selected;
     }
 
-    public void setSelected(TAirport selected) {
+    public void setSelected(TCompany selected) {
         this.selected = selected;
     }
 
@@ -49,48 +45,41 @@ public class TAirportController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private TAirportFacade getFacade() {
+    private TCompanyFacade getFacade() {
         return ejbFacade;
     }
 
-    public TAirport prepareCreate() {
-        selected = new TAirport();
+    public TCompany prepareCreate() {
+        selected = new TCompany();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TAirportCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TCompanyCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TAirportUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TCompanyUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TAirportDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TCompanyDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<TAirport> getItems() {
+    public List<TCompany> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
         return items;
     }
-    
-    /*public List<DTOFlight> getItems_dto(){
-        if (items_dto == null) {
-            //items_dto = getFacade().findAll();
-        }
-        return items_dto;
-    }*/
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
@@ -120,29 +109,29 @@ public class TAirportController implements Serializable {
         }
     }
 
-    public TAirport getTAirport(java.lang.Integer id) {
+    public TCompany getTCompany(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<TAirport> getItemsAvailableSelectMany() {
+    public List<TCompany> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<TAirport> getItemsAvailableSelectOne() {
+    public List<TCompany> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = TAirport.class)
-    public static class TAirportControllerConverter implements Converter {
+    @FacesConverter(forClass = TCompany.class)
+    public static class TCompanyControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TAirportController controller = (TAirportController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tAirportController");
-            return controller.getTAirport(getKey(value));
+            TCompanyController controller = (TCompanyController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tCompanyController");
+            return controller.getTCompany(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -162,11 +151,11 @@ public class TAirportController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TAirport) {
-                TAirport o = (TAirport) object;
-                return getStringKey(o.getIdAirport());
+            if (object instanceof TCompany) {
+                TCompany o = (TCompany) object;
+                return getStringKey(o.getIdCompany());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TAirport.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TCompany.class.getName()});
                 return null;
             }
         }

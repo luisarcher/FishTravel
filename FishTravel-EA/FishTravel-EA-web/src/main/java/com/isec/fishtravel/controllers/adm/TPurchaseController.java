@@ -1,9 +1,9 @@
-package com.isec.fishtravel.controllers;
+package com.isec.fishtravel.controllers.adm;
 
-import com.isec.fishtravel.jpa.TFavorite;
+import com.isec.fishtravel.jpa.TPurchase;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
-import com.isec.fishtravel.facade.TFavoriteFacade;
+import com.isec.fishtravel.facade.adm.TPurchaseFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tFavoriteController")
+@Named("tPurchaseController")
 @SessionScoped
-public class TFavoriteController implements Serializable {
+public class TPurchaseController implements Serializable {
 
     @EJB
-    private TFavoriteFacade ejbFacade;
-    private List<TFavorite> items = null;
-    private TFavorite selected;
+    private TPurchaseFacade ejbFacade;
+    private List<TPurchase> items = null;
+    private TPurchase selected;
 
-    public TFavoriteController() {
+    public TPurchaseController() {
     }
 
-    public TFavorite getSelected() {
+    public TPurchase getSelected() {
         return selected;
     }
 
-    public void setSelected(TFavorite selected) {
+    public void setSelected(TPurchase selected) {
         this.selected = selected;
     }
 
@@ -45,36 +45,36 @@ public class TFavoriteController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private TFavoriteFacade getFacade() {
+    private TPurchaseFacade getFacade() {
         return ejbFacade;
     }
 
-    public TFavorite prepareCreate() {
-        selected = new TFavorite();
+    public TPurchase prepareCreate() {
+        selected = new TPurchase();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TFavoriteCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TPurchaseCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TFavoriteUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TPurchaseUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TFavoriteDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TPurchaseDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<TFavorite> getItems() {
+    public List<TPurchase> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,29 +109,29 @@ public class TFavoriteController implements Serializable {
         }
     }
 
-    public TFavorite getTFavorite(java.lang.Integer id) {
+    public TPurchase getTPurchase(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<TFavorite> getItemsAvailableSelectMany() {
+    public List<TPurchase> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<TFavorite> getItemsAvailableSelectOne() {
+    public List<TPurchase> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = TFavorite.class)
-    public static class TFavoriteControllerConverter implements Converter {
+    @FacesConverter(forClass = TPurchase.class)
+    public static class TPurchaseControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TFavoriteController controller = (TFavoriteController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tFavoriteController");
-            return controller.getTFavorite(getKey(value));
+            TPurchaseController controller = (TPurchaseController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tPurchaseController");
+            return controller.getTPurchase(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -151,11 +151,11 @@ public class TFavoriteController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TFavorite) {
-                TFavorite o = (TFavorite) object;
-                return getStringKey(o.getIdFavorite());
+            if (object instanceof TPurchase) {
+                TPurchase o = (TPurchase) object;
+                return getStringKey(o.getIdPurchase());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TFavorite.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TPurchase.class.getName()});
                 return null;
             }
         }

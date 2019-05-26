@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.isec.fishtravel.facade;
+package com.isec.fishtravel.facade.adm;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import com.isec.fishtravel.jpa.TFavorite;
+import com.isec.fishtravel.jpa.Tcomment;
 
 /**
  *
  * @author ljordao-dev
  */
 @Stateless
-public class TFavoriteFacade extends AbstractFacade<TFavorite> {
+public class TcommentFacade extends AbstractFacade<Tcomment> {
 
     @PersistenceContext(unitName = "FishTravel-ea-ejbPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class TFavoriteFacade extends AbstractFacade<TFavorite> {
         return em;
     }
 
-    public TFavoriteFacade() {
-        super(TFavorite.class);
+    public TcommentFacade() {
+        super(Tcomment.class);
     }
     
 }

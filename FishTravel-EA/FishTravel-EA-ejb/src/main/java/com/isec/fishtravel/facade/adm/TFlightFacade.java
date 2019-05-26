@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.isec.fishtravel.facade;
+package com.isec.fishtravel.facade.adm;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import com.isec.fishtravel.jpa.TRoleuser;
+import com.isec.fishtravel.jpa.TFlight;
 
 /**
  *
  * @author ljordao-dev
  */
 @Stateless
-public class TRoleuserFacade extends AbstractFacade<TRoleuser> {
+public class TFlightFacade extends AbstractFacade<TFlight> {
 
     @PersistenceContext(unitName = "FishTravel-ea-ejbPU")
     private EntityManager em;
@@ -25,8 +25,7 @@ public class TRoleuserFacade extends AbstractFacade<TRoleuser> {
         return em;
     }
 
-    public TRoleuserFacade() {
-        super(TRoleuser.class);
-    }
-    
+    public TFlightFacade() {
+        super(TFlight.class);
+    }   
 }

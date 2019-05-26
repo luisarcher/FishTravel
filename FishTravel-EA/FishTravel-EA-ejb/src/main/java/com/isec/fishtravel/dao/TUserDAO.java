@@ -5,7 +5,7 @@
  */
 package com.isec.fishtravel.dao;
 
-import com.isec.fishtravel.facade.TMsglogFacade;
+import com.isec.fishtravel.facade.adm.TMsglogFacade;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

@@ -1,9 +1,9 @@
-package com.isec.fishtravel.controllers;
+package com.isec.fishtravel.controllers.adm;
 
-import com.isec.fishtravel.jpa.TRoleuser;
+import com.isec.fishtravel.jpa.TFlightstatus;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
-import com.isec.fishtravel.facade.TRoleuserFacade;
+import com.isec.fishtravel.facade.adm.TFlightstatusFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tRoleuserController")
+@Named("tFlightstatusController")
 @SessionScoped
-public class TRoleuserController implements Serializable {
+public class TFlightstatusController implements Serializable {
 
     @EJB
-    private TRoleuserFacade ejbFacade;
-    private List<TRoleuser> items = null;
-    private TRoleuser selected;
+    private TFlightstatusFacade ejbFacade;
+    private List<TFlightstatus> items = null;
+    private TFlightstatus selected;
 
-    public TRoleuserController() {
+    public TFlightstatusController() {
     }
 
-    public TRoleuser getSelected() {
+    public TFlightstatus getSelected() {
         return selected;
     }
 
-    public void setSelected(TRoleuser selected) {
+    public void setSelected(TFlightstatus selected) {
         this.selected = selected;
     }
 
@@ -45,36 +45,36 @@ public class TRoleuserController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private TRoleuserFacade getFacade() {
+    private TFlightstatusFacade getFacade() {
         return ejbFacade;
     }
 
-    public TRoleuser prepareCreate() {
-        selected = new TRoleuser();
+    public TFlightstatus prepareCreate() {
+        selected = new TFlightstatus();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TRoleuserCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TFlightstatusCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TRoleuserUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TFlightstatusUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TRoleuserDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TFlightstatusDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<TRoleuser> getItems() {
+    public List<TFlightstatus> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,29 +109,29 @@ public class TRoleuserController implements Serializable {
         }
     }
 
-    public TRoleuser getTRoleuser(java.lang.Integer id) {
+    public TFlightstatus getTFlightstatus(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<TRoleuser> getItemsAvailableSelectMany() {
+    public List<TFlightstatus> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<TRoleuser> getItemsAvailableSelectOne() {
+    public List<TFlightstatus> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = TRoleuser.class)
-    public static class TRoleuserControllerConverter implements Converter {
+    @FacesConverter(forClass = TFlightstatus.class)
+    public static class TFlightstatusControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TRoleuserController controller = (TRoleuserController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tRoleuserController");
-            return controller.getTRoleuser(getKey(value));
+            TFlightstatusController controller = (TFlightstatusController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tFlightstatusController");
+            return controller.getTFlightstatus(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -151,11 +151,11 @@ public class TRoleuserController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TRoleuser) {
-                TRoleuser o = (TRoleuser) object;
-                return getStringKey(o.getIdRole());
+            if (object instanceof TFlightstatus) {
+                TFlightstatus o = (TFlightstatus) object;
+                return getStringKey(o.getIdStatus());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TRoleuser.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TFlightstatus.class.getName()});
                 return null;
             }
         }

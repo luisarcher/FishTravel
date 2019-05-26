@@ -1,9 +1,9 @@
-package com.isec.fishtravel.controllers;
+package com.isec.fishtravel.controllers.adm;
 
-import com.isec.fishtravel.jpa.TMsglog;
+import com.isec.fishtravel.jpa.TRating;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
-import com.isec.fishtravel.facade.TMsglogFacade;
+import com.isec.fishtravel.facade.adm.TRatingFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tMsglogController")
+@Named("tRatingController")
 @SessionScoped
-public class TMsglogController implements Serializable {
+public class TRatingController implements Serializable {
 
     @EJB
-    private TMsglogFacade ejbFacade;
-    private List<TMsglog> items = null;
-    private TMsglog selected;
+    private TRatingFacade ejbFacade;
+    private List<TRating> items = null;
+    private TRating selected;
 
-    public TMsglogController() {
+    public TRatingController() {
     }
 
-    public TMsglog getSelected() {
+    public TRating getSelected() {
         return selected;
     }
 
-    public void setSelected(TMsglog selected) {
+    public void setSelected(TRating selected) {
         this.selected = selected;
     }
 
@@ -45,36 +45,36 @@ public class TMsglogController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private TMsglogFacade getFacade() {
+    private TRatingFacade getFacade() {
         return ejbFacade;
     }
 
-    public TMsglog prepareCreate() {
-        selected = new TMsglog();
+    public TRating prepareCreate() {
+        selected = new TRating();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TMsglogCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TRatingCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TMsglogUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TRatingUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TMsglogDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TRatingDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<TMsglog> getItems() {
+    public List<TRating> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,29 +109,29 @@ public class TMsglogController implements Serializable {
         }
     }
 
-    public TMsglog getTMsglog(java.lang.Integer id) {
+    public TRating getTRating(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<TMsglog> getItemsAvailableSelectMany() {
+    public List<TRating> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<TMsglog> getItemsAvailableSelectOne() {
+    public List<TRating> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = TMsglog.class)
-    public static class TMsglogControllerConverter implements Converter {
+    @FacesConverter(forClass = TRating.class)
+    public static class TRatingControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TMsglogController controller = (TMsglogController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tMsglogController");
-            return controller.getTMsglog(getKey(value));
+            TRatingController controller = (TRatingController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tRatingController");
+            return controller.getTRating(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -151,11 +151,11 @@ public class TMsglogController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TMsglog) {
-                TMsglog o = (TMsglog) object;
-                return getStringKey(o.getIdMsg());
+            if (object instanceof TRating) {
+                TRating o = (TRating) object;
+                return getStringKey(o.getIdRating());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TMsglog.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TRating.class.getName()});
                 return null;
             }
         }

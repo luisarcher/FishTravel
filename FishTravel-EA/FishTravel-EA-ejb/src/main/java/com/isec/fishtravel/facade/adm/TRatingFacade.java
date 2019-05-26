@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.isec.fishtravel.facade;
+package com.isec.fishtravel.facade.adm;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.isec.fishtravel.facade;
+package com.isec.fishtravel.facade.adm;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -35,7 +35,7 @@ public class TUserFacade extends AbstractFacade<TUser> {
     //dblog.addMsg("msg");
     
     @EJB
-    private com.isec.fishtravel.facade.TMsglogFacade dblog;
+    private com.isec.fishtravel.facade.adm.TMsglogFacade dblog;
     // dblog.addMsg("msg");
     
     private void setDefaults(TUser entity){

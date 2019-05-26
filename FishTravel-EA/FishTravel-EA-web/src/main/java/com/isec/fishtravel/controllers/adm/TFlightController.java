@@ -1,9 +1,10 @@
-package com.isec.fishtravel.controllers;
+package com.isec.fishtravel.controllers.adm;
 
-import com.isec.fishtravel.jpa.TFlightstatus;
+import com.isec.fishtravel.jpa.TFlight;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
-import com.isec.fishtravel.facade.TFlightstatusFacade;
+//import dto.DTOFlight;
+import com.isec.fishtravel.facade.adm.TFlightFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +20,37 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tFlightstatusController")
+@Named("tFlightController")
 @SessionScoped
-public class TFlightstatusController implements Serializable {
+public class TFlightController implements Serializable {
 
     @EJB
-    private TFlightstatusFacade ejbFacade;
-    private List<TFlightstatus> items = null;
-    private TFlightstatus selected;
+    private TFlightFacade ejbFacade;
+    
+    private List<TFlight> items = null; // to be updated
+    /*private List<DTOFlight> items_dto = null;
 
-    public TFlightstatusController() {
+    public List<DTOFlight> getItems_dto() {
+        if (items_dto == null) {
+            items_dto = getFacade().getAllFlights();
+        }
+        return items_dto;
+    }*/
+
+    /*public void setItems_dto(List<DTOFlight> items_dto) {
+        this.items_dto = items_dto;
+    }*/
+    
+    private TFlight selected;
+
+    public TFlightController() {
     }
 
-    public TFlightstatus getSelected() {
+    public TFlight getSelected() {
         return selected;
     }
 
-    public void setSelected(TFlightstatus selected) {
+    public void setSelected(TFlight selected) {
         this.selected = selected;
     }
 
@@ -45,36 +60,36 @@ public class TFlightstatusController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private TFlightstatusFacade getFacade() {
+    private TFlightFacade getFacade() {
         return ejbFacade;
     }
 
-    public TFlightstatus prepareCreate() {
-        selected = new TFlightstatus();
+    public TFlight prepareCreate() {
+        selected = new TFlight();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TFlightstatusCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TFlightCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TFlightstatusUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TFlightUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TFlightstatusDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TFlightDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<TFlightstatus> getItems() {
+    public List<TFlight> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,29 +124,29 @@ public class TFlightstatusController implements Serializable {
         }
     }
 
-    public TFlightstatus getTFlightstatus(java.lang.Integer id) {
+    public TFlight getTFlight(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<TFlightstatus> getItemsAvailableSelectMany() {
+    public List<TFlight> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<TFlightstatus> getItemsAvailableSelectOne() {
+    public List<TFlight> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = TFlightstatus.class)
-    public static class TFlightstatusControllerConverter implements Converter {
+    @FacesConverter(forClass = TFlight.class)
+    public static class TFlightControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TFlightstatusController controller = (TFlightstatusController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tFlightstatusController");
-            return controller.getTFlightstatus(getKey(value));
+            TFlightController controller = (TFlightController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tFlightController");
+            return controller.getTFlight(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -151,11 +166,11 @@ public class TFlightstatusController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TFlightstatus) {
-                TFlightstatus o = (TFlightstatus) object;
-                return getStringKey(o.getIdStatus());
+            if (object instanceof TFlight) {
+                TFlight o = (TFlight) object;
+                return getStringKey(o.getIdFlight());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TFlightstatus.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TFlight.class.getName()});
                 return null;
             }
         }

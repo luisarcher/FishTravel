@@ -1,9 +1,9 @@
-package com.isec.fishtravel.controllers;
+package com.isec.fishtravel.controllers.adm;
 
-import com.isec.fishtravel.facade.TLuggageFacade;
-import com.isec.fishtravel.jpa.TLuggage;
+import com.isec.fishtravel.jpa.TRoleuser;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
+import com.isec.fishtravel.facade.adm.TRoleuserFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tLuggageController")
+@Named("tRoleuserController")
 @SessionScoped
-public class TLuggageController implements Serializable {
+public class TRoleuserController implements Serializable {
 
     @EJB
-    private TLuggageFacade ejbFacade;
-    private List<TLuggage> items = null;
-    private TLuggage selected;
+    private TRoleuserFacade ejbFacade;
+    private List<TRoleuser> items = null;
+    private TRoleuser selected;
 
-    public TLuggageController() {
+    public TRoleuserController() {
     }
 
-    public TLuggage getSelected() {
+    public TRoleuser getSelected() {
         return selected;
     }
 
-    public void setSelected(TLuggage selected) {
+    public void setSelected(TRoleuser selected) {
         this.selected = selected;
     }
 
@@ -45,36 +45,36 @@ public class TLuggageController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private TLuggageFacade getFacade() {
+    private TRoleuserFacade getFacade() {
         return ejbFacade;
     }
 
-    public TLuggage prepareCreate() {
-        selected = new TLuggage();
+    public TRoleuser prepareCreate() {
+        selected = new TRoleuser();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TLuggageCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TRoleuserCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TLuggageUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TRoleuserUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TLuggageDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TRoleuserDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<TLuggage> getItems() {
+    public List<TRoleuser> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,29 +109,29 @@ public class TLuggageController implements Serializable {
         }
     }
 
-    public TLuggage getTLuggage(java.lang.Integer id) {
+    public TRoleuser getTRoleuser(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<TLuggage> getItemsAvailableSelectMany() {
+    public List<TRoleuser> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<TLuggage> getItemsAvailableSelectOne() {
+    public List<TRoleuser> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = TLuggage.class)
-    public static class TLuggageControllerConverter implements Converter {
+    @FacesConverter(forClass = TRoleuser.class)
+    public static class TRoleuserControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TLuggageController controller = (TLuggageController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tLuggageController");
-            return controller.getTLuggage(getKey(value));
+            TRoleuserController controller = (TRoleuserController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tRoleuserController");
+            return controller.getTRoleuser(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -151,11 +151,11 @@ public class TLuggageController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TLuggage) {
-                TLuggage o = (TLuggage) object;
-                return getStringKey(o.getIdLuggage());
+            if (object instanceof TRoleuser) {
+                TRoleuser o = (TRoleuser) object;
+                return getStringKey(o.getIdRole());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TLuggage.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TRoleuser.class.getName()});
                 return null;
             }
         }
