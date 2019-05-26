@@ -45,10 +45,15 @@
             <scope>provided</scope>
         </dependency>
         
+        <dependency>
+            <groupId>com.isec.fishtravel</groupId>
+            <artifactId>FishTravel-lib-dto</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+        
     </dependencies>
     
-   
-
     <build>
         <plugins>
             <plugin>

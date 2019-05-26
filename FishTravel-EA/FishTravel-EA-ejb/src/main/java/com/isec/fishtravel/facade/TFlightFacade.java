@@ -5,7 +5,6 @@
  */
 package com.isec.fishtravel.facade;
 
-//import dto.DTOFlight;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -15,6 +14,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import com.isec.fishtravel.jpa.TFlight;
+import com.isec.fishtravel.dto.DTOFlight;
 
 /**
  *
@@ -37,7 +37,7 @@ public class TFlightFacade extends AbstractFacade<TFlight> {
     
     /* Main Logic */
     
-    /*private DTOFlight getDTOByIdentity(TFlight f){
+    public DTOFlight getDTOByIdentity(TFlight f){
         return new DTOFlight(
                 f.getIdFlight(),
                 f.getIdCompany().getNameCompany(),
@@ -50,9 +50,9 @@ public class TFlightFacade extends AbstractFacade<TFlight> {
                 f.getMaxSeats(),
                 f.getAvailSeats()
         );
-    }*/
+    }
     
-    /*public List<DTOFlight> getAllFlights() {
+    public List<DTOFlight> getAllFlights() {
         
         List<DTOFlight> flightsDTO = new ArrayList<DTOFlight>();
         List<TFlight> flights = null;
@@ -94,19 +94,19 @@ public class TFlightFacade extends AbstractFacade<TFlight> {
         }
         
         return null; 
-    }*/
+    }
     
-   /* public List<DTOFlight> getFlightsByDest(String dest) {
+    public List<DTOFlight> getFlightsByDest(String dest) {
         
         List<DTOFlight> flightsDTO = new ArrayList<DTOFlight>();
         List<TFlight> flights = null;
         
         try{
-            */
+            
             /*Query query = em.createNamedQuery("TAirport.findByCode");
             query.setParameter("code", dest);
             TAirport airport = (TAirport) query.getSingleResult();*/
-/*
+
             Query query = em.createQuery("SELECT t from TFlight t\n" +
                                     "LEFT JOIN t.toAirport a\n" +
                                     "WHERE a.code = :dest_code");
@@ -134,6 +134,6 @@ public class TFlightFacade extends AbstractFacade<TFlight> {
         }
         
         return flightsDTO;
-    }*/
+    }
     
 }
