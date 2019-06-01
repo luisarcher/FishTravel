@@ -93,4 +93,20 @@ public class TFlightDAO extends AbstractDAO<TFlight> {
         return null;
     }
     
+    public List<TFlight> getCheapestFlightForDest(){
+        
+        try{
+
+            Query query = em.createQuery("SELECT t from TFlight t\n" +
+                                    "WHERE t.price = (SELECT MIN(t2.price) "
+                    + "from TFlight t2 where t.toAirport = t2.toAirport)");
+            
+            return query.getResultList();
+                       
+        } catch (Exception e){
+            
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
 }

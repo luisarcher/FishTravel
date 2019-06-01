@@ -48,6 +48,11 @@ public class FTFlightFacade {
         return mapAllEntitiesToDTO(flightDAO.getFlightsByDest(dest));
     }
     
+    public List<DTOFlight> getCheapestFlightForDest(){
+        
+        return mapAllEntitiesToDTO(flightDAO.getCheapestFlightForDest());
+    }
+    
     /*private DTOFlight getDTOByIdentity(TFlight f){
         return new DTOFlight(
                 f.getIdFlight(),

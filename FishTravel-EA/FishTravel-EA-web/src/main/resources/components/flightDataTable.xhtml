@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    
+    <composite:interface>
+        <composite:attribute name="compBeanName" required="true"/>
+        <composite:attribute name="compDataSource" required="true"/>
+    </composite:interface>
+
+    <composite:implementation>
+        
+        <h:form id="TFlightListForm">
+                <p:panel header="#{bundle.ListTFlightTitle}">
+                    <p:dataTable id="datalist" value="#{cc.attrs.compDataSource}" var="item"
+                                 selectionMode="single" selection="#{cc.attrs.compBeanName.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_idFlight}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_idStatus}"/>
+                            </f:facet>
+                            <h:outputText value="{item.idStatus}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_nameFlight}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.flightName}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_price}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.price}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_timeDeparture}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.timeDeparture}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_timeArrival}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.timeArrival}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_maxSeats}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.maxSeats}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_availSeats}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.availableSeats}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_fromAirport}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.from}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_toAirport}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.to}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_idCompany}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.company}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <h:outputText value="FOOTER"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        
+    </composite:implementation>
+</html>

@@ -26,7 +26,8 @@ public class FTFlightController implements Serializable {
     @EJB
     private FTFlightFacade ejbClientFacade;
     
-    private List<DTOFlight> items = null; // to be updated
+    private List<DTOFlight> items = null;
+    private List<DTOFlight> cheapestFlightForEachDest = null;
         
     private DTOFlight selected;
 
@@ -40,11 +41,20 @@ public class FTFlightController implements Serializable {
     public void setSelected(DTOFlight selected) {
         this.selected = selected;
     }
-
-    protected void setEmbeddableKeys() {
+    
+    public List<DTOFlight> getItems() {
+        if (items == null) {
+            items = getFacade().getAllFlights();
+        }
+        return items;
     }
-
-    protected void initializeEmbeddableKey() {
+    
+    public List<DTOFlight> getCheapestFlightForEachDest() {
+        
+        if (cheapestFlightForEachDest == null) {
+            cheapestFlightForEachDest = getFacade().getCheapestFlightForDest();
+        }        
+        return cheapestFlightForEachDest;
     }
 
     private FTFlightFacade getFacade() {
@@ -74,13 +84,6 @@ public class FTFlightController implements Serializable {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
-    }
-
-    public List<DTOFlight> getItems() {
-        if (items == null) {
-            items = getFacade().getAllFlights();
-        }
-        return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
@@ -132,7 +135,7 @@ public class FTFlightController implements Serializable {
                 return null;
             }
             FTFlightController controller = (FTFlightController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tFlightController");
+                    getValue(facesContext.getELContext(), null, "ftFlightController");
             return controller.getDTOFlight(getKey(value));
         }
 
@@ -162,6 +165,12 @@ public class FTFlightController implements Serializable {
             }
         }
 
+    }
+    
+    protected void setEmbeddableKeys() {
+    }
+
+    protected void initializeEmbeddableKey() {
     }
 
 }
