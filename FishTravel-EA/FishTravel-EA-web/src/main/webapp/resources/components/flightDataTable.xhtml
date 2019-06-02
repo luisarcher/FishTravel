@@ -9,6 +9,7 @@
     <composite:interface>
         <composite:attribute name="compBeanName" required="true"/>
         <composite:attribute name="compDataSource" required="true"/>
+        <composite:attribute name="compUserLoggedIn" default="false"/>
     </composite:interface>
 
     <composite:implementation>
@@ -65,12 +66,6 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTFlightTitle_maxSeats}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.maxSeats}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTFlightTitle_availSeats}"/>
                             </f:facet>
                             <h:outputText value="#{item.availableSeats}"/>
@@ -93,6 +88,14 @@
                             </f:facet>
                             <h:outputText value="#{item.company}"/>
                         </p:column>
+                        
+                        <p:column rendered="#{cc.attrs.compUserLoggedIn}">
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:outputText value="Btn Btn"/>
+                        </p:column>
+                        
                         <f:facet name="footer">
                             <h:outputText value="FOOTER"/>
                         </f:facet>

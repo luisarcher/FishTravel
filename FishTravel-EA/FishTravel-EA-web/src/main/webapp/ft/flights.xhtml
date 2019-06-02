@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ftravel="http://java.sun.com/jsf/composite/components">
 
     <ui:composition template="/templates/template_user_pages.xhtml">
 
@@ -15,93 +16,14 @@
         <ui:define name="ft_pagename">View all flights</ui:define>
 
         <ui:define name="ft_body">
-            <h:form id="TFlightListForm">
-                <p:panel header="#{bundle.ListTFlightTitle}">
-                    <p:dataTable id="datalist" value="#{ftFlightController.items}" var="item"
-                                 selectionMode="single" selection="#{ftFlightController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.id}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 >
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTFlightTitle_idFlight}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTFlightTitle_idStatus}"/>
-                            </f:facet>
-                            <h:outputText value="{item.idStatus}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTFlightTitle_nameFlight}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.flightName}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTFlightTitle_price}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.price}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTFlightTitle_timeDeparture}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.timeDeparture}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTFlightTitle_timeArrival}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.timeArrival}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTFlightTitle_maxSeats}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.maxSeats}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTFlightTitle_availSeats}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.availableSeats}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTFlightTitle_fromAirport}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.from}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTFlightTitle_toAirport}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.to}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTFlightTitle_idCompany}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.company}"/>
-                        </p:column>
-                        <f:facet name="footer">
-                            <h:outputText value="FOOTER"/>
-                        </f:facet>
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
+            
+            <ftravel:flightDataTable 
+                compBeanName="#{ftFlightController}"
+                compDataSource="#{ftFlightController.items}"
+                compUserLoggedIn="true"/>
+            
         </ui:define>
+        
     </ui:composition>
 
 </html>

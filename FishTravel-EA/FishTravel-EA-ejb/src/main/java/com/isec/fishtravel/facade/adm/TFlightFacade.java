@@ -27,5 +27,5 @@ public class TFlightFacade extends AbstractFacade<TFlight> {
 
     public TFlightFacade() {
         super(TFlight.class);
-    }   
+    }
 }

@@ -1,9 +1,9 @@
-package com.isec.fishtravel.controllers.adm;
+package com.isec.fishtravel.controllers.client;
 
-import com.isec.fishtravel.jpa.TUser;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
 import com.isec.fishtravel.facade.adm.TUserFacade;
+import dto.DTOUser;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,27 +19,21 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tUserController")
+@Named("ftSessionController")
 @SessionScoped
-public class TUserController implements Serializable {
+public class FTSessionController implements Serializable {
 
     @EJB
     private TUserFacade ejbFacade;
-    
-    @EJB
-    private com.isec.fishtravel.facade.adm.TMsglogFacade dblog;
-    // dblog.addMsg("msg");
-    
-    private List<TUser> items = null;
-    
-    private TUser selected;
+        
+    private DTOUser selected;
     
     // Login data
-    private TUser loggedInUser;
+    private DTOUser loggedInUser;
     private String userLogin;
     private String userPasswd;
 
-    public TUserController() {
+    public FTSessionController() {
         prepareCreate();
     }
     
@@ -69,11 +63,11 @@ public class TUserController implements Serializable {
         return "No login";
     }
 
-    public TUser getSelected() {
+    public DTOUser getSelected() {
         return selected;
     }
 
-    public void setSelected(TUser selected) {
+    public void setSelected(DTOUser selected) {
         this.selected = selected;
     }
 
@@ -87,8 +81,8 @@ public class TUserController implements Serializable {
         return ejbFacade;
     }    
 
-    public TUser prepareCreate() {
-        selected = new TUser();
+    public DTOUser prepareCreate() {
+        selected = new DTOUser();
         initializeEmbeddableKey();
         return selected;
     }
@@ -112,7 +106,7 @@ public class TUserController implements Serializable {
         }
     }
 
-    public List<TUser> getItems() {
+    public List<DTOUser> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -150,7 +144,7 @@ public class TUserController implements Serializable {
         }
     }
 
-    public TUser getTUser(java.lang.Integer id) {
+    public DTOUser getUser(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
@@ -162,11 +156,11 @@ public class TUserController implements Serializable {
         return getFacade().findAll();
     }
 
-    public TUser getLoggedInUser() {
+    public DTOUser getLoggedInUser() {
         return loggedInUser;
     }
 
-    public void setLoggedInUser(TUser loggedInUser) {
+    public void setLoggedInUser(DTOUser loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
 
@@ -186,7 +180,7 @@ public class TUserController implements Serializable {
         this.userPasswd = userPasswd;
     }
 
-    @FacesConverter(forClass = TUser.class)
+    @FacesConverter(forClass = DTOUser.class)
     public static class TUserControllerConverter implements Converter {
 
         @Override
@@ -194,7 +188,7 @@ public class TUserController implements Serializable {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TUserController controller = (TUserController) facesContext.getApplication().getELResolver().
+            FTSessionController controller = (FTSessionController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "tUserController");
             return controller.getTUser(getKey(value));
         }
@@ -216,11 +210,11 @@ public class TUserController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TUser) {
-                TUser o = (TUser) object;
-                return getStringKey(o.getIdUser());
+            if (object instanceof DTOUser) {
+                DTOUser o = (DTOUser) object;
+                return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TUser.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), DTOUser.class.getName()});
                 return null;
             }
         }
