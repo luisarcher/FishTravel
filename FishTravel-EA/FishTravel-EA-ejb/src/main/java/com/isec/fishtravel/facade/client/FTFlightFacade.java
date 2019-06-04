@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import com.isec.fishtravel.jpa.TFlight;
 import com.isec.fishtravel.dto.DTOFlight;
 import javax.ejb.EJB;
@@ -52,22 +48,7 @@ public class FTFlightFacade {
         
         return mapAllEntitiesToDTO(flightDAO.getCheapestFlightForDest());
     }
-    
-    /*private DTOFlight getDTOByIdentity(TFlight f){
-        return new DTOFlight(
-                f.getIdFlight(),
-                f.getIdCompany().getNameCompany(),
-                f.getFromAirport().getCode() + " - " + f.getFromAirport().getNameAirport(),
-                f.getToAirport().getCode() + " - " + f.getToAirport().getNameAirport(),
-                f.getNameFlight(),
-                f.getPrice(),
-                f.getTimeDeparture(),
-                f.getTimeArrival(),
-                f.getMaxSeats(),
-                f.getAvailSeats()
-        );
-    }*/
-    
+        
     private DTOFlight mapEntityToDTO(TFlight e){
         
         DTOFlight dto = new DTOFlight();
@@ -82,6 +63,7 @@ public class FTFlightFacade {
         dto.setTimeArrival(e.getTimeArrival());
         dto.setMaxSeats(e.getMaxSeats());
         dto.setAvailableSeats(e.getAvailSeats());
+        dto.setFlightStatus(e.getIdStatus());
         
         return dto;
     }
@@ -98,5 +80,20 @@ public class FTFlightFacade {
         
         return entityDtoList;
         
-    }    
+    }
+    
+    /*private DTOFlight getDTOByIdentity(TFlight f){
+        return new DTOFlight(
+                f.getIdFlight(),
+                f.getIdCompany().getNameCompany(),
+                f.getFromAirport().getCode() + " - " + f.getFromAirport().getNameAirport(),
+                f.getToAirport().getCode() + " - " + f.getToAirport().getNameAirport(),
+                f.getNameFlight(),
+                f.getPrice(),
+                f.getTimeDeparture(),
+                f.getTimeArrival(),
+                f.getMaxSeats(),
+                f.getAvailSeats()
+        );
+    }*/
 }

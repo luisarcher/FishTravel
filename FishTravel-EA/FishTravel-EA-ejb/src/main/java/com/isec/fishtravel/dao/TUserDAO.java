@@ -77,7 +77,7 @@ public class TUserDAO extends AbstractDAO<TUser> {
     
     public TUser getUserByCredentials(String login, String passwd){
         
-        Query query = em.createNamedQuery("TUser.validateUser");
+        Query query = em.createQuery("SELECT t FROM TUser t WHERE t.login = :login AND t.passwd = :passwd");
         query.setParameter("login", login);
         query.setParameter("passwd", passwd);
         

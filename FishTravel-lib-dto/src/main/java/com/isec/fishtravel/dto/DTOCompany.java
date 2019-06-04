@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dto;
+package com.isec.fishtravel.dto;
 
 import java.io.Serializable;
 
@@ -22,6 +22,11 @@ public class DTOCompany implements Serializable{
     public DTOCompany(Integer id, String nameCompany) {
         this.id = id;
         this.nameCompany = nameCompany;
+    }
+    
+    @Override
+    public String toString(){
+        return this.nameCompany;
     }
 
     public Integer getId() {

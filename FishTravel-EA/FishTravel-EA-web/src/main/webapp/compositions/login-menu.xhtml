@@ -8,7 +8,7 @@
 
     <ui:composition id="compLogin">
 
-        <h:form id="frmLogin" rendered="#{tUserController.loggedInUser == null}">
+        <h:form id="frmLogin" rendered="#{ftSessionController.loggedInUser == null}">
             <div class="ui-g-4 visitor-menu">
                 <p:commandButton 
                     id="registerButton"
@@ -24,11 +24,11 @@
             </div>
         </h:form>
 
-        <h:form id="frmLogout" rendered="#{tUserController.loggedInUser != null}">
+        <h:form id="frmLogout" rendered="#{ftSessionController.loggedInUser != null}">
             <div class="ui-g-4 visitor-menu">
-                <p:outputLabel value="#{tUserController.currentUser}" />
+                <p:outputLabel value="#{ftSessionController.loggedInUser}" />
                 <p style="margin-left: 2em;"></p>
-                <p:commandButton id="btnLogout" value="Logout" action="#{tUserController.logout}" ajax="false" />
+                <p:commandButton id="btnLogout" value="Logout" action="#{ftSessionController.logout}" ajax="false" />
             </div>
         </h:form>
 

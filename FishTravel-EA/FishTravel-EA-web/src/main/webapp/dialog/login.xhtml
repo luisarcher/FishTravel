@@ -13,12 +13,12 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="true">
                         <p:outputLabel value="#{bundle.CreateTUserLabel_login}" for="login" />
-                        <p:inputText id="login" value="#{tUserController.userLogin}" title="#{bundle.CreateTUserTitle_login}" required="true" requiredMessage="#{bundle.CreateTUserRequiredMessage_login}"/>
+                        <p:inputText id="login" value="#{ftSessionController.userLogin}" title="#{bundle.CreateTUserTitle_login}" required="true" requiredMessage="#{bundle.CreateTUserRequiredMessage_login}"/>
                         <p:outputLabel value="#{bundle.CreateTUserLabel_passwd}" for="passwd" />
-                        <p:inputText id="passwd" value="#{tUserController.userPasswd}" title="#{bundle.CreateTUserTitle_passwd}" required="true" requiredMessage="#{bundle.CreateTUserRequiredMessage_passwd}"/>
+                        <p:inputText id="passwd" value="#{ftSessionController.userPasswd}" title="#{bundle.CreateTUserTitle_passwd}" required="true" requiredMessage="#{bundle.CreateTUserRequiredMessage_passwd}"/>
                         
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{tUserController.login}" value="Login" update="display,:growl" oncomplete="handleSubmit(args,'TUserLoginDialog');" onclick="TUserLoginDialog.hide()"/>
+                    <p:commandButton actionListener="#{ftSessionController.login}" value="Login" update="display,:growl" oncomplete="handleSubmit(args,'TUserLoginDialog');" onclick="TUserLoginDialog.hide()"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TUserLoginDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

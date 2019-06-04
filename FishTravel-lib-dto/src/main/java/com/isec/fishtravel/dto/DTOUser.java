@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dto;
+package com.isec.fishtravel.dto;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,20 +18,27 @@ public class DTOUser implements Serializable{
     
     private Integer id;
     private String login;
-    private String name;
+    private String nameUser;
     private float credits;
-    private String role;
-    private Date birthDate;
+    private Integer role;
+    private Date birthdate;
     private Date createdAt;
+    private String passwd;
 
-    public DTOUser(Integer id, String login, String name, float credits, String role, Date birthDate, Date createdAt) {
+    public DTOUser(Integer id, String login, String name, float credits, Integer role, Date birthDate, Date createdAt, String passwd) {
         this.id = id;
         this.login = login;
-        this.name = name;
+        this.nameUser = name;
         this.credits = credits;
         this.role = role;
-        this.birthDate = birthDate;
+        this.birthdate = birthDate;
         this.createdAt = createdAt;
+        this.passwd = passwd;
+    }
+    
+    @Override
+    public String toString(){
+        return this.nameUser;
     }
 
     public DTOUser() {
@@ -53,12 +60,12 @@ public class DTOUser implements Serializable{
         this.login = login;
     }
 
-    public String getName() {
-        return name;
+    public String getNameUser() {
+        return nameUser;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.nameUser = name;
     }
 
     public float getCredits() {
@@ -69,19 +76,19 @@ public class DTOUser implements Serializable{
         this.credits = credits;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public Date getBirthdate() {
+        return birthdate;
     }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthdate(Date birthDate) {
+        this.birthdate = birthDate;
     }
 
-    public String getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 
@@ -91,6 +98,15 @@ public class DTOUser implements Serializable{
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }   
+    }
+
+    public String getPasswd() {
+        return passwd;
+    }
+
+    public void setPasswd(String passwd) {
+        this.passwd = passwd;
+    }
+    
     
 }

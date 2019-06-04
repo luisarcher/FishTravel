@@ -25,50 +25,15 @@ public class TUserController implements Serializable {
 
     @EJB
     private TUserFacade ejbFacade;
-    
-    @EJB
-    private com.isec.fishtravel.facade.adm.TMsglogFacade dblog;
-    // dblog.addMsg("msg");
-    
+        
     private List<TUser> items = null;
     
     private TUser selected;
-    
-    // Login data
-    private TUser loggedInUser;
-    private String userLogin;
-    private String userPasswd;
 
     public TUserController() {
         prepareCreate();
     }
     
-    public void login(){
-        
-        loggedInUser = ejbFacade.getUserByCredentials(userLogin, userPasswd);
-        if(loggedInUser != null){
-            
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("loginSuccess"));
-        }
-        else {
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("loginFailed")); 
-        }
-    }
-    
-    public void logout(){
-        FacesContext.getCurrentInstance().getExternalContext()
-        .invalidateSession();
-        loggedInUser = null;
-        
-    }
-    
-    public String getCurrentUser(){
-        if(loggedInUser != null){
-            return loggedInUser.toString();
-        }
-        return "No login";
-    }
-
     public TUser getSelected() {
         return selected;
     }
@@ -160,30 +125,6 @@ public class TUserController implements Serializable {
 
     public List<TUser> getItemsAvailableSelectOne() {
         return getFacade().findAll();
-    }
-
-    public TUser getLoggedInUser() {
-        return loggedInUser;
-    }
-
-    public void setLoggedInUser(TUser loggedInUser) {
-        this.loggedInUser = loggedInUser;
-    }
-
-    public String getUserLogin() {
-        return userLogin;
-    }
-
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
-    }
-
-    public String getUserPasswd() {
-        return userPasswd;
-    }
-
-    public void setUserPasswd(String userPasswd) {
-        this.userPasswd = userPasswd;
     }
 
     @FacesConverter(forClass = TUser.class)

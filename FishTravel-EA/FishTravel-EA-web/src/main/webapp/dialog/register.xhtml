@@ -11,18 +11,18 @@
         <p:dialog id="TUserCreateDlg" widgetVar="TUserCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTUserTitle}">
             <h:form id="TUserCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{tUserController.selected != null}">
+                    <p:panelGrid columns="2" rendered="#{ftSessionController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateTUserLabel_login}" for="login" />
-                        <p:inputText id="login" value="#{tUserController.selected.login}" title="#{bundle.CreateTUserTitle_login}" required="true" requiredMessage="#{bundle.CreateTUserRequiredMessage_login}"/>
+                        <p:inputText id="login" value="#{ftSessionController.selected.login}" title="#{bundle.CreateTUserTitle_login}" required="true" requiredMessage="#{bundle.CreateTUserRequiredMessage_login}"/>
                         <p:outputLabel value="#{bundle.CreateTUserLabel_passwd}" for="passwd" />
-                        <p:inputText id="passwd" value="#{tUserController.selected.passwd}" title="#{bundle.CreateTUserTitle_passwd}" required="true" requiredMessage="#{bundle.CreateTUserRequiredMessage_passwd}"/>
+                        <p:inputText id="passwd" value="#{ftSessionController.selected.passwd}" title="#{bundle.CreateTUserTitle_passwd}" required="true" requiredMessage="#{bundle.CreateTUserRequiredMessage_passwd}"/>
                         <p:outputLabel value="#{bundle.CreateTUserLabel_birthdate}" for="birthdate" />
-                        <p:calendar id="birthdate" pattern="MM/dd/yyyy" value="#{tUserController.selected.birthdate}" title="#{bundle.EditTUserTitle_birthdate}" required="true" requiredMessage="#{bundle.EditTUserRequiredMessage_birthdate}" showOn="button"/>
+                        <p:calendar id="birthdate" pattern="MM/dd/yyyy" value="#{ftSessionController.selected.birthdate}" title="#{bundle.EditTUserTitle_birthdate}" required="true" requiredMessage="#{bundle.EditTUserRequiredMessage_birthdate}" showOn="button"/>
                         <p:outputLabel value="#{bundle.CreateTUserLabel_nameUser}" for="nameUser" />
-                        <p:inputText id="nameUser" value="#{tUserController.selected.nameUser}" title="#{bundle.CreateTUserTitle_nameUser}" />
+                        <p:inputText id="nameUser" value="#{ftSessionController.selected.nameUser}" title="#{bundle.CreateTUserTitle_nameUser}" />
                         
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{tUserController.create}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args,'TUserCreateDialog');" onclick="TUserCreateDialog.hide()"/>
+                    <p:commandButton actionListener="#{ftSessionController.create}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args,'TUserCreateDialog');" onclick="TUserCreateDialog.hide()"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TUserCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
