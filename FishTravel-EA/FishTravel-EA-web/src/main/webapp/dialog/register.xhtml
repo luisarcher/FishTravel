@@ -22,7 +22,7 @@
                         <p:inputText id="nameUser" value="#{ftSessionController.selected.nameUser}" title="#{bundle.CreateTUserTitle_nameUser}" />
                         
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{ftSessionController.create}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args,'TUserCreateDialog');" onclick="TUserCreateDialog.hide()"/>
+                    <p:commandButton actionListener="#{ftSessionController.register}" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args,'TUserCreateDialog');" onclick="TUserCreateDialog.hide()"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TUserCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

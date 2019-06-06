@@ -14,6 +14,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import com.isec.fishtravel.jpa.TUser;
+import java.util.Date;
 
 /**
  *
@@ -34,37 +35,20 @@ public class TUserDAO extends AbstractDAO<TUser> {
         return em;
     }
     
-    private void setDefaults(TUser entity){
+    private TUser setDefaults(TUser e){
         
-        try{
+        e.setCredits((float) 50.5);
+        e.setIdRole(1);
+        e.setDateReg(new Date());
             
-            /*DTOUser dto = new DTOUser();
-        
-        dto.setId(e.getIdUser());
-        dto.setCredits(e.getCredits());
-        dto.setRole(e.getIdRole().getIdRole());
-        dto.setCreatedAt(e.getDateReg());
-        
-        return dto;*/
-            
-            dblog.addMsg("checking if userRole entity is null");
-           
-            
-        } catch (NoResultException e){
-            
-            dblog.addMsg("No result for Role id: " + com.isec.fishtravel.common.Consts.DEFAULT_CLIENT_ROLE);
-            
-        } catch (Exception e){
-            
-            dblog.addMsg(e.getMessage());
-        }
+        return e; 
     }
     
     @Override
     public void create(TUser entity) {
-        dblog.addMsg("create() em TUserFacade");
-        setDefaults(entity);
-        getEntityManager().persist(entity);
+        dblog.addMsg("Creating user: " + entity.getNameUser());
+        // Validate login
+        getEntityManager().persist(setDefaults(entity));
     }    
 
     public TUserDAO() {

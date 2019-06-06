@@ -81,6 +81,10 @@ public class FTSessionController implements Serializable {
     /*public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TUserUpdated"));
     }*/
+    
+    public void register(){
+        getFacade().register(selected);
+    }
 
     public DTOUser getLoggedInUser() {
         return loggedInUser;

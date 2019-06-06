@@ -64,7 +64,7 @@ public class DTOUser implements Serializable{
         return nameUser;
     }
 
-    public void setName(String name) {
+    public void setNameUser(String name) {
         this.nameUser = name;
     }
 

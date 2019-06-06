@@ -33,13 +33,18 @@ public class FTUserFacade{
         return mapEntityToDTO(userDAO.getUserByCredentials(login, passwd));
     }
     
+    public void register(DTOUser newUser){
+        
+        userDAO.create(mapDTOtoEntity(newUser));
+    }
+    
     private DTOUser mapEntityToDTO(TUser e){
         
         DTOUser dto = new DTOUser();
         
         dto.setId(e.getIdUser());
         dto.setLogin(e.getLogin());
-        dto.setName(e.getNameUser());
+        dto.setNameUser(e.getNameUser());
         dto.setCredits(e.getCredits());
         dto.setRole(e.getIdRole());
         dto.setBirthdate(e.getBirthdate());
