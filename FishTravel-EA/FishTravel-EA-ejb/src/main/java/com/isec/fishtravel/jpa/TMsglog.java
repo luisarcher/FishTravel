@@ -18,11 +18,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ljordao-dev
+ * @author LM
  */
 @Entity
 @Table(name = "msglog")
@@ -41,10 +43,13 @@ public class TMsglog implements Serializable {
     @Column(name = "id_msg")
     private Integer idMsg;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2048)
+    @Column(name = "msg")
     private String msg;
     @Column(name = "date_msg")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateMsg = new Date();
+    private Date dateMsg;
 
     public TMsglog() {
     }
@@ -79,7 +84,6 @@ public class TMsglog implements Serializable {
     }
 
     public void setDateMsg(Date dateMsg) {
-               
         this.dateMsg = dateMsg;
     }
 
@@ -105,7 +109,7 @@ public class TMsglog implements Serializable {
 
     @Override
     public String toString() {
-        return "jpa.TMsglog[ idMsg=" + idMsg + " ]";
+        return "com.isec.fishtravel.common.TMsglog[ idMsg=" + idMsg + " ]";
     }
     
 }

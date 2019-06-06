@@ -15,20 +15,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ljordao-dev
+ * @author LM
  */
 @Entity
 @Table(name = "users")
@@ -36,15 +36,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "TUser.findAll", query = "SELECT t FROM TUser t")
     , @NamedQuery(name = "TUser.findByIdUser", query = "SELECT t FROM TUser t WHERE t.idUser = :idUser")
+    , @NamedQuery(name = "TUser.findByIdRole", query = "SELECT t FROM TUser t WHERE t.idRole = :idRole")
     , @NamedQuery(name = "TUser.findByLogin", query = "SELECT t FROM TUser t WHERE t.login = :login")
     , @NamedQuery(name = "TUser.findByPasswd", query = "SELECT t FROM TUser t WHERE t.passwd = :passwd")
     , @NamedQuery(name = "TUser.findByBirthdate", query = "SELECT t FROM TUser t WHERE t.birthdate = :birthdate")
     , @NamedQuery(name = "TUser.findByCredits", query = "SELECT t FROM TUser t WHERE t.credits = :credits")
     , @NamedQuery(name = "TUser.findByDateReg", query = "SELECT t FROM TUser t WHERE t.dateReg = :dateReg")
-    , @NamedQuery(name = "TUser.findByNameUser", query = "SELECT t FROM TUser t WHERE t.nameUser = :nameUser")
-        
-    , @NamedQuery(name = "TUser.validateUser", query = "SELECT t FROM TUser t WHERE t.login = :login AND t.passwd = :passwd")
-})
+    , @NamedQuery(name = "TUser.findByNameUser", query = "SELECT t FROM TUser t WHERE t.nameUser = :nameUser")})
 public class TUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,34 +51,44 @@ public class TUser implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_user")
     private Integer idUser;
+    @Column(name = "id_role")
+    private Integer idRole;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 64)
+    @Column(name = "login")
     private String login;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 64)
+    @Column(name = "passwd")
     private String passwd;
     @Basic(optional = false)
+    @NotNull
+    @Column(name = "birthdate")
     @Temporal(TemporalType.DATE)
     private Date birthdate;
     @Basic(optional = false)
-    private float credits = 50;
-    @Column(name = "date_reg", insertable = false, updatable = false)
+    @NotNull
+    @Column(name = "credits")
+    private float credits;
+    @Column(name = "date_reg")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateReg;
+    @Size(max = 64)
     @Column(name = "name_user")
     private String nameUser;
-    @OneToMany(mappedBy = "idUser")
-    private Collection<Tcomment> tcommentCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUser")
     private Collection<TLuggage> tLuggageCollection;
+    @OneToMany(mappedBy = "idUser")
+    private Collection<Tcomment> tcommentCollection;
     @OneToMany(mappedBy = "idUser")
     private Collection<TPurchase> tPurchaseCollection;
     @OneToMany(mappedBy = "idUser")
     private Collection<TRating> tRatingCollection;
     @OneToMany(mappedBy = "idUser")
     private Collection<TFavorite> tFavoriteCollection;
-    @JoinColumn(name = "id_role", referencedColumnName = "id_role")
-    @ManyToOne
-    private TRoleuser idRole;
-    
+
     public TUser() {
     }
 
@@ -102,6 +110,14 @@ public class TUser implements Serializable {
 
     public void setIdUser(Integer idUser) {
         this.idUser = idUser;
+    }
+
+    public Integer getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(Integer idRole) {
+        this.idRole = idRole;
     }
 
     public String getLogin() {
@@ -153,21 +169,21 @@ public class TUser implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Tcomment> getTcommentCollection() {
-        return tcommentCollection;
-    }
-
-    public void setTcommentCollection(Collection<Tcomment> tcommentCollection) {
-        this.tcommentCollection = tcommentCollection;
-    }
-
-    @XmlTransient
     public Collection<TLuggage> getTLuggageCollection() {
         return tLuggageCollection;
     }
 
     public void setTLuggageCollection(Collection<TLuggage> tLuggageCollection) {
         this.tLuggageCollection = tLuggageCollection;
+    }
+
+    @XmlTransient
+    public Collection<Tcomment> getTcommentCollection() {
+        return tcommentCollection;
+    }
+
+    public void setTcommentCollection(Collection<Tcomment> tcommentCollection) {
+        this.tcommentCollection = tcommentCollection;
     }
 
     @XmlTransient
@@ -197,14 +213,6 @@ public class TUser implements Serializable {
         this.tFavoriteCollection = tFavoriteCollection;
     }
 
-    public TRoleuser getIdRole() {
-        return idRole;
-    }
-
-    public void setIdRole(TRoleuser idRole) {
-        this.idRole = idRole;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -227,8 +235,7 @@ public class TUser implements Serializable {
 
     @Override
     public String toString() {
-        return idUser + " " + login + " " + nameUser;
+        return "com.isec.fishtravel.common.TUser[ idUser=" + idUser + " ]";
     }
-
     
 }

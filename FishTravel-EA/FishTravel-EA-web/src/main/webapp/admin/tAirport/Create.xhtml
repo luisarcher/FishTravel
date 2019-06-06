@@ -12,8 +12,6 @@
             <h:form id="TAirportCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tAirportController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateTAirportLabel_idAirport}" for="idAirport" />
-                        <p:inputText id="idAirport" value="#{tAirportController.selected.idAirport}" title="#{bundle.CreateTAirportTitle_idAirport}" required="true" requiredMessage="#{bundle.CreateTAirportRequiredMessage_idAirport}"/>
                         <p:outputLabel value="#{bundle.CreateTAirportLabel_code}" for="code" />
                         <p:inputText id="code" value="#{tAirportController.selected.code}" title="#{bundle.CreateTAirportTitle_code}" required="true" requiredMessage="#{bundle.CreateTAirportRequiredMessage_code}"/>
                         <p:outputLabel value="#{bundle.CreateTAirportLabel_nameAirport}" for="nameAirport" />

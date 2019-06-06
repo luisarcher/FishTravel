@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ljordao-dev
+ * @author LM
  */
 @Entity
 @Table(name = "purchase")
@@ -119,7 +119,7 @@ public class TPurchase implements Serializable {
 
     @Override
     public String toString() {
-        return "jpa.TPurchase[ idPurchase=" + idPurchase + " ]";
+        return "com.isec.fishtravel.common.TPurchase[ idPurchase=" + idPurchase + " ]";
     }
     
 }

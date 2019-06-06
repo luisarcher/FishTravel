@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ljordao-dev
+ * @author LM
  */
 @Entity
 @Table(name = "favorite")
@@ -112,7 +112,7 @@ public class TFavorite implements Serializable {
 
     @Override
     public String toString() {
-        return "jpa.TFavorite[ idFavorite=" + idFavorite + " ]";
+        return "com.isec.fishtravel.common.TFavorite[ idFavorite=" + idFavorite + " ]";
     }
     
 }

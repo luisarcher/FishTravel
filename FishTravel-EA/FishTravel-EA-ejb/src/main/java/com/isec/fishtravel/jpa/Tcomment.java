@@ -17,15 +17,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ljordao-dev
+ * @author LM
  */
 @Entity
+@Table(name = "tcomment")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Tcomment.findAll", query = "SELECT t FROM Tcomment t")
@@ -41,6 +45,9 @@ public class Tcomment implements Serializable {
     @Column(name = "id_comment")
     private Integer idComment;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 512)
+    @Column(name = "txt")
     private String txt;
     @Column(name = "date_comment")
     @Temporal(TemporalType.TIMESTAMP)
@@ -126,7 +133,7 @@ public class Tcomment implements Serializable {
 
     @Override
     public String toString() {
-        return "jpa.Tcomment[ idComment=" + idComment + " ]";
+        return "com.isec.fishtravel.common.Tcomment[ idComment=" + idComment + " ]";
     }
     
 }

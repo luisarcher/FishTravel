@@ -17,12 +17,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ljordao-dev
+ * @author LM
  */
 @Entity
 @Table(name = "company")
@@ -40,6 +42,8 @@ public class TCompany implements Serializable {
     @Column(name = "id_company")
     private Integer idCompany;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 64)
     @Column(name = "name_company")
     private String nameCompany;
     @OneToMany(mappedBy = "idCompany")
@@ -104,7 +108,7 @@ public class TCompany implements Serializable {
 
     @Override
     public String toString() {
-        return "jpa.TCompany[ idCompany=" + idCompany + " ]";
+        return "com.isec.fishtravel.common.TCompany[ idCompany=" + idCompany + " ]";
     }
     
 }

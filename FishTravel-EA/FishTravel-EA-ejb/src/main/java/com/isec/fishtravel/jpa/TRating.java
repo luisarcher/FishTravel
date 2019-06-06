@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ljordao-dev
+ * @author LM
  */
 @Entity
 @Table(name = "rating")
@@ -134,7 +134,7 @@ public class TRating implements Serializable {
 
     @Override
     public String toString() {
-        return "jpa.TRating[ idRating=" + idRating + " ]";
+        return "com.isec.fishtravel.common.TRating[ idRating=" + idRating + " ]";
     }
     
 }

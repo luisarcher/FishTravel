@@ -20,11 +20,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ljordao-dev
+ * @author LM
  */
 @Entity
 @Table(name = "luggage")
@@ -43,6 +44,8 @@ public class TLuggage implements Serializable {
     @Column(name = "id_luggage")
     private Integer idLuggage;
     @Basic(optional = false)
+    @NotNull
+    @Column(name = "kg")
     private float kg;
     @Column(name = "date_reg")
     @Temporal(TemporalType.TIMESTAMP)
@@ -128,7 +131,7 @@ public class TLuggage implements Serializable {
 
     @Override
     public String toString() {
-        return "jpa.TLuggage[ idLuggage=" + idLuggage + " ]";
+        return "com.isec.fishtravel.common.TLuggage[ idLuggage=" + idLuggage + " ]";
     }
     
 }

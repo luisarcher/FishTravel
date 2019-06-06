@@ -13,7 +13,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import com.isec.fishtravel.jpa.TRoleuser;
 import com.isec.fishtravel.jpa.TUser;
 
 /**
@@ -25,34 +24,31 @@ public class TUserDAO extends AbstractDAO<TUser> {
 
     @PersistenceContext(unitName = "FishTravel-ea-ejbPU")
     private EntityManager em;
+    
+    @EJB
+    private TMsglogFacade dblog;
+    // dblog.addMsg("msg");
 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
     
-    //@EJB
-    //private facade.TMsglogFacade dblog;
-    //dblog.addMsg("msg");
-    
-    @EJB
-    private TMsglogFacade dblog;
-    // dblog.addMsg("msg");
-    
     private void setDefaults(TUser entity){
         
         try{
             
+            /*DTOUser dto = new DTOUser();
+        
+        dto.setId(e.getIdUser());
+        dto.setCredits(e.getCredits());
+        dto.setRole(e.getIdRole().getIdRole());
+        dto.setCreatedAt(e.getDateReg());
+        
+        return dto;*/
+            
             dblog.addMsg("checking if userRole entity is null");
-            if (entity.getIdRole() == null){
-                Query query = em.createNamedQuery("TRoleuser.findByIdRole");
-                query.setParameter("idRole", com.isec.fishtravel.common.Consts.DEFAULT_CLIENT_ROLE);
-
-                // Set a client default role
-                entity.setIdRole((TRoleuser) query.getSingleResult());
-
-                dblog.addMsg("Added default role to new user");
-            }
+           
             
         } catch (NoResultException e){
             
@@ -75,6 +71,7 @@ public class TUserDAO extends AbstractDAO<TUser> {
         super(TUser.class);
     }
     
+    // Login
     public TUser getUserByCredentials(String login, String passwd){
         
         Query query = em.createQuery("SELECT t FROM TUser t WHERE t.login = :login AND t.passwd = :passwd");

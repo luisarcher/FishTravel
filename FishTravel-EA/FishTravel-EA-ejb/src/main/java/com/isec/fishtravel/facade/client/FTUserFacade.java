@@ -10,9 +10,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import com.isec.fishtravel.jpa.TUser;
 import com.isec.fishtravel.dto.DTOUser;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  *
@@ -23,10 +20,6 @@ public class FTUserFacade{
     
     @EJB
     private TUserDAO userDAO;
-   
-    //@EJB
-    //private facade.TMsglogFacade dblog;
-    //dblog.addMsg("msg");
     
     @EJB
     private com.isec.fishtravel.facade.adm.TMsglogFacade dblog;
@@ -48,7 +41,7 @@ public class FTUserFacade{
         dto.setLogin(e.getLogin());
         dto.setName(e.getNameUser());
         dto.setCredits(e.getCredits());
-        dto.setRole(e.getIdRole().getIdRole());
+        dto.setRole(e.getIdRole());
         dto.setBirthdate(e.getBirthdate());
         dto.setCreatedAt(e.getDateReg());
         
@@ -56,15 +49,6 @@ public class FTUserFacade{
     }
     
     private TUser mapDTOtoEntity(DTOUser dto){
-        
-        /*DTOUser dto = new DTOUser();
-        
-        dto.setId(e.getIdUser());
-        dto.setCredits(e.getCredits());
-        dto.setRole(e.getIdRole().getIdRole());
-        dto.setCreatedAt(e.getDateReg());
-        
-        return dto;*/
         
         TUser e = new TUser();
         
