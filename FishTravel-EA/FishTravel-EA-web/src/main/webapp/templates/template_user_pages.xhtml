@@ -7,6 +7,8 @@
 
     <h:head>
         <h:outputStylesheet library="css" name="ftcss.css"/>
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>
+        <h:outputScript library="js" name="jsfcrud.js"/>
         <title><ui:insert name="ft_title">Fish Travel</ui:insert></title>
     </h:head>
 
@@ -51,7 +53,8 @@
         </p:layout>
 
     </h:body>
-    <ui:include src="/dialog/register.xhtml"/>
-    <ui:include src="/dialog/login.xhtml"/>
-
+        
+        <ui:include src="/dialog/register.xhtml"/>
+        <ui:include src="/dialog/login.xhtml"/>
+        <ui:include src="/dialog/buy-action.xhtml"/>
 </html>

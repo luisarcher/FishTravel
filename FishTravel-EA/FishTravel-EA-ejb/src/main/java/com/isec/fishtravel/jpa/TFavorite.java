@@ -41,12 +41,15 @@ public class TFavorite implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_favorite")
     private Integer idFavorite;
+    
     @Column(name = "date_favorite")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateFavorite;
+    
     @JoinColumn(name = "id_flight", referencedColumnName = "id_flight")
     @ManyToOne
     private TFlight idFlight;
+    
     @JoinColumn(name = "id_user", referencedColumnName = "id_user")
     @ManyToOne
     private TUser idUser;

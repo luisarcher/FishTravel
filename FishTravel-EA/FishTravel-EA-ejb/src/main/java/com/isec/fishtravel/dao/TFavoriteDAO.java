@@ -19,7 +19,7 @@ public class TFavoriteDAO extends AbstractDAO<TFavorite> {
 
     @PersistenceContext(unitName = "FishTravel-ea-ejbPU")
     private EntityManager em;
-
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;

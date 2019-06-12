@@ -93,7 +93,9 @@
                             <f:facet name="header">
                                 <h:outputText value=""/>
                             </f:facet>
-                            <h:outputText value="Btn Btn"/>
+                            
+                            <p:commandButton action="#{ftSessionController.addToFavorites(item.id)}" ajax="true" update="growl" id="btnAddFav" icon="fa fa-star-o"></p:commandButton>
+                            <p:commandButton action="#{ftSessionController.actionSelectFlight(item.id)}" oncomplete="PF('dlg-buy-action').show()" update="growl" id="btnBuy" icon="fa fa-shopping-cart"></p:commandButton>
                         </p:column>
                         
                         <f:facet name="footer">

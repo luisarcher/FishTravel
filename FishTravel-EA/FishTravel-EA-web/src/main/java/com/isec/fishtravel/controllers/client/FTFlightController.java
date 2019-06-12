@@ -3,6 +3,7 @@ package com.isec.fishtravel.controllers.client;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
 import com.isec.fishtravel.dto.DTOFlight;
+import com.isec.fishtravel.facade.client.FTFavoriteFacade;
 import com.isec.fishtravel.facade.client.FTFlightFacade;
 
 import java.io.Serializable;
@@ -24,8 +25,8 @@ import javax.faces.convert.FacesConverter;
 public class FTFlightController implements Serializable {
 
     @EJB
-    private FTFlightFacade ejbClientFacade;
-    
+    private FTFlightFacade ejbFlightFacade;
+        
     private List<DTOFlight> items = null;
     private List<DTOFlight> cheapestFlightForEachDest = null;
         
@@ -33,7 +34,15 @@ public class FTFlightController implements Serializable {
 
     public FTFlightController() {
     }
-
+    
+    public List<DTOFlight> getCheapestFlightForEachDest() {
+        
+        if (cheapestFlightForEachDest == null) {
+            cheapestFlightForEachDest = getFlightFacade().getCheapestFlightForDest();
+        }        
+        return cheapestFlightForEachDest;
+    }
+    
     public DTOFlight getSelected() {
         return selected;
     }
@@ -44,21 +53,13 @@ public class FTFlightController implements Serializable {
     
     public List<DTOFlight> getItems() {
         if (items == null) {
-            items = getFacade().getAllFlights();
+            items = getFlightFacade().getAllFlights();
         }
         return items;
     }
-    
-    public List<DTOFlight> getCheapestFlightForEachDest() {
-        
-        if (cheapestFlightForEachDest == null) {
-            cheapestFlightForEachDest = getFacade().getCheapestFlightForDest();
-        }        
-        return cheapestFlightForEachDest;
-    }
 
-    private FTFlightFacade getFacade() {
-        return ejbClientFacade;
+    private FTFlightFacade getFlightFacade() {
+        return ejbFlightFacade;
     }
 
     public DTOFlight prepareCreate() {
@@ -115,15 +116,15 @@ public class FTFlightController implements Serializable {
     }
 
     public DTOFlight getDTOFlight(java.lang.Integer id) {
-        return getFacade().getFlightById(id);
+        return getFlightFacade().getFlightById(id);
     }
 
     public List<DTOFlight> getItemsAvailableSelectMany() {
-        return getFacade().getAllFlights();
+        return getFlightFacade().getAllFlights();
     }
 
     public List<DTOFlight> getItemsAvailableSelectOne() {
-        return getFacade().getAllFlights();
+        return getFlightFacade().getAllFlights();
     }
 
     @FacesConverter(forClass = DTOFlight.class)

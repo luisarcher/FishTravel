@@ -67,6 +67,26 @@ public class TFlightDAO extends AbstractDAO<TFlight> {
         return null;
     }
     
+    public List<TFlight> getFlightsByIds(List<Integer> ids) {
+        
+        try{
+            
+
+            return em.createQuery("SELECT t FROM TFlight t WHERE t.idFlight IN :ids").setParameter("ids", ids).getResultList();
+
+            
+        } catch (NoResultException e){
+            
+            System.err.println("No result for Flights ids: " + ids);
+            
+        } catch (Exception e){
+            
+            System.err.println(e.getMessage());
+        }
+        
+        return null;
+    }
+    
     public List<TFlight> getFlightsByDest(String dest) {
                 
         try{
