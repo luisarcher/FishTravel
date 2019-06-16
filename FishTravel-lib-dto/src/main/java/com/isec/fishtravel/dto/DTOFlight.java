@@ -26,11 +26,24 @@ public class DTOFlight implements Serializable {
     private Integer maxSeats;
     private Integer availableSeats;
     private Integer flightStatus;
+    private String flightStatusStr;
 
     public DTOFlight() {
     }
 
-    public DTOFlight(Integer id, String company, String from, String to, String flightName, float price, Date timeDeparture, Date timeArrival, Integer maxSeats, Integer availableSeats, Integer flightStatus) {
+    public DTOFlight(Integer id, 
+            String company, 
+            String from, 
+            String to, 
+            String flightName, 
+            float price, 
+            Date timeDeparture, 
+            Date timeArrival, 
+            Integer maxSeats, 
+            Integer availableSeats, 
+            Integer flightStatus,
+            String flightStatusStr) {
+        
         this.id = id;
         this.company = company;
         this.from = from;
@@ -42,6 +55,8 @@ public class DTOFlight implements Serializable {
         this.maxSeats = maxSeats;
         this.availableSeats = availableSeats;
         this.flightStatus = flightStatus;
+        this.flightStatusStr = flightStatusStr;
+       
     }
     
     @Override
@@ -136,7 +151,14 @@ public class DTOFlight implements Serializable {
     public void setFlightStatus(Integer flightStatus) {
         this.flightStatus = flightStatus;
     }
-    
+
+    public String getFlightStatusStr() {
+        return flightStatusStr;
+    }
+
+    public void setFlightStatusStr(String flightStatusStr) {
+        this.flightStatusStr = flightStatusStr;
+    }
     
     
 }

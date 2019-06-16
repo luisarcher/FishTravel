@@ -5,6 +5,7 @@
  */
 package com.isec.fishtravel.facade.client;
 
+import com.isec.fishtravel.common.Consts;
 import com.isec.fishtravel.dao.TFlightDAO;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,6 +40,11 @@ public class FTFlightFacade {
         return mapEntityToDTO(flightDAO.getFlightById(id));
     }
     
+    public List<DTOFlight> getFlightsByIds(List<Integer> ids){
+        
+        return mapAllEntitiesToDTO(flightDAO.getFlightsByIds(ids));
+    }
+    
     public List<DTOFlight> getFlightsByDest(String dest) {
         
         return mapAllEntitiesToDTO(flightDAO.getFlightsByDest(dest));
@@ -47,6 +53,7 @@ public class FTFlightFacade {
     public List<DTOFlight> getCheapestFlightForDest(){
         
         return mapAllEntitiesToDTO(flightDAO.getCheapestFlightForDest());
+
     }
         
     private DTOFlight mapEntityToDTO(TFlight e){
@@ -64,6 +71,7 @@ public class FTFlightFacade {
         dto.setMaxSeats(e.getMaxSeats());
         dto.setAvailableSeats(e.getAvailSeats());
         dto.setFlightStatus(e.getIdStatus());
+        dto.setFlightStatusStr(Consts.getFlightStatusById(e.getIdStatus()));
         
         return dto;
     }

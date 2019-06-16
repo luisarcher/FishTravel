@@ -24,8 +24,18 @@ public class DTOUser implements Serializable{
     private Date birthdate;
     private Date createdAt;
     private String passwd;
+    private String roleStr;
 
-    public DTOUser(Integer id, String login, String name, float credits, Integer role, Date birthDate, Date createdAt, String passwd) {
+    public DTOUser(Integer id, 
+            String login, 
+            String name, 
+            float credits, 
+            Integer role, 
+            Date birthDate, 
+            Date createdAt, 
+            String passwd,
+            String roleStr) {
+        
         this.id = id;
         this.login = login;
         this.nameUser = name;
@@ -34,6 +44,7 @@ public class DTOUser implements Serializable{
         this.birthdate = birthDate;
         this.createdAt = createdAt;
         this.passwd = passwd;
+        this.roleStr = roleStr;
     }
     
     @Override
@@ -107,6 +118,13 @@ public class DTOUser implements Serializable{
     public void setPasswd(String passwd) {
         this.passwd = passwd;
     }
-    
-    
+
+    public String getRoleStr() {
+        return roleStr;
+    }
+
+    public void setRoleStr(String roleStr) {
+        this.roleStr = roleStr;
+    }
+        
 }

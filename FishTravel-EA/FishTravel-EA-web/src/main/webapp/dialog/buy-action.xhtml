@@ -12,7 +12,6 @@
             <h:form id="frm-buy-action">
                 <h:panelGroup id="display">
                     
-
                     <p><p:commandButton actionListener="#{ftSessionController.actionBuyNow()}" value="Buy Now" update="display,:growl" oncomplete="handleSubmit(args,'dlg-buy-action');" onclick="dlg-buy-action.hide()"/></p>
                     <p><p:commandButton actionListener="#{ftSessionController.actionAddToCart()}" ajax="true" value="Add to Cart" update="display,:growl" oncomplete="handleSubmit(args,'dlg-buy-action');" onclick="dlg-buy-action.hide()"/></p>
                 </h:panelGroup>

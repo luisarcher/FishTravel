@@ -5,6 +5,7 @@
  */
 package com.isec.fishtravel.facade.client;
 
+import com.isec.fishtravel.common.Consts;
 import com.isec.fishtravel.dao.TUserDAO;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -49,6 +50,7 @@ public class FTUserFacade{
         dto.setRole(e.getIdRole());
         dto.setBirthdate(e.getBirthdate());
         dto.setCreatedAt(e.getDateReg());
+        dto.setRoleStr(Consts.getRoleById(e.getIdRole()));
         
         return dto;
     }

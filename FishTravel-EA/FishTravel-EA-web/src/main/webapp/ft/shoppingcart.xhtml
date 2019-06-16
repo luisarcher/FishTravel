@@ -17,7 +17,59 @@
 
         <ui:define name="ft_body">
             
-            
+            <h:form id="frmCartList">
+                <p:panel header="Shopping Cart">
+                    <p:dataTable id="datalist" value="#{ftSessionController.shoppingCartFlights}" var="item"
+                                 paginator="false"
+                                 >
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_nameFlight}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.flightName}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_timeDeparture}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.timeDeparture}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_timeArrival}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.timeArrival}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_fromAirport}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.from}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_toAirport}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.to}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTFlightTitle_price}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.price}"/>
+                        </p:column>
+                                                
+                        <f:facet name="footer">
+                            <h:outputText value="Total: #{ftSessionController.shoppingCartTotal}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
             
         </ui:define>
         

@@ -5,9 +5,11 @@ import com.isec.fishtravel.dto.DTOFlight;
 import com.isec.fishtravel.facade.client.FTUserFacade;
 import com.isec.fishtravel.dto.DTOUser;
 import com.isec.fishtravel.facade.client.FTFavoriteFacade;
+import com.isec.fishtravel.facade.client.FTFlightFacade;
 import java.io.IOException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -28,6 +30,9 @@ public class FTSessionController implements Serializable {
     @EJB
     private FTFavoriteFacade ejbFavoriteFacade;
     
+    @EJB
+    private FTFlightFacade ejbFlightFacade;
+    
     // New user from Register Dialog
     private DTOUser selected;
     
@@ -38,8 +43,13 @@ public class FTSessionController implements Serializable {
     private String userLogin;
     private String userPasswd;
     
+    // Preparing flight to be bought
+    private Integer selectedFlight;
+    
     // Bying flights
-    private List<Integer> selectedFlights;
+    private List<Integer> shoppingCartIds;
+    private float shoppingCartTotal;
+    //private List<DTOFlight> shoppingCartFlights;
 
     public FTSessionController() {
         prepareCreate();
@@ -61,7 +71,6 @@ public class FTSessionController implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext()
         .invalidateSession();
         loggedInUser = null;
-        
     }
     
     public String getCurrentUser(){
@@ -71,19 +80,52 @@ public class FTSessionController implements Serializable {
         return "No login";
     }
     
+    public List<DTOFlight> getShoppingCartFlights(){
+        
+        this.shoppingCartTotal = 0;
+        List<DTOFlight> flights = getFlightFacade().getFlightsByIds(shoppingCartIds);
+        
+        for(DTOFlight f : flights){
+            shoppingCartTotal += f.getPrice();
+        }
+        
+        return flights;
+    }
+    
+    /**
+     * Called when clicking on star icon (Add to favorite)
+     * @param flightId 
+     */
     public void addToFavorites(String flightId){
         
         getFavoriteFacade().addToFavorites(loggedInUser.getId(), Integer.parseInt(flightId));
         
+        // todo - Implement using a notifier
         JsfUtil.addSuccessMessage("Added to favorites");
-        JsfUtil.addSuccessMessage("user:" + loggedInUser.getId() + " f:" + flightId);
+        
+        //Debug purposes
+        JsfUtil.addSuccessMessage("user:" + loggedInUser.getId() + " f: " + flightId);
     }
     
+    /**
+     * Called when clicking on the shopping cart Icon
+     * @param flightId 
+     */
+    public void actionSelectFlight(String flightId){
+                
+        this.selectedFlight = Integer.parseInt(flightId);
+        JsfUtil.addSuccessMessage("selected flight: " + String.valueOf(selectedFlight));
+    }
+    
+    /**
+     * Called when clicking on "Buy Now" button, inside Buy flight dialog.
+     * Adds selected flight to cart and redirects the user to Shopping cart page.
+     */
     public void actionBuyNow(){
         try {
-            JsfUtil.addSuccessMessage("Voo: " + String.valueOf(selectedFlights.get(selectedFlights.size() -1)));
             
-            // Chama o AddToCart e redireciona
+            this.actionAddToCart();
+            
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             context.redirect(context.getRequestContextPath() + "/faces/ft/shoppingcart.xhtml");
         } catch (IOException ex) {
@@ -91,34 +133,23 @@ public class FTSessionController implements Serializable {
         }
     }
     
+    /**
+     * By clicking on "Add to Cart" button inside Buy Flight dialog.
+     * Adds the flight to the shopping cart and allows the user to continue shopping.
+     */
     public void actionAddToCart(){
-        JsfUtil.addSuccessMessage("Voo: " + String.valueOf(selectedFlights.get(selectedFlights.size() -1)));
+        
+        if (shoppingCartIds == null){
+            this.shoppingCartIds = new ArrayList<>();
+        }
+        this.shoppingCartIds.add(selectedFlight);
+        JsfUtil.addSuccessMessage("Voo: " + String.valueOf(shoppingCartIds.get(shoppingCartIds.size() -1)));
     }
-    
-    public void actionSelectFlight(String flightId){
-        this.selectedFlights.add(Integer.parseInt(flightId));
-    }
-    
-    private FTFavoriteFacade getFavoriteFacade() {
-        return ejbFavoriteFacade;
-    }
-
-    public DTOUser getSelected() {
-        return selected;
-    }
-
-    public void setSelected(DTOUser selected) {
-        this.selected = selected;
-    }
-
+        
     protected void setEmbeddableKeys() {
     }
 
-    private FTUserFacade getFacade() {
-        return ejbFacade;
-    }    
-
-    public DTOUser prepareCreate() {
+    private DTOUser prepareCreate() {
         selected = new DTOUser();
         return selected;
     }
@@ -126,6 +157,28 @@ public class FTSessionController implements Serializable {
     /*public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TUserUpdated"));
     }*/
+    
+    /* ======= Getters and Setters ======= */
+    
+        public DTOUser getSelected() {
+        return selected;
+    }
+
+    public void setSelected(DTOUser selected) {
+        this.selected = selected;
+    }
+    
+    private FTUserFacade getFacade() {
+        return ejbFacade;
+    }
+    
+    private FTFavoriteFacade getFavoriteFacade() {
+        return ejbFavoriteFacade;
+    }
+    
+    private FTFlightFacade getFlightFacade(){
+        return ejbFlightFacade;
+    }
     
     public void register(){
         getFacade().register(selected);
@@ -155,14 +208,30 @@ public class FTSessionController implements Serializable {
         this.userPasswd = userPasswd;
     }
 
-    public List<Integer> getSelectedFlights() {
-        return selectedFlights;
+    public Integer getSelectedFlight() {
+        return selectedFlight;
     }
 
-    public void setSelectedFlights(List<Integer> selectedFlights) {
-        this.selectedFlights = selectedFlights;
+    public void setSelectedFlight(Integer selectedFlight) {
+        this.selectedFlight = selectedFlight;
     }
 
+    public List<Integer> getShoppingCart() {
+        return shoppingCartIds;
+    }
 
+    public void setShoppingCart(List<Integer> shoppingCart) {
+        this.shoppingCartIds = shoppingCart;
+    }
+
+    public float getShoppingCartTotal() {
+        return shoppingCartTotal;
+    }
+
+    public void setShoppingCartTotal(float shoppingCartTotal) {
+        this.shoppingCartTotal = shoppingCartTotal;
+    }
+    
+    
 
 }
