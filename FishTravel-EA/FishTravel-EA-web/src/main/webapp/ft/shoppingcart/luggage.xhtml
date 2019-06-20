@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ftravel="http://java.sun.com/jsf/composite/components">
+
+    <ui:composition template="/templates/template_user_pages.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Checkout"/>
+            
+        </ui:define>
+        
+        <ui:define name="ft_pagename">Shopping Cart</ui:define>
+
+        <ui:define name="ft_body">
+            
+            <h:form id="frmCartList">
+                
+                <ftravel:ftsteps activeIndex="1"/>
+                
+                <p:panel header="Luggage list">
+                    <p:outputLabel value="Select Flight" for="cmbFlight" />
+                    <p:selectOneMenu id="cmbFlight" value="#{ftSessionController.selectedLuggage.flightId}" >
+                        <f:selectItems value="#{ftSessionController.shoppingCartFlights}"
+                                       var="flightItem"
+                                       itemValue="#{flightItem.id}"
+                                       itemLabel="#{flightItem.toString()}"/>
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel value="Weight in kg:" for="txtWeight" />
+                    <p:inputText id="txtWeight" value="#{ftSessionController.selectedLuggage.kg}" title="Kilograms" required="true" requiredMessage="Please, insert luggage Kg."/>
+                    
+                </p:panel>
+                
+                <p:button outcome="payment" value="Save and proceed to Payment Details" icon="fa fa-fw fa-money" style="margin-left:4%;" class="fa-middle">
+                </p:button>
+            </h:form>
+            
+        </ui:define>
+        
+    </ui:composition>
+
+</html>

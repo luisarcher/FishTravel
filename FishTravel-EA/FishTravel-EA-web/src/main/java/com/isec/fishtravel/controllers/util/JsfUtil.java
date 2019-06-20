@@ -1,8 +1,10 @@
 package com.isec.fishtravel.controllers.util;
 
+import java.io.IOException;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
@@ -65,5 +67,15 @@ public class JsfUtil {
         CREATE,
         DELETE,
         UPDATE
+    }
+    
+    public static void redirect(String address){
+        try {    
+            
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            context.redirect(context.getRequestContextPath() + "/faces" + address);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }

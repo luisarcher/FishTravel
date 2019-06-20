@@ -20,7 +20,7 @@ public class DTOFlight implements Serializable {
     private String from;
     private String to;
     private String flightName;
-    private float price;
+    private Float price;
     private Date timeDeparture;
     private Date timeArrival;
     private Integer maxSeats;
@@ -36,7 +36,7 @@ public class DTOFlight implements Serializable {
             String from, 
             String to, 
             String flightName, 
-            float price, 
+            Float price, 
             Date timeDeparture, 
             Date timeArrival, 
             Integer maxSeats, 
@@ -61,7 +61,7 @@ public class DTOFlight implements Serializable {
     
     @Override
     public String toString(){
-        return this.flightName;
+        return this.from + " " + this.to;
     }
 
     public String getFrom() {

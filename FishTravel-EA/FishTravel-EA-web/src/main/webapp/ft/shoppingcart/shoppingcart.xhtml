@@ -10,7 +10,8 @@
     <ui:composition template="/templates/template_user_pages.xhtml">
 
         <ui:define name="title">
-            <h:outputText value="Checkout"></h:outputText>
+            <h:outputText value="Checkout"/>
+
         </ui:define>
         
         <ui:define name="ft_pagename">Shopping Cart</ui:define>
@@ -18,6 +19,9 @@
         <ui:define name="ft_body">
             
             <h:form id="frmCartList">
+                
+                <ftravel:ftsteps activeIndex="0"/>
+                
                 <p:panel header="Shopping Cart">
                     <p:dataTable id="datalist" value="#{ftSessionController.shoppingCartFlights}" var="item"
                                  paginator="false"
@@ -69,6 +73,9 @@
                         </f:facet>
                     </p:dataTable>
                 </p:panel>
+                
+                <p:button outcome="luggage" value="Next" icon="fa fa-fw fa-briefcase" style="margin-left:4%;" class="fa-middle">
+                </p:button>
             </h:form>
             
         </ui:define>

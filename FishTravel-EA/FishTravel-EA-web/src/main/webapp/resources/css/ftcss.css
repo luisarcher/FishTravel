@@ -10,3 +10,8 @@ and open the template in the editor.
 .visitor-menu{
     margin: auto;
 }
+
+.fa-middle {
+    vertical-align: middle !important;
+    
+}

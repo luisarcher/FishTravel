@@ -2,22 +2,19 @@ package com.isec.fishtravel.controllers.client;
 
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.dto.DTOFlight;
+import com.isec.fishtravel.dto.DTOLuggage;
 import com.isec.fishtravel.facade.client.FTUserFacade;
 import com.isec.fishtravel.dto.DTOUser;
 import com.isec.fishtravel.facade.client.FTFavoriteFacade;
 import com.isec.fishtravel.facade.client.FTFlightFacade;
-import java.io.IOException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 @Named("ftSessionController")
@@ -49,7 +46,10 @@ public class FTSessionController implements Serializable {
     // Bying flights
     private List<Integer> shoppingCartIds;
     private float shoppingCartTotal;
-    //private List<DTOFlight> shoppingCartFlights;
+    private List<DTOFlight> shoppingCartFlights;
+    
+    private DTOLuggage selectedLuggage;
+    private List<DTOLuggage> luggage;
 
     public FTSessionController() {
         prepareCreate();
@@ -81,15 +81,12 @@ public class FTSessionController implements Serializable {
     }
     
     public List<DTOFlight> getShoppingCartFlights(){
-        
-        this.shoppingCartTotal = 0;
-        List<DTOFlight> flights = getFlightFacade().getFlightsByIds(shoppingCartIds);
-        
-        for(DTOFlight f : flights){
-            shoppingCartTotal += f.getPrice();
+                
+        if (this.shoppingCartFlights == null){
+            this.shoppingCartFlights = getFlightFacade().getFlightsByIds(shoppingCartIds);
         }
         
-        return flights;
+        return this.shoppingCartFlights;
     }
     
     /**
@@ -122,15 +119,10 @@ public class FTSessionController implements Serializable {
      * Adds selected flight to cart and redirects the user to Shopping cart page.
      */
     public void actionBuyNow(){
-        try {
-            
-            this.actionAddToCart();
-            
-            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-            context.redirect(context.getRequestContextPath() + "/faces/ft/shoppingcart.xhtml");
-        } catch (IOException ex) {
-            Logger.getLogger(FTSessionController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        this.actionAddToCart();
+        
+        JsfUtil.redirect("/ft/shoppingcart/shoppingcart.xhtml");
     }
     
     /**
@@ -146,21 +138,24 @@ public class FTSessionController implements Serializable {
         JsfUtil.addSuccessMessage("Voo: " + String.valueOf(shoppingCartIds.get(shoppingCartIds.size() -1)));
     }
         
-    protected void setEmbeddableKeys() {
-    }
+    protected void setEmbeddableKeys() {}
 
-    private DTOUser prepareCreate() {
+    private void prepareCreate() {
         selected = new DTOUser();
-        return selected;
+        selectedLuggage = new DTOLuggage();
     }
        
     /*public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TUserUpdated"));
     }*/
     
+    public void actionFinishOrder(){
+        JsfUtil.redirect("/ft/shoppingcart/confirmation.xhtml");
+    }
+    
     /* ======= Getters and Setters ======= */
     
-        public DTOUser getSelected() {
+    public DTOUser getSelected() {
         return selected;
     }
 
@@ -216,22 +211,43 @@ public class FTSessionController implements Serializable {
         this.selectedFlight = selectedFlight;
     }
 
-    public List<Integer> getShoppingCart() {
-        return shoppingCartIds;
-    }
-
-    public void setShoppingCart(List<Integer> shoppingCart) {
-        this.shoppingCartIds = shoppingCart;
-    }
-
     public float getShoppingCartTotal() {
-        return shoppingCartTotal;
+        
+        for(DTOFlight f : this.shoppingCartFlights){
+            this.shoppingCartTotal += f.getPrice();
+        }
+        
+        return this.shoppingCartTotal;
     }
 
     public void setShoppingCartTotal(float shoppingCartTotal) {
         this.shoppingCartTotal = shoppingCartTotal;
     }
-    
-    
 
+    public List<Integer> getShoppingCartIds() {
+        return shoppingCartIds;
+    }
+
+    public void setShoppingCartIds(List<Integer> shoppingCartIds) {
+        this.shoppingCartIds = shoppingCartIds;
+    }
+
+    public List<DTOLuggage> getLuggage() {
+        return luggage;
+    }
+
+    public void setLuggage(List<DTOLuggage> luggage) {
+        this.luggage = luggage;
+    }
+
+    public DTOLuggage getSelectedLuggage() {
+        return selectedLuggage;
+    }
+
+    public void setSelectedLuggage(DTOLuggage selectedLuggage) {
+        this.selectedLuggage = selectedLuggage;
+    }
+    
+    
+    
 }

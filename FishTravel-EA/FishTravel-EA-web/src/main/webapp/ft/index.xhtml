@@ -14,8 +14,8 @@
             
             <ftravel:flightDataTable 
                 compBeanName="#{ftFlightController}"
-                compDataSource="#{ftFlightController.cheapestFlightForEachDest}"/>
-            
+                compDataSource="#{ftFlightController.cheapestFlightForEachDest}"
+                compUserLoggedIn="#{(ftSessionController.loggedInUser != null)}"/>
         </ui:define>
 
     </ui:composition>
