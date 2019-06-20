@@ -131,7 +131,7 @@ public class TLuggage implements Serializable {
 
     @Override
     public String toString() {
-        return "com.isec.fishtravel.common.TLuggage[ idLuggage=" + idLuggage + " ]";
+        return this.idLuggage + "-" + this.kg;
     }
     
 }

@@ -23,11 +23,14 @@
                 <ftravel:ftsteps activeIndex="3"/>
                 
                 <p:panel header="Order Confirmed">
-                    <p>Your flights were booked successfully!</p>
+                    <p>Your flights were booked successfully!
+                    (Vai dar o resultado em função do bean validator)</p>
+                    
+                    <p:button outcome="/ft/index.xhtml" value="Go to my Flights" icon="fa fa-fw fa-list" class="fa-middle">
+                </p:button>
                 </p:panel>
                 
-                <p:button outcome="/ft/index.xhtml" value="Go to my Flights" icon="fa fa-fw fa-list" style="margin-left:4%;" class="fa-middle">
-                </p:button>
+                
             </h:form>
             
         </ui:define>

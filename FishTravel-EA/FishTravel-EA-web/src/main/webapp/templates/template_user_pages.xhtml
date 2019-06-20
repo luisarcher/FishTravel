@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ftravel="http://java.sun.com/jsf/composite/components">
 
     <h:head>
         <h:outputStylesheet library="css" name="ftcss.css"/>
@@ -33,13 +34,8 @@
 
                 </h:form>
 
-                <h:form id="menuForm">
-                    <p:menubar>
-                        <p:menuitem value="Home" outcome="/ft/index.xhtml" icon="ui-icon-home"/>
-                        <p:menuitem value="Flights" outcome="/ft/flights.xhtml" icon="fa fa-plane"/>
-                        
-                    </p:menubar>
-                </h:form>
+                <ftravel:menuBar userRole="#{ftSessionController.loggedInUser != null ? ftSessionController.loggedInUser.role : 1}"/>
+                
             </p:layoutUnit>
             
             <p:layoutUnit position="center">

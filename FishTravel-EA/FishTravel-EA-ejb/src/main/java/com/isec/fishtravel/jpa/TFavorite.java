@@ -115,7 +115,7 @@ public class TFavorite implements Serializable {
 
     @Override
     public String toString() {
-        return "com.isec.fishtravel.common.TFavorite[ idFavorite=" + idFavorite + " ]";
+        return this.idUser + "-" + this.idFavorite + "-" + this.dateFavorite;
     }
     
 }

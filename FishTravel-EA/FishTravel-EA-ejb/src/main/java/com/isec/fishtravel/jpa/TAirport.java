@@ -134,7 +134,7 @@ public class TAirport implements Serializable {
 
     @Override
     public String toString() {
-        return "com.isec.fishtravel.common.TAirport[ idAirport=" + idAirport + " ]";
+        return this.code + ":" + this.nameAirport;
     }
     
 }

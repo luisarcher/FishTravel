@@ -22,22 +22,38 @@
                 
                 <ftravel:ftsteps activeIndex="1"/>
                 
-                <p:panel header="Luggage list">
-                    <p:outputLabel value="Select Flight" for="cmbFlight" />
-                    <p:selectOneMenu id="cmbFlight" value="#{ftSessionController.selectedLuggage.flightId}" >
-                        <f:selectItems value="#{ftSessionController.shoppingCartFlights}"
-                                       var="flightItem"
-                                       itemValue="#{flightItem.id}"
-                                       itemLabel="#{flightItem.toString()}"/>
-                    </p:selectOneMenu>
+                <p:panel header="Add Luggage">
+                
+                    <p:fieldset legend="Add Luggage" style="margin-bottom:20px">
+                        <h:panelGrid columns="1" cellpadding="5">
+                            
+                            <p>
+                                <p:outputLabel value="Select Flight" for="cmbFlight" />
+                            </p>
+                            <p>
+                                <p:selectOneMenu id="cmbFlight" value="#{ftSessionController.selectedLuggage.flightId}" >
+                                <f:selectItems value="#{ftSessionController.shoppingCartFlights}"
+                                               var="flightItem"
+                                               itemValue="#{flightItem.id}"
+                                               itemLabel="#{flightItem.toString()}"/>
+                                </p:selectOneMenu>
+                            </p>
+
+                            <p>
+                                <p:outputLabel value="Weight in kg:" for="txtWeight" />
+                            </p>
+                            <p>
+                                <p:inputText id="txtWeight" value="#{ftSessionController.selectedLuggage.kg}" title="Kilograms" required="true" requiredMessage="Please, insert luggage Kg."/>
+                            </p>
+                            <p>
+                                <p><p:commandButton action="#{ftSessionController.actionAddLuggage}" ajax="true" value="Add Luggage" update=":growl"/></p>
+                            </p>
+                        </h:panelGrid>
+                    </p:fieldset>
                     
-                    <p:outputLabel value="Weight in kg:" for="txtWeight" />
-                    <p:inputText id="txtWeight" value="#{ftSessionController.selectedLuggage.kg}" title="Kilograms" required="true" requiredMessage="Please, insert luggage Kg."/>
-                    
+                <p><p:button outcome="payment" value="Save and proceed to Payment Details" icon="fa fa-fw fa-money" class="fa-middle"></p:button></p>
                 </p:panel>
                 
-                <p:button outcome="payment" value="Save and proceed to Payment Details" icon="fa fa-fw fa-money" style="margin-left:4%;" class="fa-middle">
-                </p:button>
             </h:form>
             
         </ui:define>

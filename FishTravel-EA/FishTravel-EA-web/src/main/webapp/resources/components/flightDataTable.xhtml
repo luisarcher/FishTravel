@@ -34,7 +34,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTFlightTitle_idStatus}"/>
                             </f:facet>
-                            <h:outputText value="{item.idStatus}"/>
+                            <h:outputText value="#{item.flightStatusStr}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -99,7 +99,7 @@
                         </p:column>
                         
                         <f:facet name="footer">
-                            <h:outputText value="FOOTER"/>
+                            <h:outputText value="Flight List"/>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>

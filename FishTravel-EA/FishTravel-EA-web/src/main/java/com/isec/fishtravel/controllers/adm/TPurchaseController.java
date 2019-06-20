@@ -1,11 +1,14 @@
 package com.isec.fishtravel.controllers.adm;
 
+import com.isec.fishtravel.common.ExtendedPurchase;
 import com.isec.fishtravel.jpa.TPurchase;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
 import com.isec.fishtravel.facade.adm.TPurchaseFacade;
+import com.isec.fishtravel.jpa.TFlight;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -27,7 +30,9 @@ public class TPurchaseController implements Serializable {
     private TPurchaseFacade ejbFacade;
     private List<TPurchase> items = null;
     private TPurchase selected;
-
+   
+    private List<ExtendedPurchase> extendedPurchase;
+    
     public TPurchaseController() {
     }
 
@@ -80,7 +85,7 @@ public class TPurchaseController implements Serializable {
         }
         return items;
     }
-
+    
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
@@ -119,6 +124,38 @@ public class TPurchaseController implements Serializable {
 
     public List<TPurchase> getItemsAvailableSelectOne() {
         return getFacade().findAll();
+    }
+
+    public List<ExtendedPurchase> getExtendedPurchase() {
+        
+        if (items == null){
+            items = this.getItems();
+        }
+        
+        extendedPurchase = new ArrayList<>();
+        
+        for (TPurchase p : items){
+            
+            for (TFlight f : p.getTFlightCollection()){
+                
+                ExtendedPurchase i = new ExtendedPurchase();
+                
+                i.setPurchaseId(p.getIdPurchase());
+                i.setUserId(p.getIdUser().getIdUser());
+                
+                i.setFlightId(f.getIdFlight());
+                i.setFlightName(f.getNameFlight());
+                i.setFlightDetails(f.getFromAirport() + " To " + f.getToAirport());
+                
+                extendedPurchase.add(i);
+            }
+        }
+        
+        return extendedPurchase;
+    }
+
+    public void setExtendedPurchase(List<ExtendedPurchase> extendedPurchase) {
+        this.extendedPurchase = extendedPurchase;
     }
 
     @FacesConverter(forClass = TPurchase.class)

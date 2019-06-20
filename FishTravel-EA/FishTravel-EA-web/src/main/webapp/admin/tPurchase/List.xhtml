@@ -47,6 +47,7 @@
                             </f:facet>
                             <h:outputText value="#{item.idUser}"/>
                         </p:column>
+                                     
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tPurchaseController.prepareCreate}" update=":TPurchaseCreateForm" oncomplete="PF('TPurchaseCreateDialog').show()"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TPurchaseViewForm" oncomplete="PF('TPurchaseViewDialog').show()" disabled="#{empty tPurchaseController.selected}"/>
@@ -54,6 +55,8 @@
                             <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tPurchaseController.destroy}" update=":growl,datalist" disabled="#{empty tPurchaseController.selected}"/>
                         </f:facet>
                     </p:dataTable>
+                    
+                    <p:button outcome="List_ext" value="Extended List"/>
                 </p:panel>
             </h:form>
 

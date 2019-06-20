@@ -272,7 +272,7 @@ public class TFlight implements Serializable {
 
     @Override
     public String toString() {
-        return "com.isec.fishtravel.common.TFlight[ idFlight=" + idFlight + " ]";
+        return idFlight + "-" + this.fromAirport + "-" + this.toAirport + this.timeDeparture;
     }
     
 }

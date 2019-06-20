@@ -3,10 +3,12 @@ package com.isec.fishtravel.controllers.client;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.dto.DTOFlight;
 import com.isec.fishtravel.dto.DTOLuggage;
+import com.isec.fishtravel.dto.DTOPurchase;
 import com.isec.fishtravel.facade.client.FTUserFacade;
 import com.isec.fishtravel.dto.DTOUser;
 import com.isec.fishtravel.facade.client.FTFavoriteFacade;
 import com.isec.fishtravel.facade.client.FTFlightFacade;
+import com.isec.fishtravel.facade.client.FTPurchaseFacade;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,6 +32,9 @@ public class FTSessionController implements Serializable {
     @EJB
     private FTFlightFacade ejbFlightFacade;
     
+    @EJB
+    private FTPurchaseFacade ejbPurchaseFacade;
+    
     // New user from Register Dialog
     private DTOUser selected;
     
@@ -50,9 +55,16 @@ public class FTSessionController implements Serializable {
     
     private DTOLuggage selectedLuggage;
     private List<DTOLuggage> luggage;
+    
+    private DTOPurchase purchase;
+    private Integer selectedPaymentMethodIndex;
 
     public FTSessionController() {
         prepareCreate();
+    }
+    
+    public void register(){
+        getFacade().register(selected);
     }
     
     public void login(){
@@ -121,7 +133,6 @@ public class FTSessionController implements Serializable {
     public void actionBuyNow(){
         
         this.actionAddToCart();
-        
         JsfUtil.redirect("/ft/shoppingcart/shoppingcart.xhtml");
     }
     
@@ -150,7 +161,19 @@ public class FTSessionController implements Serializable {
     }*/
     
     public void actionFinishOrder(){
+        
+        this.purchase = new DTOPurchase();
+        
+        this.purchase.setUserId(this.loggedInUser.getId());
+        this.purchase.setFlights(shoppingCartIds);
+        
+        getEjbPurchaseFacade().addPurchase(purchase);
         JsfUtil.redirect("/ft/shoppingcart/confirmation.xhtml");
+    }
+    
+    public void actionAddLuggage(){
+        JsfUtil.addSuccessMessage("F: " + String.valueOf(selectedLuggage.getFlightId()) + 
+                "Kg: " + String.valueOf(selectedLuggage.getKg()));
     }
     
     /* ======= Getters and Setters ======= */
@@ -175,8 +198,8 @@ public class FTSessionController implements Serializable {
         return ejbFlightFacade;
     }
     
-    public void register(){
-        getFacade().register(selected);
+    public FTPurchaseFacade getEjbPurchaseFacade() {
+        return ejbPurchaseFacade;
     }
 
     public DTOUser getLoggedInUser() {
@@ -213,6 +236,8 @@ public class FTSessionController implements Serializable {
 
     public float getShoppingCartTotal() {
         
+        this.shoppingCartTotal = 0;
+        
         for(DTOFlight f : this.shoppingCartFlights){
             this.shoppingCartTotal += f.getPrice();
         }
@@ -247,7 +272,22 @@ public class FTSessionController implements Serializable {
     public void setSelectedLuggage(DTOLuggage selectedLuggage) {
         this.selectedLuggage = selectedLuggage;
     }
-    
-    
+
+    public DTOPurchase getPurchase() {
+        return purchase;
+    }
+
+    public void setPurchase(DTOPurchase purchase) {
+        this.purchase = purchase;
+    }
+
+    public Integer getSelectedPaymentMethodIndex() {
+        return selectedPaymentMethodIndex;
+    }
+
+    public void setSelectedPaymentMethodIndex(Integer selectedPaymentMethodIndex) {
+        this.selectedPaymentMethodIndex = selectedPaymentMethodIndex;
+    }
+
     
 }

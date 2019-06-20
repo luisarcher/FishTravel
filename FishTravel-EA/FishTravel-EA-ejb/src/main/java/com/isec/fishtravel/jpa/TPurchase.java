@@ -119,7 +119,7 @@ public class TPurchase implements Serializable {
 
     @Override
     public String toString() {
-        return "com.isec.fishtravel.common.TPurchase[ idPurchase=" + idPurchase + " ]";
+        return idPurchase + "-by User: " + this.idUser;
     }
     
 }

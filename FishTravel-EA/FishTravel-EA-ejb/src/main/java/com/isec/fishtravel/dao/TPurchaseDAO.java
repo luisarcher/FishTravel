@@ -29,4 +29,6 @@ public class TPurchaseDAO extends AbstractDAO<TPurchase> {
         super(TPurchase.class);
     }
     
+    // Add purchase defined by facade
+        
 }

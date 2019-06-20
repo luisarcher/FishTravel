@@ -6,22 +6,22 @@
 package com.isec.fishtravel.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
  * @author LM
  */
-public class DTOLuggage implements Serializable{
+public class DTOPurchase implements Serializable{
     
     private static final long serialVersionUID = 1L;
-    
+
     private Integer userId;
-    private Integer flightId;
-    private Float kg;
+    private List<Integer> flights;
 
-    public DTOLuggage() {
+    public DTOPurchase() {
     }
-
+    
     public Integer getUserId() {
         return userId;
     }
@@ -30,22 +30,12 @@ public class DTOLuggage implements Serializable{
         this.userId = userId;
     }
 
-    public Integer getFlightId() {
-        return flightId;
+    public List<Integer> getFlights() {
+        return flights;
     }
 
-    public void setFlightId(Integer flightId) {
-        this.flightId = flightId;
+    public void setFlights(List<Integer> flights) {
+        this.flights = flights;
     }
-
-    public Float getKg() {
-        return kg;
-    }
-
-    public void setKg(Float kg) {
-        this.kg = kg;
-    }
-    
-    
-    
+        
 }

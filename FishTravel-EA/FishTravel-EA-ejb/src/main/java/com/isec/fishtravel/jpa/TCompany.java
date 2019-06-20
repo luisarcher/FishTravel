@@ -108,7 +108,7 @@ public class TCompany implements Serializable {
 
     @Override
     public String toString() {
-        return "com.isec.fishtravel.common.TCompany[ idCompany=" + idCompany + " ]";
+        return this.nameCompany;
     }
     
 }

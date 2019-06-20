@@ -21,16 +21,30 @@
             <h:form id="frmCartList">
                 
                 <ftravel:ftsteps activeIndex="2"/>
-                
+                                
                 <p:panel header="Select Payment">
-                    <p>Payment Method</p>
+                
+                    <p:fieldset legend="Payment Method" style="margin-bottom:20px">
+                        <h:panelGrid columns="1" cellpadding="5">
+                            
+                            <p:outputLabel value="Available Fish Travel Credits: #{ftSessionController.loggedInUser.credits}"/>
+                            
+                            <p:outputLabel for="console" value="Total: #{ftSessionController.shoppingCartTotal}" />
+                            <p:selectOneRadio id="console" value="#{ftSessionController.selectedPaymentMethodIndex}" unselectable="false">
+                                <f:selectItem itemLabel="Fish Travel Credits" itemValue="1" />
+                            </p:selectOneRadio>
+                            
+                            <p:outputLabel value="Balance After transaction: #{ftSessionController.loggedInUser.credits - ftSessionController.shoppingCartTotal}"/>
+                            
+                        </h:panelGrid>
+                    </p:fieldset>
+                    
+                <p><p:commandButton action="#{ftSessionController.actionFinishOrder}" value="Proceed to Checkout"
+                                    icon="fa fa-fw fa-check-circle" class="fa-middle"/></p>
                 </p:panel>
                 
                 <!--<p:button outcome="confirmation" value="Proceed to Checkout" icon="fa fa-fw fa-check-circle" style="margin-left:4%;" class="fa-middle">
                 </p:button>-->
-                
-                <p><p:commandButton actionListener="#{ftSessionController.actionFinishOrder()}" value="Proceed to Checkout"
-                                    icon="fa fa-fw fa-check-circle" style="margin-left:4%;" class="fa-middle"/></p>
                 
             </h:form>
             

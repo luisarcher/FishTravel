@@ -235,7 +235,7 @@ public class TUser implements Serializable {
 
     @Override
     public String toString() {
-        return "com.isec.fishtravel.common.TUser[ idUser=" + idUser + " ]";
+        return idUser + "-" + this.nameUser;
     }
     
 }
