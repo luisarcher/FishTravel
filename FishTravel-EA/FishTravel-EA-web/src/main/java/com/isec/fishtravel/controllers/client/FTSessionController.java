@@ -35,6 +35,8 @@ public class FTSessionController implements Serializable {
     @EJB
     private FTPurchaseFacade ejbPurchaseFacade;
     
+    private Boolean actionResult;
+    
     // New user from Register Dialog
     private DTOUser selected;
     
@@ -107,7 +109,7 @@ public class FTSessionController implements Serializable {
      */
     public void addToFavorites(String flightId){
         
-        getFavoriteFacade().addToFavorites(loggedInUser.getId(), Integer.parseInt(flightId));
+        this.actionResult = getFavoriteFacade().addToFavorites(loggedInUser.getId(), Integer.parseInt(flightId));
         
         // todo - Implement using a notifier
         JsfUtil.addSuccessMessage("Added to favorites");
@@ -155,11 +157,7 @@ public class FTSessionController implements Serializable {
         selected = new DTOUser();
         selectedLuggage = new DTOLuggage();
     }
-       
-    /*public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TUserUpdated"));
-    }*/
-    
+           
     public void actionFinishOrder(){
         
         this.purchase = new DTOPurchase();
@@ -167,11 +165,15 @@ public class FTSessionController implements Serializable {
         this.purchase.setUserId(this.loggedInUser.getId());
         this.purchase.setFlights(shoppingCartIds);
         
-        getEjbPurchaseFacade().addPurchase(purchase);
+        this.actionResult = getEjbPurchaseFacade().newOrder(purchase, luggage);
+        
         JsfUtil.redirect("/ft/shoppingcart/confirmation.xhtml");
     }
     
     public void actionAddLuggage(){
+        
+        luggage.add(selectedLuggage);
+        
         JsfUtil.addSuccessMessage("F: " + String.valueOf(selectedLuggage.getFlightId()) + 
                 "Kg: " + String.valueOf(selectedLuggage.getKg()));
     }
@@ -287,6 +289,14 @@ public class FTSessionController implements Serializable {
 
     public void setSelectedPaymentMethodIndex(Integer selectedPaymentMethodIndex) {
         this.selectedPaymentMethodIndex = selectedPaymentMethodIndex;
+    }
+
+    public Boolean getActionResult() {
+        return actionResult;
+    }
+
+    public void setActionResult(Boolean actionResult) {
+        this.actionResult = actionResult;
     }
 
     

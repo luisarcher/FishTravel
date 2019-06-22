@@ -30,14 +30,15 @@ public class FTFavoriteFacade {
     private TFlightDAO flightDAO;
     
     
-    public void addToFavorites(Integer userId, Integer flightId){
+    public Boolean addToFavorites(Integer userId, Integer flightId){
         
-        TFavorite f = new TFavorite();
+        TFavorite e = new TFavorite();
         
-        f.setIdUser(userDAO.find(userId));
-        f.setIdFlight(flightDAO.find(flightId));
-        f.setDateFavorite(new Date());
+        e.setIdUser(userDAO.find(userId));
+        e.setIdFlight(flightDAO.find(flightId));
+        e.setDateFavorite(new Date());
         
-        favoriteDAO.create(f);
+        favoriteDAO.create(e);
+        return true;
     }
 }

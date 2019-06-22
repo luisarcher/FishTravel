@@ -29,6 +29,6 @@ public class TFavoriteDAO extends AbstractDAO<TFavorite> {
         super(TFavorite.class);
     }
     
-    // Add to favorites facade is using the abstract method 'create'
+    // 'Add to favorites' facade is using the abstract method 'create'
     
 }

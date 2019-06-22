@@ -5,6 +5,7 @@
  */
 package com.isec.fishtravel.dao;
 
+import com.isec.fishtravel.common.Consts;
 import com.isec.fishtravel.facade.adm.TMsglogFacade;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -37,11 +38,11 @@ public class TUserDAO extends AbstractDAO<TUser> {
     
     private TUser setDefaults(TUser e){
         
-        e.setCredits((float) 50.5);
-        e.setIdRole(1);
+        e.setCredits(Consts.DEFAULT_CLIENT_CREDITS);
+        e.setIdRole(Consts.DEFAULT_CLIENT_ROLE);
         e.setDateReg(new Date());
             
-        return e; 
+        return e;
     }
     
     @Override

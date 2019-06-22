@@ -8,9 +8,11 @@ package com.isec.fishtravel.facade.client;
 import com.isec.fishtravel.dao.TFlightDAO;
 import com.isec.fishtravel.dao.TPurchaseDAO;
 import com.isec.fishtravel.dao.TUserDAO;
+import com.isec.fishtravel.dto.DTOLuggage;
 import com.isec.fishtravel.dto.DTOPurchase;
 import com.isec.fishtravel.jpa.TPurchase;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -20,6 +22,9 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class FTPurchaseFacade {
+    
+    @EJB
+    private FTLuggageFacade ejbLuggageFacade;
 
     /**
      * Main DAO of this facade
@@ -32,9 +37,19 @@ public class FTPurchaseFacade {
     
     @EJB
     private TFlightDAO flightDAO;
+        
+    public Boolean newOrder(DTOPurchase purchase, List<DTOLuggage> luggage){
+        
+        // Verifica se a compra é possível
+        // caso negativo retorna false
+        
+        this.addPurchase(purchase);
+        ejbLuggageFacade.addLuggage(luggage);
+        
+        return true;        
+    }
     
-    
-    public void addPurchase(DTOPurchase dto){
+    private void addPurchase(DTOPurchase dto){
         
         TPurchase e = new TPurchase();
         
@@ -44,4 +59,7 @@ public class FTPurchaseFacade {
         
         purchaseDAO.create(e);
     }
+    
+    
+    
 }

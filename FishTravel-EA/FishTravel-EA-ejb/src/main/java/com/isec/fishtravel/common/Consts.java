@@ -12,7 +12,7 @@ package com.isec.fishtravel.common;
 public abstract class Consts {
     
     public static final int DEFAULT_CLIENT_ROLE = 1;
-    public static final float DEFAULT_CLIENT_CREDITS = 50;
+    public static final float DEFAULT_CLIENT_CREDITS = (float) 100.5;
     
     public static String getFlightStatusById(int s){
         
@@ -20,8 +20,9 @@ public abstract class Consts {
             
             case 1: return "To depart";
             case 2: return "Departed";
-            case 3: return "Delayed";
-            case 4: return "Cancelled";
+            case 3: return "Arrived";
+            case 4: return "Delayed";
+            case 5: return "Cancelled";
             default: return "Undefined Status";
         }
     }
