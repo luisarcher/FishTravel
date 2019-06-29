@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TcontainsCreateDlg" widgetVar="TcontainsCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTcontainsTitle}">
+            <h:form id="TcontainsCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tcontainsController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTcontainsLabel_quant}" for="quant" />
+                        <p:inputText id="quant" value="#{tcontainsController.selected.quant}" title="#{bundle.CreateTcontainsTitle_quant}" required="true" requiredMessage="#{bundle.CreateTcontainsRequiredMessage_quant}"/>
+                        <p:outputLabel value="#{bundle.CreateTcontainsLabel_TFlight}" for="TFlight" />
+                        <p:selectOneMenu id="TFlight" value="#{tcontainsController.selected.TFlight}" required="true" requiredMessage="#{bundle.EditTcontainsRequiredMessage_TFlight}">
+                            <f:selectItems value="#{tFlightController.itemsAvailableSelectOne}"
+                                           var="TFlightItem"
+                                           itemValue="#{TFlightItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateTcontainsLabel_TPurchase}" for="TPurchase" />
+                        <p:selectOneMenu id="TPurchase" value="#{tcontainsController.selected.TPurchase}" required="true" requiredMessage="#{bundle.EditTcontainsRequiredMessage_TPurchase}">
+                            <f:selectItems value="#{tPurchaseController.itemsAvailableSelectOne}"
+                                           var="TPurchaseItem"
+                                           itemValue="#{TPurchaseItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tcontainsController.create}" value="#{bundle.Save}" update="display,:TcontainsListForm:datalist,:growl" oncomplete="handleSubmit(args,'TcontainsCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TcontainsCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

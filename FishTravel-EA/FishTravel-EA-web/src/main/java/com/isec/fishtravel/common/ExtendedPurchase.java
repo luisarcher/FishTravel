@@ -18,7 +18,8 @@ public class ExtendedPurchase implements Serializable{
     private Integer flightId;
     private String flightName;
     private String flightDetails;
-
+    private Integer quant;
+    
     public ExtendedPurchase() {
     }
     
@@ -60,6 +61,14 @@ public class ExtendedPurchase implements Serializable{
 
     public void setPurchaseId(Integer purchaseId) {
         this.purchaseId = purchaseId;
+    }
+
+    public Integer getQuant() {
+        return quant;
+    }
+
+    public void setQuant(Integer quant) {
+        this.quant = quant;
     }
     
     

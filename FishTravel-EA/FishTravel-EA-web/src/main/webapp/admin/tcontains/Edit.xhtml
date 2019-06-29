@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TcontainsEditDlg" widgetVar="TcontainsEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTcontainsTitle}">
+            <h:form id="TcontainsEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tcontainsController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTcontainsLabel_quant}" for="quant" />
+                        <p:inputText id="quant" value="#{tcontainsController.selected.quant}" title="#{bundle.EditTcontainsTitle_quant}" required="true" requiredMessage="#{bundle.EditTcontainsRequiredMessage_quant}"/>
+                        <p:outputLabel value="#{bundle.EditTcontainsLabel_TFlight}" for="TFlight" />
+                        <p:selectOneMenu id="TFlight" value="#{tcontainsController.selected.TFlight}" required="true" requiredMessage="#{bundle.EditTcontainsRequiredMessage_TFlight}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tFlightController.itemsAvailableSelectOne}"
+                                           var="TFlightItem"
+                                           itemValue="#{TFlightItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditTcontainsLabel_TPurchase}" for="TPurchase" />
+                        <p:selectOneMenu id="TPurchase" value="#{tcontainsController.selected.TPurchase}" required="true" requiredMessage="#{bundle.EditTcontainsRequiredMessage_TPurchase}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tPurchaseController.itemsAvailableSelectOne}"
+                                           var="TPurchaseItem"
+                                           itemValue="#{TPurchaseItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tcontainsController.update}" value="#{bundle.Save}" update="display,:TcontainsListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TcontainsEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TcontainsEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

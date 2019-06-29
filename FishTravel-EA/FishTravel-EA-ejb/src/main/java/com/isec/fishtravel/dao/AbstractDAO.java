@@ -67,4 +67,16 @@ public abstract class AbstractDAO<T> {
         return ((Long) q.getSingleResult()).intValue();
     }
     
+    public void begin(){
+        getEntityManager().getTransaction().begin();
+    }
+    
+    public void commit(){
+        getEntityManager().getTransaction().commit();
+    }
+    
+    public void rollback(){
+        getEntityManager().getTransaction().rollback();
+    }
+    
 }

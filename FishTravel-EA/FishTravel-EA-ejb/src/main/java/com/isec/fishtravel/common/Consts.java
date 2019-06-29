@@ -14,15 +14,21 @@ public abstract class Consts {
     public static final int DEFAULT_CLIENT_ROLE = 1;
     public static final float DEFAULT_CLIENT_CREDITS = (float) 100.5;
     
+    public static final int FS_TO_DEPART = 1;
+    public static final int FS_DEPARTED = 2;
+    public static final int FS_ARRIVED = 3;
+    public static final int FS_DELAYED = 4;
+    public static final int FS_CANCELLED = 5;
+    
     public static String getFlightStatusById(int s){
         
         switch(s){
             
-            case 1: return "To depart";
-            case 2: return "Departed";
-            case 3: return "Arrived";
-            case 4: return "Delayed";
-            case 5: return "Cancelled";
+            case FS_TO_DEPART: return "To depart";
+            case FS_DEPARTED: return "Departed";
+            case FS_ARRIVED: return "Arrived";
+            case FS_DELAYED: return "Delayed";
+            case FS_CANCELLED: return "Cancelled";
             default: return "Undefined Status";
         }
     }

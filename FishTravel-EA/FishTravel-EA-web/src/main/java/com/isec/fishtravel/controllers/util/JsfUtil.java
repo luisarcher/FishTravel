@@ -2,6 +2,7 @@ package com.isec.fishtravel.controllers.util;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
@@ -77,5 +78,11 @@ public class JsfUtil {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+    
+    public static String getErrorMsg(int id){
+        
+        return ResourceBundle.getBundle("/Bundle").getString("Error_" + String.valueOf(id));
+        
     }
 }

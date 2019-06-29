@@ -21,16 +21,17 @@
                 <p:menuitem rendered="#{cc.attrs.userRole > 1}" value="Flights" outcome="/ft/flights.xhtml" icon="fa fa-plane"/>
                 
                 <p:submenu rendered="#{cc.attrs.userRole == 3}" label="#{bundle.Maintenance}">
-                    <p:menuitem value="TAirport" outcome="/admin/tAirport/List.xhtml" />
-                    <p:menuitem value="TCompany" outcome="/admin/tCompany/List.xhtml" />
-                    <p:menuitem value="TFavorite" outcome="/admin/tFavorite/List.xhtml" />
-                    <p:menuitem value="TFlight" outcome="/admin/tFlight/List.xhtml" />
-                    <p:menuitem value="TLuggage" outcome="/admin/tLuggage/List.xhtml" />
-                    <p:menuitem value="TMsglog" outcome="/admin/tMsglog/List.xhtml" />
-                    <p:menuitem value="TPurchase" outcome="/admin/tPurchase/List.xhtml" />
-                    <p:menuitem value="TRating" outcome="/admin/tRating/List.xhtml" />
-                    <p:menuitem value="TUser" outcome="/admin/tUser/List.xhtml" />
-                    <p:menuitem value="Tcomment" outcome="/admin/tcomment/List.xhtml"/>
+                    <p:menuitem value="Flights" outcome="/admin/tFlight/List.xhtml" />
+                    <p:menuitem value="Users" outcome="/admin/tUser/List.xhtml" />
+                    <p:menuitem value="Airports" outcome="/admin/tAirport/List.xhtml" />
+                    <p:menuitem value="Company" outcome="/admin/tCompany/List.xhtml" />
+                    <p:menuitem value="User Favorites" outcome="/admin/tFavorite/List.xhtml" />
+                    <p:menuitem value="Luggage" outcome="/admin/tLuggage/List.xhtml" />
+                    <p:menuitem value="Purchases" outcome="/admin/tPurchase/List.xhtml" />
+                    <p:menuitem value="Purchased Items" outcome="/admin/tcontains/List.xhtml" />
+                    <p:menuitem value="Ratings" outcome="/admin/tRating/List.xhtml" />
+                    <p:menuitem value="Comments" outcome="/admin/tcomment/List.xhtml"/>
+                    <p:menuitem value="Log" outcome="/admin/tMsglog/List.xhtml" />
                 </p:submenu>
             </p:menubar>
         </h:form>

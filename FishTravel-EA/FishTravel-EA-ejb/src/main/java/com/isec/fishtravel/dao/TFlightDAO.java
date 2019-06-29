@@ -5,11 +5,16 @@
  */
 package com.isec.fishtravel.dao;
 
+import static com.isec.fishtravel.common.Consts.FS_TO_DEPART;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.isec.fishtravel.jpa.TFlight;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -67,9 +72,22 @@ public class TFlightDAO extends AbstractDAO<TFlight> {
     
     public List<TFlight> getFlightsByIds(List<Integer> ids) {
         
+        List<TFlight> list = null;
+        
         try{
             
-            return em.createQuery("SELECT t FROM TFlight t WHERE t.idFlight IN :ids").setParameter("ids", ids).getResultList();
+            list = new ArrayList<>(em.createQuery("SELECT t FROM TFlight t WHERE t.idFlight IN :ids")
+                    .setParameter("ids", ids)
+                    .getResultList());
+            
+            // Include Duplicates
+            for (TFlight f : list){
+                int occurrences = Collections.frequency(ids, f.getIdFlight());
+
+                for (int i = 1; i < occurrences ; i++){
+                    list.add(f);
+                }
+            }
 
         } catch (NoResultException e){
             
@@ -79,8 +97,33 @@ public class TFlightDAO extends AbstractDAO<TFlight> {
             
             System.err.println(e.getMessage());
         }
+        return list;
+    }
+    
+    public Float calculateTotal(List<Integer> ids){
         
-        return null;
+        Float price = 0f;
+        
+        List<TFlight> list = getFlightsByIds(ids);
+        for (TFlight f : list){
+            price += f.getPrice();
+        }
+        return price;
+    }
+    
+    public Boolean decreaseSeatNo(List<Integer> ids){
+        
+        Set<Integer> uniqueIds = new HashSet<>(ids);
+        for (TFlight f : getFlightsByIds(new ArrayList<>(uniqueIds))){
+            
+            int quant = Collections.frequency(ids, f.getIdFlight());
+            if (f.getAvailSeats() < quant)
+                return false;
+            
+            f.setAvailSeats(f.getAvailSeats() - quant);
+            this.edit(f);
+        }
+        return true;
     }
     
     public List<TFlight> getFlightsByDest(String dest) {
@@ -124,5 +167,33 @@ public class TFlightDAO extends AbstractDAO<TFlight> {
             System.err.println(e.getMessage());
             return null;
         }
+    }
+    
+    public Boolean checkFlightsDeparting(List<Integer> ids){
+        
+        List<TFlight> list = null;
+        
+        try{
+            
+            list = new ArrayList<>(em.createQuery("SELECT t "
+                    + "FROM TFlight t "
+                    + "WHERE t.idFlight IN :ids "
+                    + "AND t.idStatus = :st")
+                    .setParameter("ids", ids)
+                    .setParameter("st", FS_TO_DEPART)
+                    .getResultList());
+            
+            if (list.size() > 0)
+                return true;
+            
+        } catch (NoResultException e){
+            
+            System.err.println("No result for Flights ids: " + e.getMessage());
+            
+        } catch (Exception e){
+            
+            System.err.println(e.getMessage());
+        }
+        return false;
     }
 }

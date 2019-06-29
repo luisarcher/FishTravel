@@ -16,7 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -24,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author LM
  */
 @Entity
-@Table(name = "flight")
+@Table(name = "flight", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"id_flight"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TFlight.findAll", query = "SELECT t FROM TFlight t")
@@ -52,37 +53,35 @@ public class TFlight implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_flight")
+    @Column(name = "id_flight", nullable = false)
     private Integer idFlight;
     @Column(name = "id_status")
     private Integer idStatus;
     @Size(max = 64)
-    @Column(name = "name_flight")
+    @Column(name = "name_flight", length = 64)
     private String nameFlight;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private float price;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "time_departure")
+    @Column(name = "time_departure", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeDeparture;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "time_arrival")
+    @Column(name = "time_arrival", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeArrival;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "max_seats")
+    @Column(name = "max_seats", nullable = false)
     private int maxSeats;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "avail_seats")
+    @Column(name = "avail_seats", nullable = false)
     private int availSeats;
-    @ManyToMany(mappedBy = "tFlightCollection")
-    private Collection<TPurchase> tPurchaseCollection;
     @JoinColumn(name = "from_airport", referencedColumnName = "id_airport")
     @ManyToOne
     private TAirport fromAirport;
@@ -92,14 +91,8 @@ public class TFlight implements Serializable {
     @JoinColumn(name = "id_company", referencedColumnName = "id_company")
     @ManyToOne
     private TCompany idCompany;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFlight")
-    private Collection<TLuggage> tLuggageCollection;
-    @OneToMany(mappedBy = "idFlight")
-    private Collection<Tcomment> tcommentCollection;
-    @OneToMany(mappedBy = "idFlight")
-    private Collection<TRating> tRatingCollection;
-    @OneToMany(mappedBy = "idFlight")
-    private Collection<TFavorite> tFavoriteCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tFlight")
+    private Collection<Tcontains> tcontainsCollection;
 
     public TFlight() {
     }
@@ -181,15 +174,6 @@ public class TFlight implements Serializable {
         this.availSeats = availSeats;
     }
 
-    @XmlTransient
-    public Collection<TPurchase> getTPurchaseCollection() {
-        return tPurchaseCollection;
-    }
-
-    public void setTPurchaseCollection(Collection<TPurchase> tPurchaseCollection) {
-        this.tPurchaseCollection = tPurchaseCollection;
-    }
-
     public TAirport getFromAirport() {
         return fromAirport;
     }
@@ -215,39 +199,12 @@ public class TFlight implements Serializable {
     }
 
     @XmlTransient
-    public Collection<TLuggage> getTLuggageCollection() {
-        return tLuggageCollection;
+    public Collection<Tcontains> getTcontainsCollection() {
+        return tcontainsCollection;
     }
 
-    public void setTLuggageCollection(Collection<TLuggage> tLuggageCollection) {
-        this.tLuggageCollection = tLuggageCollection;
-    }
-
-    @XmlTransient
-    public Collection<Tcomment> getTcommentCollection() {
-        return tcommentCollection;
-    }
-
-    public void setTcommentCollection(Collection<Tcomment> tcommentCollection) {
-        this.tcommentCollection = tcommentCollection;
-    }
-
-    @XmlTransient
-    public Collection<TRating> getTRatingCollection() {
-        return tRatingCollection;
-    }
-
-    public void setTRatingCollection(Collection<TRating> tRatingCollection) {
-        this.tRatingCollection = tRatingCollection;
-    }
-
-    @XmlTransient
-    public Collection<TFavorite> getTFavoriteCollection() {
-        return tFavoriteCollection;
-    }
-
-    public void setTFavoriteCollection(Collection<TFavorite> tFavoriteCollection) {
-        this.tFavoriteCollection = tFavoriteCollection;
+    public void setTcontainsCollection(Collection<Tcontains> tcontainsCollection) {
+        this.tcontainsCollection = tcontainsCollection;
     }
 
     @Override
@@ -272,7 +229,7 @@ public class TFlight implements Serializable {
 
     @Override
     public String toString() {
-        return idFlight + "-" + this.fromAirport + "-" + this.toAirport + this.timeDeparture;
+        return "com.isec.fishtravel.jpa.TFlight[ idFlight=" + idFlight + " ]";
     }
     
 }

@@ -35,6 +35,10 @@ public class TUserDAO extends AbstractDAO<TUser> {
     protected EntityManager getEntityManager() {
         return em;
     }
+        
+    public TUserDAO() {
+        super(TUser.class);
+    }
     
     private TUser setDefaults(TUser e){
         
@@ -50,12 +54,24 @@ public class TUserDAO extends AbstractDAO<TUser> {
         dblog.addMsg("Creating user: " + entity.getNameUser());
         // Validate login
         getEntityManager().persist(setDefaults(entity));
-    }    
-
-    public TUserDAO() {
-        super(TUser.class);
     }
     
+    public Boolean hasCredits(Integer userId, Integer credits){
+        
+        return this.find(userId).getCredits() >= credits;
+    }
+    
+    public Boolean decreaseCredits(Integer userId, Float credits){
+        
+        TUser u = this.find(userId);
+        if (u.getCredits() < credits)
+            return false;
+        
+        u.setCredits(u.getCredits() - credits);
+        this.edit(u);
+        return true;
+    }
+        
     // Login
     public TUser getUserByCredentials(String login, String passwd){
         

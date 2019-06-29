@@ -31,6 +31,13 @@ public class TPurchaseDAO extends AbstractDAO<TPurchase> {
         super(TPurchase.class);
     }
     
+    public TPurchase createRetId (TPurchase e){
+        
+        super.create(e);
+        em.flush();
+        return e;
+    }
+    
     // 'Add purchase' is defined by facade
     
     public Boolean hasFlightBought(Integer userId, Integer flightId){

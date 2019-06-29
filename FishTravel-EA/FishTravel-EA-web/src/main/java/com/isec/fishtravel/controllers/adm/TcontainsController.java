@@ -1,15 +1,11 @@
 package com.isec.fishtravel.controllers.adm;
 
-import com.isec.fishtravel.common.ExtendedPurchase;
-import com.isec.fishtravel.jpa.TPurchase;
+import com.isec.fishtravel.jpa.Tcontains;
 import com.isec.fishtravel.controllers.util.JsfUtil;
 import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
-import com.isec.fishtravel.facade.adm.TPurchaseFacade;
-import com.isec.fishtravel.jpa.TFlight;
-import com.isec.fishtravel.jpa.Tcontains;
+import com.isec.fishtravel.facade.adm.TcontainsFacade;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,70 +19,71 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tPurchaseController")
+@Named("tcontainsController")
 @SessionScoped
-public class TPurchaseController implements Serializable {
+public class TcontainsController implements Serializable {
 
     @EJB
-    private TPurchaseFacade ejbFacade;
-    private List<TPurchase> items = null;
-    private TPurchase selected;
-   
-    private List<ExtendedPurchase> extendedPurchase;
-    
-    public TPurchaseController() {
+    private com.isec.fishtravel.facade.adm.TcontainsFacade ejbFacade;
+    private List<Tcontains> items = null;
+    private Tcontains selected;
+
+    public TcontainsController() {
     }
 
-    public TPurchase getSelected() {
+    public Tcontains getSelected() {
         return selected;
     }
 
-    public void setSelected(TPurchase selected) {
+    public void setSelected(Tcontains selected) {
         this.selected = selected;
     }
 
     protected void setEmbeddableKeys() {
+        selected.getTcontainsPK().setIdPurchase(selected.getTPurchase().getIdPurchase());
+        selected.getTcontainsPK().setIdFlight(selected.getTFlight().getIdFlight());
     }
 
     protected void initializeEmbeddableKey() {
+        selected.setTcontainsPK(new com.isec.fishtravel.jpa.TcontainsPK());
     }
 
-    private TPurchaseFacade getFacade() {
+    private TcontainsFacade getFacade() {
         return ejbFacade;
     }
 
-    public TPurchase prepareCreate() {
-        selected = new TPurchase();
+    public Tcontains prepareCreate() {
+        selected = new Tcontains();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TPurchaseCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TcontainsCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TPurchaseUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TcontainsUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TPurchaseDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TcontainsDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<TPurchase> getItems() {
+    public List<Tcontains> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
         return items;
     }
-    
+
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
@@ -115,74 +112,48 @@ public class TPurchaseController implements Serializable {
         }
     }
 
-    public TPurchase getTPurchase(java.lang.Integer id) {
+    public Tcontains getTcontains(com.isec.fishtravel.jpa.TcontainsPK id) {
         return getFacade().find(id);
     }
 
-    public List<TPurchase> getItemsAvailableSelectMany() {
+    public List<Tcontains> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<TPurchase> getItemsAvailableSelectOne() {
+    public List<Tcontains> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    public List<ExtendedPurchase> getExtendedPurchase() {
-        
-        if (items == null){
-            items = this.getItems();
-        }
-        
-        extendedPurchase = new ArrayList<>();
-        
-        for (TPurchase p : items){
-            
-            for (Tcontains entry : p.getTcontainsCollection()){
-                
-                ExtendedPurchase i = new ExtendedPurchase();
-                
-                i.setPurchaseId(p.getIdPurchase());
-                i.setUserId(p.getIdUser().getIdUser());
-                
-                i.setFlightId(entry.getTFlight().getIdFlight());
-                i.setFlightName(entry.getTFlight().getNameFlight());
-                i.setFlightDetails(entry.getTFlight().getFromAirport() + " To " + entry.getTFlight().getToAirport());
-                i.setQuant(entry.getQuant());
-                
-                
-                extendedPurchase.add(i);
-            }
-        }
-        
-        return extendedPurchase;
-    }
+    @FacesConverter(forClass = Tcontains.class)
+    public static class TcontainsControllerConverter implements Converter {
 
-    public void setExtendedPurchase(List<ExtendedPurchase> extendedPurchase) {
-        this.extendedPurchase = extendedPurchase;
-    }
-
-    @FacesConverter(forClass = TPurchase.class)
-    public static class TPurchaseControllerConverter implements Converter {
+        private static final String SEPARATOR = "#";
+        private static final String SEPARATOR_ESCAPED = "\\#";
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TPurchaseController controller = (TPurchaseController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tPurchaseController");
-            return controller.getTPurchase(getKey(value));
+            TcontainsController controller = (TcontainsController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tcontainsController");
+            return controller.getTcontains(getKey(value));
         }
 
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
+        com.isec.fishtravel.jpa.TcontainsPK getKey(String value) {
+            com.isec.fishtravel.jpa.TcontainsPK key;
+            String values[] = value.split(SEPARATOR_ESCAPED);
+            key = new com.isec.fishtravel.jpa.TcontainsPK();
+            key.setIdFlight(Integer.parseInt(values[0]));
+            key.setIdPurchase(Integer.parseInt(values[1]));
             return key;
         }
 
-        String getStringKey(java.lang.Integer value) {
+        String getStringKey(com.isec.fishtravel.jpa.TcontainsPK value) {
             StringBuilder sb = new StringBuilder();
-            sb.append(value);
+            sb.append(value.getIdFlight());
+            sb.append(SEPARATOR);
+            sb.append(value.getIdPurchase());
             return sb.toString();
         }
 
@@ -191,11 +162,11 @@ public class TPurchaseController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TPurchase) {
-                TPurchase o = (TPurchase) object;
-                return getStringKey(o.getIdPurchase());
+            if (object instanceof Tcontains) {
+                Tcontains o = (Tcontains) object;
+                return getStringKey(o.getTcontainsPK());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), TPurchase.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Tcontains.class.getName()});
                 return null;
             }
         }
