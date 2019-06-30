@@ -10,6 +10,7 @@ import com.isec.fishtravel.dao.TLuggageDAO;
 import com.isec.fishtravel.dao.TUserDAO;
 import com.isec.fishtravel.dto.DTOLuggage;
 import com.isec.fishtravel.jpa.TLuggage;
+import java.util.Date;
 import javax.ejb.Stateless;
 import java.util.List;
 import javax.ejb.EJB;
@@ -47,7 +48,7 @@ public class FTLuggageFacade{
         e.setIdUser(userDAO.find(dto.getUserId()));
         e.setIdFlight(flightDAO.find(dto.getFlightId()));
         e.setKg(dto.getKg());
-        
+        e.setDateReg(new Date());
         return e;
         
     }

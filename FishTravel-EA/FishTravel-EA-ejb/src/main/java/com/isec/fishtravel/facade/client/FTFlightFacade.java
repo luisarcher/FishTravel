@@ -42,7 +42,7 @@ public class FTFlightFacade {
     
     public List<DTOFlight> getFlightsByIds(List<Integer> ids){
         
-        return mapAllEntitiesToDTO(flightDAO.getFlightsByIds(ids));
+        return mapAllEntitiesToDTO(flightDAO.getFlightsByIds(false,ids));
     }
     
     public List<DTOFlight> getFlightsByDest(String dest) {

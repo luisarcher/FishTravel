@@ -164,6 +164,8 @@ public class FTSessionController implements Serializable {
 
     private void prepareCreate() {
         selected = new DTOUser();
+        
+        luggage = new ArrayList<>();
         selectedLuggage = new DTOLuggage();
     }
            
@@ -184,6 +186,7 @@ public class FTSessionController implements Serializable {
         if (luggage == null)
             luggage = new ArrayList<>();
         
+        selectedLuggage.setUserId(this.loggedInUser.getId());
         luggage.add(selectedLuggage);
         
         JsfUtil.addSuccessMessage("Luggage Added to flight: " + String.valueOf(selectedLuggage.getFlightId()) + 

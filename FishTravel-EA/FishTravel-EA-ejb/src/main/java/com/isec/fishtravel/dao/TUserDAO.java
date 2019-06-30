@@ -56,20 +56,16 @@ public class TUserDAO extends AbstractDAO<TUser> {
         getEntityManager().persist(setDefaults(entity));
     }
     
-    public Boolean hasCredits(Integer userId, Integer credits){
+    public Boolean hasCredits(Integer userId, Float credits){
         
         return this.find(userId).getCredits() >= credits;
     }
     
-    public Boolean decreaseCredits(Integer userId, Float credits){
+    public void decreaseCredits(Integer userId, Float credits){
         
-        TUser u = this.find(userId);
-        if (u.getCredits() < credits)
-            return false;
-        
+        TUser u = this.find(userId);        
         u.setCredits(u.getCredits() - credits);
         this.edit(u);
-        return true;
     }
         
     // Login

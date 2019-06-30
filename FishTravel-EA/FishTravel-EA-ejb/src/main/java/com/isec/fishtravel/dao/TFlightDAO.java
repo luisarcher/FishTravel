@@ -6,15 +6,16 @@
 package com.isec.fishtravel.dao;
 
 import static com.isec.fishtravel.common.Consts.FS_TO_DEPART;
+import static com.isec.fishtravel.common.ErrorCodes.ALL_OK;
+import static com.isec.fishtravel.common.ErrorCodes.ERR_FLIGHT_NOT_AVAIL_SEATS;
+import static com.isec.fishtravel.common.ErrorCodes.ERR_FLIGHT_NOT_DEPARTING;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.isec.fishtravel.jpa.TFlight;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -70,25 +71,25 @@ public class TFlightDAO extends AbstractDAO<TFlight> {
         return null;
     }
     
-    public List<TFlight> getFlightsByIds(List<Integer> ids) {
+    public List<TFlight> getFlightsByIds(Boolean uniques, List<Integer> ids) {
         
         List<TFlight> list = null;
-        
         try{
             
             list = new ArrayList<>(em.createQuery("SELECT t FROM TFlight t WHERE t.idFlight IN :ids")
                     .setParameter("ids", ids)
                     .getResultList());
             
-            // Include Duplicates
-            for (TFlight f : list){
-                int occurrences = Collections.frequency(ids, f.getIdFlight());
+            if (!uniques){
+                // Include Duplicates
+                for (TFlight f : list){
+                    int occurrences = Collections.frequency(ids, f.getIdFlight());
 
-                for (int i = 1; i < occurrences ; i++){
-                    list.add(f);
+                    for (int i = 1; i < occurrences ; i++){
+                        list.add(f);
+                    }
                 }
             }
-
         } catch (NoResultException e){
             
             System.err.println("No result for Flights ids: " + e.getMessage());
@@ -104,26 +105,45 @@ public class TFlightDAO extends AbstractDAO<TFlight> {
         
         Float price = 0f;
         
-        List<TFlight> list = getFlightsByIds(ids);
+        List<TFlight> list = getFlightsByIds(false,ids);
         for (TFlight f : list){
             price += f.getPrice();
         }
         return price;
     }
     
-    public Boolean decreaseSeatNo(List<Integer> ids){
+    /**
+     * Given a list of flights,
+     * check if those flight are ready to be bought.
+     * @param ids
+     * @return 
+     */
+    public Integer checkFlightsAvailability(List<Integer> ids){
+                
+        for (TFlight f : getFlightsByIds(true, ids)){
+            int quant = Collections.frequency(ids, f.getIdFlight());
+            
+            if (f.getAvailSeats() < quant)
+                return ERR_FLIGHT_NOT_AVAIL_SEATS;
+            
+            if (f.getIdStatus() != FS_TO_DEPART)
+                return ERR_FLIGHT_NOT_DEPARTING;
+        }
+        return ALL_OK;
+    }
+    
+    /**
+     * Update the available seats on the flights that are about to be bought.
+     * @param ids 
+     */
+    public void updateSeatNo(List<Integer> ids){
         
-        Set<Integer> uniqueIds = new HashSet<>(ids);
-        for (TFlight f : getFlightsByIds(new ArrayList<>(uniqueIds))){
+        for (TFlight f : getFlightsByIds(true, ids)){
             
             int quant = Collections.frequency(ids, f.getIdFlight());
-            if (f.getAvailSeats() < quant)
-                return false;
-            
             f.setAvailSeats(f.getAvailSeats() - quant);
             this.edit(f);
         }
-        return true;
     }
     
     public List<TFlight> getFlightsByDest(String dest) {
@@ -169,31 +189,4 @@ public class TFlightDAO extends AbstractDAO<TFlight> {
         }
     }
     
-    public Boolean checkFlightsDeparting(List<Integer> ids){
-        
-        List<TFlight> list = null;
-        
-        try{
-            
-            list = new ArrayList<>(em.createQuery("SELECT t "
-                    + "FROM TFlight t "
-                    + "WHERE t.idFlight IN :ids "
-                    + "AND t.idStatus = :st")
-                    .setParameter("ids", ids)
-                    .setParameter("st", FS_TO_DEPART)
-                    .getResultList());
-            
-            if (list.size() > 0)
-                return true;
-            
-        } catch (NoResultException e){
-            
-            System.err.println("No result for Flights ids: " + e.getMessage());
-            
-        } catch (Exception e){
-            
-            System.err.println(e.getMessage());
-        }
-        return false;
-    }
 }

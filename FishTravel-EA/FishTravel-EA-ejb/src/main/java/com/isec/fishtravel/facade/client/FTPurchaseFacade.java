@@ -45,64 +45,55 @@ public class FTPurchaseFacade {
     private TFlightDAO flightDAO;
         
     public Integer newOrder(DTOPurchase purchase, List<DTOLuggage> luggage){
+               
+        int retCode = 0;
         
-        List<Tcontains> itemEntryList = new ArrayList<>();
-        
-        // Calculates the total of the purchase
+        // --- Calculates the total of the purchase
         Float total = flightDAO.calculateTotal(purchase.getFlights());
-        if (total == null)
+        if (total == 0f)
             return ERR_FLIGHT_CALC_TOTAL;
-                
-        // Verificar se todos os voos estao em depart
-        if (!flightDAO.checkFlightsDeparting(purchase.getFlights()))
-            return ERR_FLIGHT_NOT_DEPARTING;
         
-        userDAO.begin();
-        flightDAO.begin();
+        // --- Validates the list of flights
+        retCode = flightDAO.checkFlightsAvailability(purchase.getFlights());
+        if (retCode != ALL_OK) return retCode;
         
-        // Decreases user credits
-        if (!userDAO.decreaseCredits(purchase.getUserId(), total))
+        // === Start of the changes point
+        
+        // --- Verifies and decreases user credits
+        if (userDAO.hasCredits(purchase.getUserId(), total)){
+            userDAO.decreaseCredits(purchase.getUserId(), total);
+        } else {
             return ERR_FLIGHT_NO_CREDITS;
-        
-        // reduzir numero de lugares no flightDAO
-        if (!flightDAO.decreaseSeatNo(purchase.getFlights())){
-            userDAO.rollback();
-            flightDAO.rollback();
-            return ERR_FLIGHT_NOT_AVAIL_SEATS;
         }
         
-        userDAO.commit();
-        flightDAO.commit();
+        // --- Updates the available seat no. on flight table
+        flightDAO.updateSeatNo(purchase.getFlights());
         
-        // definir a colecção de contains da compra
+        // --- Starts a new Purchase
+        addPurchase(purchase);
+        ejbLuggageFacade.addLuggage(luggage);
+        return ALL_OK;        
+    }
+    
+    private void addPurchase(DTOPurchase purchase){
+        
+        List<Tcontains> itemEntryList = new ArrayList<>();
         TPurchase newPurchase = purchaseDAO.createRetId(mapDTOtoEntity(purchase));
-        //TPurchase newPurchase = mapDTOtoEntity(purchase);
-        
-        // * Creates a list without duplicates
         Set<Integer> uniqueIds = new HashSet<>(purchase.getFlights());
-        
         for (Integer f : uniqueIds){
-            
             Tcontains itemEntry = new Tcontains(f,newPurchase.getIdPurchase());
             itemEntry.setTFlight(flightDAO.getFlightById(f));
             itemEntry.setTPurchase(newPurchase);
             
-            // * Para cada item na lista unica, ver quantas vezes foi comprado.
+            // - Check how many times the same flight has been bought
             itemEntry.setQuant(Collections.frequency(purchase.getFlights(), f));
             
             itemEntryList.add(itemEntry);
         }
         
         newPurchase.setTcontainsCollection(itemEntryList);
-        
         purchaseDAO.edit(newPurchase);
-        return ALL_OK;        
     }
-    
-    /*private void addPurchase(DTOPurchase dto){
-        
-        purchaseDAO.create(e);
-    }*/
     
     private TPurchase mapDTOtoEntity(DTOPurchase dto){
         

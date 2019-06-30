@@ -77,11 +77,11 @@ public class TLuggage implements Serializable {
         this.idLuggage = idLuggage;
     }
 
-    public float getKg() {
+    public Float getKg() {
         return kg;
     }
 
-    public void setKg(float kg) {
+    public void setKg(Float kg) {
         this.kg = kg;
     }
 
