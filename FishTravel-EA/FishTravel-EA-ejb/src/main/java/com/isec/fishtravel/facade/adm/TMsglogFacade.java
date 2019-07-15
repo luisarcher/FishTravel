@@ -5,10 +5,11 @@
  */
 package com.isec.fishtravel.facade.adm;
 
+import com.isec.fishtravel.dao.AbstractDAO;
+import com.isec.fishtravel.dao.TMsglogDAO;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import com.isec.fishtravel.jpa.TMsglog;
+import javax.ejb.EJB;
 
 /**
  *
@@ -17,31 +18,19 @@ import com.isec.fishtravel.jpa.TMsglog;
 @Stateless
 public class TMsglogFacade extends AbstractFacade<TMsglog> {
 
-    @PersistenceContext(unitName = "FishTravel-ea-ejbPU")
-    private EntityManager em;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+    @EJB
+    private TMsglogDAO dao;
 
     public TMsglogFacade() {
-        super(TMsglog.class);
     }
     
-    public void addMsg(String msg) {
-
-        try {
-            
-            TMsglog logEntry = new TMsglog();
-            logEntry.setMsg(msg);
-            em.persist(logEntry);
-            
-        }  catch (Exception e){
-            
-            System.out.println("Log - Erro em Persist:" + e.getMessage());
-            
-        }
+    public void addMsg(String msg){
+        dao.addMsg(msg);
+    }
+    
+    @Override
+    protected AbstractDAO<TMsglog> getDAO() {
+        return dao;
     }
     
 }

@@ -5,10 +5,11 @@
  */
 package com.isec.fishtravel.facade.adm;
 
+import com.isec.fishtravel.dao.AbstractDAO;
+import com.isec.fishtravel.dao.TLuggageDAO;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import com.isec.fishtravel.jpa.TLuggage;
+import javax.ejb.EJB;
 
 /**
  *
@@ -17,16 +18,15 @@ import com.isec.fishtravel.jpa.TLuggage;
 @Stateless
 public class TLuggageFacade extends AbstractFacade<TLuggage> {
 
-    @PersistenceContext(unitName = "FishTravel-ea-ejbPU")
-    private EntityManager em;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+    @EJB
+    private TLuggageDAO dao;
 
     public TLuggageFacade() {
-        super(TLuggage.class);
+    }
+
+    @Override
+    protected AbstractDAO<TLuggage> getDAO() {
+        return dao;
     }
     
 }

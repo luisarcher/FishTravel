@@ -5,10 +5,11 @@
  */
 package com.isec.fishtravel.facade.adm;
 
+import com.isec.fishtravel.dao.AbstractDAO;
+import com.isec.fishtravel.dao.TCompanyDAO;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import com.isec.fishtravel.jpa.TCompany;
+import javax.ejb.EJB;
 
 /**
  *
@@ -17,16 +18,15 @@ import com.isec.fishtravel.jpa.TCompany;
 @Stateless
 public class TCompanyFacade extends AbstractFacade<TCompany> {
 
-    @PersistenceContext(unitName = "FishTravel-ea-ejbPU")
-    private EntityManager em;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+    @EJB
+    private TCompanyDAO companyDAO;
 
     public TCompanyFacade() {
-        super(TCompany.class);
+    }
+
+    @Override
+    protected AbstractDAO<TCompany> getDAO() {
+        return companyDAO;
     }
     
 }

@@ -5,10 +5,11 @@
  */
 package com.isec.fishtravel.facade.adm;
 
+import com.isec.fishtravel.dao.AbstractDAO;
+import com.isec.fishtravel.dao.TUserDAO;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import com.isec.fishtravel.jpa.TUser;
+import javax.ejb.EJB;
 
 /**
  *
@@ -17,16 +18,15 @@ import com.isec.fishtravel.jpa.TUser;
 @Stateless
 public class TUserFacade extends AbstractFacade<TUser> {
 
-    @PersistenceContext(unitName = "FishTravel-ea-ejbPU")
-    private EntityManager em;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+    @EJB
+    private TUserDAO dao;
 
     public TUserFacade() {
-        super(TUser.class);
+    }
+
+    @Override
+    protected AbstractDAO<TUser> getDAO() {
+        return dao;
     }
     
 }

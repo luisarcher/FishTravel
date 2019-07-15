@@ -5,10 +5,11 @@
  */
 package com.isec.fishtravel.facade.adm;
 
+import com.isec.fishtravel.dao.AbstractDAO;
+import com.isec.fishtravel.dao.TAirportDAO;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import com.isec.fishtravel.jpa.TAirport;
+import javax.ejb.EJB;
 
 /**
  *
@@ -16,17 +17,16 @@ import com.isec.fishtravel.jpa.TAirport;
  */
 @Stateless
 public class TAirportFacade extends AbstractFacade<TAirport> {
-
-    @PersistenceContext(unitName = "FishTravel-ea-ejbPU")
-    private EntityManager em;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+   
+    @EJB
+    private TAirportDAO airportDAO;
 
     public TAirportFacade() {
-        super(TAirport.class);
+    }
+
+    @Override
+    protected AbstractDAO<TAirport> getDAO() {
+        return airportDAO;
     }
     
 }

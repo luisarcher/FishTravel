@@ -5,65 +5,44 @@
  */
 package com.isec.fishtravel.facade.adm;
 
+import com.isec.fishtravel.dao.AbstractDAO;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.persistence.EntityManager;
 
 /**
  *
  * @author ljordao-dev
+ * @param <T>
  */
 public abstract class AbstractFacade<T> {
     
-    private Class<T> entityClass;
-    /*@EJB
-    private com.isec.fishtravel.facade.TMsglogFacade dblog;*/
-
-    public AbstractFacade(Class<T> entityClass) {
-        this.entityClass = entityClass;
-    }
-
-    protected abstract EntityManager getEntityManager();
+    protected abstract AbstractDAO<T> getDAO();
 
     public void create(T entity) {
-        //dblog.addMsg("create() em abstractFacade");
-        getEntityManager().persist(entity);
+        getDAO().create(entity);
     }
 
     public void edit(T entity) {
-        //dblog.addMsg("edit() em abstractFacade");
-        getEntityManager().merge(entity);
+        getDAO().edit(entity);
     }
 
     public void remove(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
+        getDAO().remove(entity);
     }
 
     public T find(Object id) {
-        return getEntityManager().find(entityClass, id);
+        return getDAO().find(id);
     }
 
     public List<T> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        return getEntityManager().createQuery(cq).getResultList();
+        return getDAO().findAll();
     }
 
     public List<T> findRange(int[] range) {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        javax.persistence.Query q = getEntityManager().createQuery(cq);
-        q.setMaxResults(range[1] - range[0] + 1);
-        q.setFirstResult(range[0]);
-        return q.getResultList();
+        return getDAO().findRange(range);
     }
 
     public int count() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
-        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-        javax.persistence.Query q = getEntityManager().createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
+        return getDAO().count();
     }
     
 }
