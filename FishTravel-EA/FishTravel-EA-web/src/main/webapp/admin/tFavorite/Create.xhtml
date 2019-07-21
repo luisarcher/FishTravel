@@ -12,8 +12,7 @@
             <h:form id="TFavoriteCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tFavoriteController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateTFavoriteLabel_idFavorite}" for="idFavorite" />
-                        <p:inputText id="idFavorite" value="#{tFavoriteController.selected.idFavorite}" title="#{bundle.CreateTFavoriteTitle_idFavorite}" required="true" requiredMessage="#{bundle.CreateTFavoriteRequiredMessage_idFavorite}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateTFavoriteLabel_dateFavorite}" for="dateFavorite" />
                         <p:calendar id="dateFavorite" pattern="MM/dd/yyyy HH:mm:ss" value="#{tFavoriteController.selected.dateFavorite}" title="#{bundle.EditTFavoriteTitle_dateFavorite}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.CreateTFavoriteLabel_idFlight}" for="idFlight" />

@@ -12,8 +12,7 @@
             <h:form id="TPurchaseCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tPurchaseController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateTPurchaseLabel_idPurchase}" for="idPurchase" />
-                        <p:inputText id="idPurchase" value="#{tPurchaseController.selected.idPurchase}" title="#{bundle.CreateTPurchaseTitle_idPurchase}" required="true" requiredMessage="#{bundle.CreateTPurchaseRequiredMessage_idPurchase}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateTPurchaseLabel_datePurchase}" for="datePurchase" />
                         <p:calendar id="datePurchase" pattern="MM/dd/yyyy HH:mm:ss" value="#{tPurchaseController.selected.datePurchase}" title="#{bundle.EditTPurchaseTitle_datePurchase}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.CreateTPurchaseLabel_idUser}" for="idUser" />

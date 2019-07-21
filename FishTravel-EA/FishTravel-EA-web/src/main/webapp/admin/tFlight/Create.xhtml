@@ -12,8 +12,7 @@
             <h:form id="TFlightCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tFlightController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateTFlightLabel_idFlight}" for="idFlight" />
-                        <p:inputText id="idFlight" value="#{tFlightController.selected.idFlight}" title="#{bundle.CreateTFlightTitle_idFlight}" required="true" requiredMessage="#{bundle.CreateTFlightRequiredMessage_idFlight}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateTFlightLabel_idStatus}" for="idStatus" />
                         <p:inputText id="idStatus" value="#{tFlightController.selected.idStatus}" title="#{bundle.CreateTFlightTitle_idStatus}" />
                         <p:outputLabel value="#{bundle.CreateTFlightLabel_nameFlight}" for="nameFlight" />

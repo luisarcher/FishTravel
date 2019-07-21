@@ -12,8 +12,7 @@
             <h:form id="TUserCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tUserController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateTUserLabel_idUser}" for="idUser" />
-                        <p:inputText id="idUser" value="#{tUserController.selected.idUser}" title="#{bundle.CreateTUserTitle_idUser}" required="true" requiredMessage="#{bundle.CreateTUserRequiredMessage_idUser}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateTUserLabel_login}" for="login" />
                         <p:inputText id="login" value="#{tUserController.selected.login}" title="#{bundle.CreateTUserTitle_login}" required="true" requiredMessage="#{bundle.CreateTUserRequiredMessage_login}"/>
                         <p:outputLabel value="#{bundle.CreateTUserLabel_passwd}" for="passwd" />

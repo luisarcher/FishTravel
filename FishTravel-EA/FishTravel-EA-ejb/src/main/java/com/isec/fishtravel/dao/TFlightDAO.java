@@ -39,16 +39,9 @@ public class TFlightDAO extends AbstractDAO<TFlight> {
     }
     
     public List<TFlight> getAllFlights() {
-                
-        try {
-
-            Query q = em.createNamedQuery("TFlight.findAll");
-            return q.getResultList();
-
-        } catch (Exception e){
-            System.err.println(e.getMessage());
-            return null;
-        }
+        
+        Query q = em.createNamedQuery("TFlight.findAll");
+        return getCollection(q);
     }
     
     public TFlight getFlightById(Integer id) {
@@ -60,11 +53,8 @@ public class TFlightDAO extends AbstractDAO<TFlight> {
             return (TFlight) query.getSingleResult();
             
         } catch (NoResultException e){
-            
             System.err.println("No result for Flight id: " + id);
-            
         } catch (Exception e){
-            
             System.err.println(e.getMessage());
         }
         
@@ -91,11 +81,8 @@ public class TFlightDAO extends AbstractDAO<TFlight> {
                 }
             }
         } catch (NoResultException e){
-            
             System.err.println("No result for Flights ids: " + e.getMessage());
-            
         } catch (Exception e){
-            
             System.err.println(e.getMessage());
         }
         return list;
@@ -167,26 +154,53 @@ public class TFlightDAO extends AbstractDAO<TFlight> {
         } catch (Exception e){
             
             System.err.println(e.getMessage());
-        }
-        
+        }        
         return null;
+    }
+    
+    public List<TFlight> getUserFlights(Integer userId) {
+        
+        List<TFlight> list = null;
+        try{
+            
+            list = new ArrayList<>(          
+                    em.createQuery("SELECT f FROM TFlight f, Tcontains c, TPurchase p "
+                            + "WHERE f.idFlight = c.tFlight.idFlight "
+                            + "AND c.tPurchase.idPurchase = p.idPurchase "
+                            + "AND p.idUser.idUser = :idUser")
+                            
+                    .setParameter("idUser", userId)
+                    .getResultList());
+        }   
+         catch (NoResultException e){
+            System.err.println("No result for Flights of user: " + userId + " " + e.getMessage());
+        } catch (Exception e){
+            System.err.println(e.getMessage());
+        }        
+        return list;
     }
     
     public List<TFlight> getCheapestFlightForDest(){
         
+        Query query = em.createQuery("SELECT t from TFlight t\n" +
+                                "WHERE t.price = (SELECT MIN(t2.price) "
+                + "from TFlight t2 where t.toAirport = t2.toAirport)");
+        return getCollection(query);   
+    }
+    
+    private List<TFlight> getCollection(Query q){
+        
+        List<TFlight> list = null;
         try{
-
-            Query query = em.createQuery("SELECT t from TFlight t\n" +
-                                    "WHERE t.price = (SELECT MIN(t2.price) "
-                    + "from TFlight t2 where t.toAirport = t2.toAirport)");
             
-            return query.getResultList();
-                       
+            list = new ArrayList<TFlight>(q.getResultList());
+        }   
+         catch (NoResultException e){
+            System.err.println("No result for Query: " + q.toString() + " Error msg: " + e.getMessage());
         } catch (Exception e){
-            
-            System.err.println(e.getMessage());
-            return null;
-        }
+            System.err.println("Exception in Query: " + q.toString() + " Error msg: " + e.getMessage());
+        }        
+        return list;
     }
     
 }

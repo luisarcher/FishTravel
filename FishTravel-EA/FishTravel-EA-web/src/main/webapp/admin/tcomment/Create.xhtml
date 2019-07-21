@@ -12,8 +12,7 @@
             <h:form id="TcommentCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tcommentController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateTcommentLabel_idComment}" for="idComment" />
-                        <p:inputText id="idComment" value="#{tcommentController.selected.idComment}" title="#{bundle.CreateTcommentTitle_idComment}" required="true" requiredMessage="#{bundle.CreateTcommentRequiredMessage_idComment}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateTcommentLabel_txt}" for="txt" />
                         <p:inputText id="txt" value="#{tcommentController.selected.txt}" title="#{bundle.CreateTcommentTitle_txt}" required="true" requiredMessage="#{bundle.CreateTcommentRequiredMessage_txt}"/>
                         <p:outputLabel value="#{bundle.CreateTcommentLabel_dateComment}" for="dateComment" />

@@ -13,6 +13,7 @@ import com.isec.fishtravel.facade.client.FTPurchaseFacade;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
@@ -21,9 +22,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-@Named("ftSessionController")
+@Named("ftShoppingCartController")
 @SessionScoped
-public class FTSessionController implements Serializable {
+public class FTShoppingCartController implements Serializable {
 
     @EJB
     private FTUserFacade ejbFacade;
@@ -64,7 +65,7 @@ public class FTSessionController implements Serializable {
     private DTOPurchase purchase;
     private Integer selectedPaymentMethodIndex;
 
-    public FTSessionController() {
+    public FTShoppingCartController() {
         prepareCreate();
         actionResultCode = 1;
     }

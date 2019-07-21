@@ -24,11 +24,19 @@
             </div>
         </h:form>
 
-        <h:form id="frmLogout" rendered="#{ftSessionController.loggedInUser != null}">
+        <h:form id="frmAccMenu" rendered="#{ftSessionController.loggedInUser != null}">
             <div class="ui-g-4 visitor-menu">
-                <p:outputLabel value="#{ftSessionController.loggedInUser}" />
+                <p:outputLabel value="Hello, #{ftSessionController.loggedInUser}!" />
                 <p style="margin-left: 2em;"></p>
-                <p:commandButton id="btnLogout" value="Logout" action="#{ftSessionController.logout}" ajax="false" />
+                
+
+                    <p:menuButton value="My Account">
+                        <p:menuitem value="My Flights" outcome="/ft/user/flights.xhtml" icon="fa fa-plane"/>
+                        <p:menuitem value="Shopping Cart" outcome="/ft/shoppingcart/shoppingcart.xhtml" icon="fa fa-shopping-cart"/>
+                        <p:separator />
+                        <p:menuitem id="btnLogout" value="Logout" action="#{ftSessionController.logout}" ajax="false"/>
+                    </p:menuButton>
+                
             </div>
         </h:form>
 

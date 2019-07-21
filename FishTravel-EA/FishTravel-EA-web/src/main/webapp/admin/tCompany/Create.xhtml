@@ -12,8 +12,7 @@
             <h:form id="TCompanyCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tCompanyController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateTCompanyLabel_idCompany}" for="idCompany" />
-                        <p:inputText id="idCompany" value="#{tCompanyController.selected.idCompany}" title="#{bundle.CreateTCompanyTitle_idCompany}" required="true" requiredMessage="#{bundle.CreateTCompanyRequiredMessage_idCompany}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateTCompanyLabel_nameCompany}" for="nameCompany" />
                         <p:inputText id="nameCompany" value="#{tCompanyController.selected.nameCompany}" title="#{bundle.CreateTCompanyTitle_nameCompany}" required="true" requiredMessage="#{bundle.CreateTCompanyRequiredMessage_nameCompany}"/>
                     </p:panelGrid>

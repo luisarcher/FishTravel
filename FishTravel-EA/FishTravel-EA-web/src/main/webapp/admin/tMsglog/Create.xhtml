@@ -12,8 +12,7 @@
             <h:form id="TMsglogCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tMsglogController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateTMsglogLabel_idMsg}" for="idMsg" />
-                        <p:inputText id="idMsg" value="#{tMsglogController.selected.idMsg}" title="#{bundle.CreateTMsglogTitle_idMsg}" required="true" requiredMessage="#{bundle.CreateTMsglogRequiredMessage_idMsg}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateTMsglogLabel_msg}" for="msg" />
                         <p:inputText id="msg" value="#{tMsglogController.selected.msg}" title="#{bundle.CreateTMsglogTitle_msg}" required="true" requiredMessage="#{bundle.CreateTMsglogRequiredMessage_msg}"/>
                         <p:outputLabel value="#{bundle.CreateTMsglogLabel_dateMsg}" for="dateMsg" />

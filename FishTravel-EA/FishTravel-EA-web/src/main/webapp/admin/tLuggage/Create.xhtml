@@ -12,8 +12,7 @@
             <h:form id="TLuggageCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tLuggageController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateTLuggageLabel_idLuggage}" for="idLuggage" />
-                        <p:inputText id="idLuggage" value="#{tLuggageController.selected.idLuggage}" title="#{bundle.CreateTLuggageTitle_idLuggage}" required="true" requiredMessage="#{bundle.CreateTLuggageRequiredMessage_idLuggage}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateTLuggageLabel_kg}" for="kg" />
                         <p:inputText id="kg" value="#{tLuggageController.selected.kg}" title="#{bundle.CreateTLuggageTitle_kg}" required="true" requiredMessage="#{bundle.CreateTLuggageRequiredMessage_kg}"/>
                         <p:outputLabel value="#{bundle.CreateTLuggageLabel_dateReg}" for="dateReg" />

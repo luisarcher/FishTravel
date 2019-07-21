@@ -53,6 +53,11 @@ public class FTFlightFacade {
     public List<DTOFlight> getCheapestFlightForDest(){
         
         return mapAllEntitiesToDTO(flightDAO.getCheapestFlightForDest());
+    }
+    
+    public List<DTOFlight> getUserFlights(Integer userId){
+        
+        return mapAllEntitiesToDTO(flightDAO.getUserFlights(userId));
 
     }
         

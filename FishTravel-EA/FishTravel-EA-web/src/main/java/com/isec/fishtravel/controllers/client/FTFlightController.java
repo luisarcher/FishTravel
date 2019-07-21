@@ -1,24 +1,20 @@
 package com.isec.fishtravel.controllers.client;
 
-import com.isec.fishtravel.controllers.util.JsfUtil;
-import com.isec.fishtravel.controllers.util.JsfUtil.PersistAction;
 import com.isec.fishtravel.dto.DTOFlight;
-import com.isec.fishtravel.facade.client.FTFavoriteFacade;
 import com.isec.fishtravel.facade.client.FTFlightFacade;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
 
 @Named("ftFlightController")
 @SessionScoped
@@ -26,9 +22,14 @@ public class FTFlightController implements Serializable {
 
     @EJB
     private FTFlightFacade ejbFlightFacade;
+    
+    @Inject
+    private FTSessionController ejbSession;
         
+    // Collections
     private List<DTOFlight> items = null;
     private List<DTOFlight> cheapestFlightForEachDest = null;
+    private List<DTOFlight> userFlights = null;
         
     private DTOFlight selected;
 
@@ -52,10 +53,14 @@ public class FTFlightController implements Serializable {
     }
     
     public List<DTOFlight> getItems() {
-        if (items == null) {
-            items = getFlightFacade().getAllFlights();
-        }
+        
+        items = getFlightFacade().getAllFlights();
         return items;
+    }
+    
+    public List<DTOFlight> getUserFlights(){
+        userFlights = getFlightFacade().getUserFlights(ejbSession.getLoggedInUser().getId());
+        return userFlights;
     }
 
     private FTFlightFacade getFlightFacade() {
@@ -68,53 +73,6 @@ public class FTFlightController implements Serializable {
         return selected;
     }
 
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TFlightCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TFlightUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TFlightDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    //getFacade().edit(selected);
-                } else {
-                    //getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
     public DTOFlight getDTOFlight(java.lang.Integer id) {
         return getFlightFacade().getFlightById(id);
     }
@@ -125,6 +83,26 @@ public class FTFlightController implements Serializable {
 
     public List<DTOFlight> getItemsAvailableSelectOne() {
         return getFlightFacade().getAllFlights();
+    }
+
+    public FTFlightFacade getEjbFlightFacade() {
+        return ejbFlightFacade;
+    }
+
+    public void setEjbFlightFacade(FTFlightFacade ejbFlightFacade) {
+        this.ejbFlightFacade = ejbFlightFacade;
+    }
+
+    public FTSessionController getEjbSession() {
+        return ejbSession;
+    }
+
+    public void setEjbSession(FTSessionController ejbSession) {
+        this.ejbSession = ejbSession;
+    }
+
+    public void setUserFlights(List<DTOFlight> userFlights) {
+        this.userFlights = userFlights;
     }
 
     @FacesConverter(forClass = DTOFlight.class)
@@ -165,7 +143,6 @@ public class FTFlightController implements Serializable {
                 return null;
             }
         }
-
     }
     
     protected void setEmbeddableKeys() {

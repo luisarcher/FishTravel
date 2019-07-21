@@ -12,8 +12,7 @@
             <h:form id="TRatingCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tRatingController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateTRatingLabel_idRating}" for="idRating" />
-                        <p:inputText id="idRating" value="#{tRatingController.selected.idRating}" title="#{bundle.CreateTRatingTitle_idRating}" required="true" requiredMessage="#{bundle.CreateTRatingRequiredMessage_idRating}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateTRatingLabel_rateDestination}" for="rateDestination" />
                         <p:inputText id="rateDestination" value="#{tRatingController.selected.rateDestination}" title="#{bundle.CreateTRatingTitle_rateDestination}" />
                         <p:outputLabel value="#{bundle.CreateTRatingLabel_rateCompany}" for="rateCompany" />
