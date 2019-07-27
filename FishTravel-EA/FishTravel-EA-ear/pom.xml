@@ -19,7 +19,7 @@
     </properties>
   
     <build>
-        <finalName>fishtravel-v1</finalName>
+        <finalName>FishTravel-EA-ear</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

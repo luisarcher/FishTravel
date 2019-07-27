@@ -11,6 +11,9 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import com.isec.fishtravel.jpa.TUser;
 import com.isec.fishtravel.dto.DTOUser;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -39,7 +42,13 @@ public class FTUserFacade{
         userDAO.create(mapDTOtoEntity(newUser));
     }
     
+    public List<DTOUser> getAllUsers(){
+        return mapAllEntitiesToDTO(userDAO.findAll());
+    }
+    
     private DTOUser mapEntityToDTO(TUser e){
+        
+        if (e == null) return null;
         
         DTOUser dto = new DTOUser();
         
@@ -68,7 +77,7 @@ public class FTUserFacade{
         
     }
     
-    /*private List<DTOUser> mapAllEntitiesToDTO(List<TUser> list){
+    private List<DTOUser> mapAllEntitiesToDTO(List<TUser> list){
         
         List<DTOUser> entityDtoList = new ArrayList<>();
         Iterator<TUser> it = list.iterator();
@@ -80,5 +89,5 @@ public class FTUserFacade{
         
         return entityDtoList;
         
-    }*/
+    }
 }
