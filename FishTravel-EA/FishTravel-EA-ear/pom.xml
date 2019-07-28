@@ -52,6 +52,13 @@
             <groupId>com.isec.fishtravel</groupId>
             <artifactId>FishTravel-EA-ejb</artifactId>
             <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>FishTravel-EA-REST</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
         </dependency>
     </dependencies>
 </project>

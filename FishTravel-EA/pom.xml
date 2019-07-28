@@ -10,5 +10,6 @@
     <module>FishTravel-EA-ear</module>
     <module>FishTravel-EA-web</module>
     <module>FishTravel-EA-ejb</module>
+    <module>../FishTravel-EA-REST</module>
   </modules>
 </project>
