@@ -23,6 +23,9 @@ public class FishtravelClientRemote {
     static Scanner sc = new Scanner(System.in);
     static ClientAccessRemote car;
     
+    // to be improved
+    static boolean loggedIn = false;
+    
     public static void getRemoteReferences() {
         
         InitialContext ctx = null;
@@ -48,7 +51,7 @@ public class FishtravelClientRemote {
 
         // app name / module name / ejb ! package.interface
         String remotename = 
-            "java:global/FishTravel-EA-ear/FishTravel-EA-web-1.0-SNAPSHOT/ClientAccess!com.isec.fishtravel.remote.ClientAccessRemote";
+            "java:global/FishTravel-EA-ear/FishTravel-EA-ejb-1.0-SNAPSHOT/ClientAccess!com.isec.fishtravel.remote.ClientAccessRemote";
 
         try {
             System.out.println("start lookup");
@@ -62,17 +65,39 @@ public class FishtravelClientRemote {
         System.out.println("JNDI lookup done");
     }
     
-    public static void main(String[] args) {
+    public static void printMenu(){
         
+        
+        System.out.println("\n -----------------------------");
+        System.out.println("======  MAIN MENU  ======");
+        System.out.println("1  - Login");
+        
+        if (loggedIn){
+            System.out.println("2  - Flights");
+            System.out.println("22 - Flights - Console Mode");
+            System.out.println("3  - Accounts");
+            System.out.println("4  - Logs");
+            System.out.println("51 - Set Default Timer - System Time");
+            System.out.println("52 - Set Timer Speed (Multiplier)");
+            System.out.println("53 - Set Timer Value (UnixTime)");
+            System.out.println("54 - Stop Timer");
+            System.out.println("6  - Logout");
+        }
+        
+        System.out.println("0  - Exit");
+        System.out.println("\n -----------------------------");
+    }
+    
+    public static void main(String[] args) {
+                
         int opcao;
         boolean proceed = true;
         getRemoteReferences();
-        //msgSender = new TALog();
         
         while(proceed){
             printMenu();
             
-            opcao = getMenuOption(99);
+            opcao = getIntFromConsole("Option: ", 0, 99);
             
             switch(opcao){
                 case 1:
@@ -90,8 +115,20 @@ public class FishtravelClientRemote {
                 case 4:
                     //listAllMsgLogEntries();
                     break;
+                case 51:
+                    car.restartTimer();
+                    break;
+                case 52:
+                    car.setVelocity(getIntFromConsole("Speed: ", Integer.MIN_VALUE, Integer.MAX_VALUE));
+                    break;
+                case 53:
+                    car.setTimeVal(getLongFromConsole("UnixTime: ", Long.MIN_VALUE, Long.MAX_VALUE));
+                    break;
+                case 54:
+                    car.stopTimer();
+                    break;
                 case 6:
-                    //logout();
+                    logout();
                     break;
                     
                 case 9:
@@ -110,21 +147,8 @@ public class FishtravelClientRemote {
         System.out.println("Exiting...");
         
     }
-    
-    public static void printMenu(){
-        
-        System.out.println("\n -----------------------------");
-        System.out.println("======  MAIN MENU  ======");
-        System.out.println("1  - Login");
-        System.out.println("2  - Flights");
-        System.out.println("22 - Flights - Console Mode");
-        System.out.println("3  - Accounts");
-        System.out.println("4  - Logs");
-        System.out.println("0  - Exit");
-        System.out.println("\n -----------------------------");
-    }
-    
-    public static int getMenuOption(int max){
+       
+    /*public static int getMenuOption(int max){
         
         int opcao;
         String texto;
@@ -142,7 +166,7 @@ public class FishtravelClientRemote {
                 System.out.println("Incorrect Entry!");
             }
         }
-    }
+    }*/
     
     public static void login(){
         String login, passwd;
@@ -157,6 +181,7 @@ public class FishtravelClientRemote {
         
         if (car.userLogin(login,passwd)){
             System.out.println("Confirmed!");
+            loggedIn = true;
         }
         else{
             System.out.println("Incorrect Username or password!");
@@ -164,7 +189,10 @@ public class FishtravelClientRemote {
     }
     
     public static void logout(){
-        System.out.println("ok");
+        
+        car.logout();
+        loggedIn = false;
+        
     }
     
     /*public static void listAllMsgLogEntries(){
@@ -247,6 +275,46 @@ public class FishtravelClientRemote {
 
         System.out.format("+--------+--------------------+--------------------+----------+------------+------------+------------+%n");
         
+    }
+    
+    public static int getIntFromConsole(String prompt, int min, int max){
+        int value;
+        String texto;
+        while(true){
+            try{
+                System.out.println(prompt);
+                texto = sc.nextLine();
+                value = Integer.parseInt(texto);
+                if ((value >= min) && (value <= max))
+                    return value;
+                
+                System.out.println("Wrong value. Try again.");
+                System.out.println("Values between: " + min + " and " + max);
+            }
+            catch(NumberFormatException e){
+                System.out.println("Incorrect Entry!");
+            }
+        }
+    }
+    
+    public static long getLongFromConsole(String prompt, long min, long max){
+        Long value;
+        String texto;
+        while(true){
+            try{
+                System.out.print(prompt);
+                texto = sc.nextLine();
+                value = Long.parseLong(texto);
+                if ((value >= min) && (value <= max))
+                    return value;
+                
+                System.out.println("Wrong value. Try again.");
+                System.out.println("Values between: " + min + " and " + max);
+            }
+            catch(NumberFormatException e){
+                System.out.println("Incorrect Entry!");
+            }
+        }
     }
     
 }

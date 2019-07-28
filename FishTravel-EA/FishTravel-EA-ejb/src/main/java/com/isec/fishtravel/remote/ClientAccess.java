@@ -10,6 +10,7 @@ import com.isec.fishtravel.dto.DTOUser;
 import com.isec.fishtravel.facade.client.FTFlightFacade;
 import com.isec.fishtravel.facade.client.FTUserFacade;
 import com.isec.fishtravel.remote.ClientAccessRemote;
+import com.isec.fishtravel.timer.MainTimerEJBLocal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
@@ -23,6 +24,9 @@ public class ClientAccess implements ClientAccessRemote {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    
+    @EJB
+    MainTimerEJBLocal timerEJB;
     
     @EJB
     FTUserFacade facadeUser;
@@ -47,6 +51,25 @@ public class ClientAccess implements ClientAccessRemote {
         this.user = null;
     }
     
+    @Override
+    public void setTimeVal(long val) {
+        timerEJB.setUnixTime(val);
+    }
+
+    @Override
+    public void setVelocity(int val) {
+        timerEJB.setVelocity(val);
+    }
+    
+    @Override
+    public void stopTimer() {
+        timerEJB.setVelocity(0);
+    }
+
+    @Override
+    public void restartTimer() {
+        timerEJB.setDefaultTimer();
+    }
     
     /*@Override
     public List<String> getMessageList() {
@@ -63,4 +86,5 @@ public class ClientAccess implements ClientAccessRemote {
     public List<DTOUser> getUserList() {
         return facadeUser.getAllUsers();
     }
+
 }

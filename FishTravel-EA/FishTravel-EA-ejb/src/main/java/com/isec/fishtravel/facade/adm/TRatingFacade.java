@@ -8,8 +8,6 @@ package com.isec.fishtravel.facade.adm;
 import com.isec.fishtravel.dao.AbstractDAO;
 import com.isec.fishtravel.dao.TRatingDAO;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import com.isec.fishtravel.jpa.TRating;
 import javax.ejb.EJB;
 

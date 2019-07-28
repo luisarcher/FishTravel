@@ -90,9 +90,9 @@ public class TFlightController implements Serializable {
     }
 
     public List<TFlight> getItems() {
-        if (items == null) {
+        //if (items == null) {
             items = getFacade().findAll();
-        }
+        //}
         return items;
     }
 

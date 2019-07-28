@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.isec.fishtravel.jpa.TMsglog;
+import java.util.Date;
 
 /**
  *
@@ -35,6 +36,7 @@ public class TMsglogDAO extends AbstractDAO<TMsglog> {
             
             TMsglog logEntry = new TMsglog();
             logEntry.setMsg(msg);
+            logEntry.setDateMsg(new Date());
             em.persist(logEntry);
             
         }  catch (Exception e){

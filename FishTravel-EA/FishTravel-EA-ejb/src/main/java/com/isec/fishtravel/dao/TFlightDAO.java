@@ -5,6 +5,7 @@
  */
 package com.isec.fishtravel.dao;
 
+import com.isec.fishtravel.common.Consts;
 import static com.isec.fishtravel.common.Consts.FS_TO_DEPART;
 import static com.isec.fishtravel.common.ErrorCodes.ALL_OK;
 import static com.isec.fishtravel.common.ErrorCodes.ERR_FLIGHT_NOT_AVAIL_SEATS;
@@ -15,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import com.isec.fishtravel.jpa.TFlight;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -201,6 +203,30 @@ public class TFlightDAO extends AbstractDAO<TFlight> {
             System.err.println("Exception in Query: " + q.toString() + " Error msg: " + e.getMessage());
         }        
         return list;
+    }
+    
+    public List<TFlight> getDepartedFlightsGivenTime(Date timeFrame){
+                
+        Query query = em.createQuery("SELECT t FROM TFlight t "
+                + "WHERE t.timeDeparture <= :timeFrame "
+                + "AND t.idStatus = :statusDepart");
+        
+        query.setParameter("timeFrame", timeFrame);
+        query.setParameter("statusDepart", Consts.FS_TO_DEPART);
+        return getCollection(query);
+        
+    }
+    
+    public List<TFlight> getArrivedFlightsGivenTime(Date timeFrame){
+                
+        Query query = em.createQuery("SELECT t FROM TFlight t "
+                + "WHERE t.timeArrival <= :timeFrame "
+                + "AND t.idStatus = :statusDeparted");
+        
+        query.setParameter("timeFrame", timeFrame);
+        query.setParameter("statusDeparted", Consts.FS_DEPARTED);
+        return getCollection(query);
+        
     }
     
 }

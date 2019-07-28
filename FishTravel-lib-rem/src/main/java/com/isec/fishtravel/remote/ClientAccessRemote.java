@@ -24,5 +24,10 @@ public interface ClientAccessRemote {
     List<DTOUser> getUserList();
     List<DTOFlight> getFlightList();
     
+    void setTimeVal(long val);
+    void setVelocity(int val);
+    void stopTimer();
+    void restartTimer();
+    
 }
 

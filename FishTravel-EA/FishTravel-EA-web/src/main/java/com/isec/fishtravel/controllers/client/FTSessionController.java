@@ -10,6 +10,7 @@ import com.isec.fishtravel.dto.DTOUser;
 import com.isec.fishtravel.facade.client.FTFavoriteFacade;
 import com.isec.fishtravel.facade.client.FTFlightFacade;
 import com.isec.fishtravel.facade.client.FTPurchaseFacade;
+import com.isec.fishtravel.timer.MainTimerEJBLocal;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -81,6 +82,9 @@ public class FTSessionController implements Serializable {
     public void register(){
         getFacade().register(selected);
     }
+    
+    
+    
     
     public void login(){
         
