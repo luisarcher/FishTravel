@@ -37,7 +37,7 @@ public class TMsglogDAO extends AbstractDAO<TMsglog> {
             TMsglog logEntry = new TMsglog();
             logEntry.setMsg(msg);
             logEntry.setDateMsg(new Date());
-            em.persist(logEntry);
+            create(logEntry);
             
         }  catch (Exception e){
             

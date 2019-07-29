@@ -36,7 +36,7 @@ public class MainTimerEJB implements MainTimerEJBLocal {
         
         unixTime = unixTime + (1 * this.velocity);
         
-        System.err.println("System time: " + unixTime);
+        //System.err.println("System time: " + unixTime);
     }
     
     /* - - - - - Getters and Setters - - - - - */

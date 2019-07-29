@@ -6,7 +6,6 @@
 package com.isec.fishtravel.dao;
 
 import com.isec.fishtravel.common.Consts;
-import com.isec.fishtravel.facade.adm.TMsglogFacade;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -15,6 +14,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import com.isec.fishtravel.jpa.TUser;
+import com.isec.fishtravel.mdbproducer.MessageSenderRemote;
 import java.util.Date;
 
 /**
@@ -28,8 +28,7 @@ public class TUserDAO extends AbstractDAO<TUser> {
     private EntityManager em;
     
     @EJB
-    private TMsglogFacade dblog;
-    // dblog.addMsg("msg");
+    private MessageSenderRemote msgSender;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -51,7 +50,7 @@ public class TUserDAO extends AbstractDAO<TUser> {
     
     @Override
     public void create(TUser entity) {
-        dblog.addMsg("Creating user: " + entity.getNameUser());
+        //dblog.addMsg("Creating user: " + entity.getNameUser());
         // Validate login
         getEntityManager().persist(setDefaults(entity));
     }
@@ -75,18 +74,27 @@ public class TUserDAO extends AbstractDAO<TUser> {
         query.setParameter("login", login);
         query.setParameter("passwd", passwd);
         
+        TUser user = null;
+        
         try {
-            dblog.addMsg(TUser.class.getName() + ": User login: " + login);
-            return (TUser)query.getSingleResult();
+            //dblog.addMsg(TUser.class.getName() + ": User login: " + login);
+            user = (TUser)query.getSingleResult();
+            
+            if (user != null){
+                msgSender.sendToQueue("User logged in: " + login);
+            }
+            
         } catch (NoResultException e){
-            return null;
+            System.err.println("TUserDAO : ERROR : No result for (" +login + ","+ passwd +") : " + e.getMessage());
         } catch (NonUniqueResultException e){
-            dblog.addMsg(TUser.class.getName() + ": Non-Unique result on user login");
-            return null;
+            //dblog.addMsg(TUser.class.getName() + ": Non-Unique result on user login");
+            System.err.println("TUserDAO : ERROR : Multiple results for (" +login + ","+ passwd +") : " + e.getMessage());
         }
         catch (Exception e){
-            dblog.addMsg(TUser.class.getName() + ": Exception while user log");
-            return null;
+            //dblog.addMsg(TUser.class.getName() + ": Exception while user log");
+            System.err.println("TUserDAO : ERROR : (" +login + ","+ passwd +") : " + e.getMessage());
+        
         }
+        return user;
     }
 }

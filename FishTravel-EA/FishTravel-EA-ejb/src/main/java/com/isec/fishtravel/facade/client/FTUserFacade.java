@@ -11,6 +11,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import com.isec.fishtravel.jpa.TUser;
 import com.isec.fishtravel.dto.DTOUser;
+import com.isec.fishtravel.mdbproducer.MessageSenderRemote;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,10 +26,6 @@ public class FTUserFacade{
     @EJB
     private TUserDAO userDAO;
     
-    @EJB
-    private com.isec.fishtravel.facade.adm.TMsglogFacade dblog;
-    // dblog.addMsg("msg");
-
     public FTUserFacade() {
     }
     
